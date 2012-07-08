@@ -1,9 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<faces-config
-    xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
-    version="2.1">
+<faces-config 
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+	version="2.0">
+	
+	<application>
+        <resource-bundle>
+            <base-name>org.primefaces.examples.build</base-name>
+            <var>build</var>
+        </resource-bundle>
+    </application>
 
+    <factory>
+        <exception-handler-factory>org.primefaces.examples.application.ShowcaseExceptionHandlerFactory</exception-handler-factory>
+    </factory>
+
+    <converter>
+        <converter-id>player</converter-id>
+        <converter-class>org.primefaces.examples.view.PlayerConverter</converter-class>
+    </converter>
+    <converter>
+        <converter-id>colorPickerConverter</converter-id>
+        <converter-class>org.primefaces.examples.view.ColorPickerConverter</converter-class>
+    </converter>
+	
+<!-- 	<managed-bean> -->
+<!--         <managed-bean-name>buttonBean</managed-bean-name> -->
+<!--         <managed-bean-class>org.primefaces.examples.view.ButtonBean</managed-bean-class> -->
+<!--         <managed-bean-scope>request</managed-bean-scope> -->
+<!--     </managed-bean> -->
+	<managed-bean>
+        <managed-bean-name>guestPreferences</managed-bean-name>
+        <managed-bean-class>org.primefaces.examples.view.GuestPreferences</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+	<managed-bean>
+        <managed-bean-name>themeSwitcherBean</managed-bean-name>
+        <managed-bean-class>org.primefaces.examples.view.ThemeSwitcherBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>gp</property-name>
+            <value>#{guestPreferences}</value>
+        </managed-property>
+    </managed-bean>
+	
+
+ 	<navigation-rule>
+
+		<description>Login</description>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{loginBean.logar}</from-action>
+			<from-outcome>logar</from-outcome>
+			<to-view-id>/logado.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{loginBean.logar}</from-action>
+			<from-outcome>fail</from-outcome>
+			<to-view-id>/error.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{cadastroUsuarioMB.load}</from-action>
+			<from-outcome>load.fwd</from-outcome>
+			<to-view-id>/cadastroUsuario.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{loginBean.logar}</from-action>
+			<from-outcome>index.fwd</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>		
+		
+	</navigation-rule>
+
+  <navigation-rule>
+  
+  	<description>Cadastro</description>
+		<from-view-id>/cadastroUsuario.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{cadastroUsuarioMB.cadastrar}</from-action>
+			<from-outcome>cadastrar.fwd</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+
+	</navigation-rule>
+ 
 </faces-config>

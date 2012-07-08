@@ -1,0 +1,15 @@
+h1 {
+	font-size: 32px;
+	font-style: italic;
+	font-family: sans-serif;
+	color: dark-green;
+	text-align: center;
+}
+
+h5 {
+	font-size: 8px;
+	font-style: italic;
+	font-family: fantasy;
+	color: dark-green;
+	text-align: center;
+}
