@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>GEMAT</title>
+	
+	
+</h:head>
+
+<h:body>
+
+
+
+	<ui:include src="/resources/templates/cabecalho.xhtml" />
+
+	<f:view>
+		<h:form >
+			<p:panel id="panel" header="Novo Usuario"> 
+				<p:messages id="messages" showDetail="false" autoUpdate="true"/>
+				<p:growl id="messagesg" showDetail="true"/> 
+				<h:panelGrid columns="2"> 
+					<h:outputLabel for="nome" value="Nome: *"/>
+					<p:inputText id="nome" value="#{cadastroUsuarioMB.usuarioDTO.nome}" required="true" maxlength="20" label="Firstname"/>
+	
+					<h:outputLabel for="login" value="Login: *"/>
+					<p:inputText id="login" value="#{cadastroUsuarioMB.usuarioDTO.login}" requiredMessage="O campo Login é obrigartório!" required="true"/>
+	
+					<h:outputLabel for="password" value="Senha: *"/>
+					<p:password id="password" value="#{cadastroUsuarioMB.usuarioDTO.senha}" requiredMessage="O campo Senha é obrigartório!" required="true"/>
+	
+					<h:outputLabel for="cpf" value="CPF: *" />
+					<p:inputMask id="cpf" value="#{cadastroUsuarioMB.usuarioDTO.cpf}" mask="999.999.999-99" required="true"/>
+	
+					<h:outputLabel for="data" value="Data de Nascimento: *"/>
+					<p:calendar id="data" value="#{cadastroUsuarioMB.usuarioDTO.dataNascimento}" pattern="dd/MM/yyyy" alt="date" locale="pt_BR" required="true"/> 			
+	
+					<p:splitButton value="Salvar" action="#{cadastroUsuarioMB.cadastrar}" update="panel" icon="ui-icon-disk" > 
+				        <p:menuitem value="Cancelar" url="/index.xhtml" icon="ui-icon-extlink"/>  
+				    </p:splitButton>
+					
+				</h:panelGrid>
+			 </p:panel>	
+		</h:form>
+		
+		<h:form prependId="false">  
+	                          
+	        <p:growl id="messages" showDetail="true"/>  
+	      
+	        <h:panelGrid columns="1" cellpadding="5">  
+	            <h:outputText id="msg" value="#{buttonBean.text}"/>  
+	              
+	            <p:commandButton id="showDialogButton" value="Destroy the World" onclick="confirmation.show()" type="button"/>  
+	        </h:panelGrid>  
+	          
+	        <p:confirmDialog id="confirmDialog" message="Are you sure about destroying the world?"  
+	                    header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
+	                      
+	            <p:commandButton id="confirm" value="Yes Sure" update="messages" oncomplete="confirmation.hide()"  
+	                        actionListener="#{buttonBean.destroyWorld}" />  
+	            <p:commandButton id="decline" value="Not Yet" onclick="confirmation.hide()" type="button" />   
+	                      
+	        </p:confirmDialog>  
+	      
+	    </h:form>   
+
+	</f:view>
+
+	<ui:include src="/resources/templates/rodape.xhtml" />
+</h:body>
+</html>
