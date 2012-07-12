@@ -3,29 +3,35 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
-<p:messages id="messagesp" showDetail="false" autoUpdate="true"/>
+<p:messages id="messagesp" showDetail="false" autoUpdate="true" />
 <p:message for="user" style="color: red"></p:message>
 <p:message for="password" style="color: red"></p:message>
 <h:messages id="messagesh" showDetail="false" autoUpdate="true"></h:messages>
-<p:growl id="messagesg" showDetail="true"/> 
-
-<p:panelGrid columns="2">
-	<f:facet name="header">  
-        Login Basico  
+<p:growl id="messagesg" showDetail="true" />
+<div align="center">
+	<p:panelGrid columns="2">
+		<f:facet name="header">  
+        Login
     </f:facet>
-	<h:outputText value="Login:" />
-	<p:inputText id="user" value="#{loginBean.usuarioDTO.login}" requiredMessage="O campo Login é obrigartório!" required="true"/>
-	<h:outputText value="Senha:" />
-	<p:password id="password" value="#{loginBean.usuarioDTO.senha}" requiredMessage="O campo Senha é obrigartório!" required="true"/>
 
-	<f:facet name="footer">
-		<p:commandButton value="Logar" action="#{loginBean.logar}" update="messagesg"
-			icon="ui-icon-check" actionListener="#{loginBean.logar}"/>
-			
-		<p:commandButton action="#{cadastroUsuarioMB.load}" value="Cadastrar" immediate="true"/>
+		<h:outputText value="Login:" />
+		<p:inputText id="user" value="#{loginBean.usuarioDTO.login}"
+			requiredMessage="O campo Login é obrigartório!" required="true" />
+		<h:outputText value="Senha:" />
+		<p:password id="password" maxlength="8"
+			value="#{loginBean.usuarioDTO.senha}"
+			requiredMessage="O campo Senha é obrigartório!" required="true" />
 
-	</f:facet>
-	
-</p:panelGrid>
+		<f:facet name="footer">
+			<p:commandButton value="Logar" action="#{loginBean.logar}"
+				update="messagesg" icon="ui-icon-check"
+				actionListener="#{loginBean.logar}" />
 
+			<p:commandButton action="#{cadastroUsuarioMB.load}" value="Cadastrar"
+				immediate="true" />
+
+		</f:facet>
+
+	</p:panelGrid>
+</div>
 </html>
