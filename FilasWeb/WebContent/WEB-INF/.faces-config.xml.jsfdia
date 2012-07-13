@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#index.xhtml" PATH="/index.xhtml" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#index.xhtml:0" NAME="item"
+   PATH="/index.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="logar:#{loginBean.logar}:#principal.xhtml"
+    NAME="output" PATH="/principal.xhtml"
+    TARGET="rules:#principal.xhtml" TITLE="#{loginBean.logar}:logar" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="fail:#{loginBean.logar}:#error.xhtml"
+    NAME="output1" PATH="/error.xhtml" TARGET="rules:#error.xhtml"
+    TITLE="#{loginBean.logar}:fail" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="load.fwd:#{cadastroUsuarioMB.load}:#cadastroUsuario.xhtml"
+    NAME="output2" PATH="/cadastroUsuario.xhtml"
+    TARGET="rules:#cadastroUsuario.xhtml"
+    TITLE="#{cadastroUsuarioMB.load}:load.fwd" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="index.fwd:#{loginBean.logar}:#index.xhtml"
+    NAME="output3" PATH="/index.xhtml" TARGET="rules:#index.xhtml"
+    TITLE="#{loginBean.logar}:index.fwd" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#cadastroUsuario.xhtml"
+  PATH="/cadastroUsuario.xhtml" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#cadastroUsuario.xhtml:0" NAME="item"
+   PATH="/cadastroUsuario.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="cadastrar.fwd:#{cadastroUsuarioMB.cadastrar}:#index.xhtml"
+    NAME="output" PATH="/index.xhtml" TARGET="rules:#index.xhtml"
+    TITLE="#{cadastroUsuarioMB.cadastrar}:cadastrar.fwd" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#error.xhtml" PATH="/error.xhtml" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#principal.xhtml" PATH="/principal.xhtml" model-entity="JSFProcessGroup"/>
+</PROCESS>

@@ -1,52 +1,74 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-  <title><ui:insert name="title">Default title</ui:insert></title>
+	<title><ui:insert name="title">Default title</ui:insert></title>
 </h:head>
 <h:body>
-	<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>  
-	              
-	<p:dialog modal="true" widgetVar="statusDialog" header="Status"   
-	        draggable="false" closable="false">  
-	    <p:graphicImage value="/design/ajaxloadingbar.gif" />  
+	<p:ajaxStatus onstart="statusDialog.show();"
+		onsuccess="statusDialog.hide();" />
+
+	<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+		draggable="false" closable="false" >
+		<p:graphicImage value="/design/ajaxloadingbar.gif" />
 	</p:dialog>
-<p:layout fullPage="true">  
-  
-    <p:layoutUnit position="north" size="150" collapsible="true" > 
-    	  <p:growl id="messages"/> 
-		   
-          <p:menubar>  
-		        <p:submenu label="Questionários" icon="ui-icon-check">  
-		            <p:submenu label="Novo" icon="ui-icon-contact">  
-		                <p:menuitem value="Questionário" url="/questionario.xhtml" />  
-		                <p:menuitem value="Questão" url="/questao.xhtml" />  
-		            </p:submenu>  
-		            <p:menuitem value="Abrir" url="/logado.xhtml" />  
-		            <p:separator />  
-		            <p:menuitem value="Sair" url="/index.xhtml" />  
-		        </p:submenu>  
-		 
-		        <p:menuitem value="Sair" url="/index.xhtml" icon="ui-icon-close" />  
-		    </p:menubar>
-    </p:layoutUnit>
-    
-    <p:layoutUnit position="center">  
-        <h:form prependId="false">    		      		     
-            <ui:insert name="content">
+	<p:layout fullPage="true" >
+
+		<p:layoutUnit position="north" size="400">
+			<p:growl id="messages" />
+			<p:menubar>
+				<p:submenu label="Gerência do Sistema"  icon="ui-icon-gear">
+					<p:submenu label="Filial" value="Filial" url="/principal.xhtml" icon="ui-icon-home">
+						<p:menuitem value="Novo" url="/filial.xhtml" icon="ui-icon-plus" />
+						<p:menuitem value="Pesquisar" url="/filial.xhtml"
+							icon="ui-icon-search" />
+					</p:submenu>
+					<p:submenu label="Ponto de Pesquisa"  icon="ui-icon-star" >
+						<p:menuitem value="Novo" url="/pontoDePesquisa.xhtml" icon="ui-icon-plus" />
+						<p:menuitem value="Pesquisar" url="/pontoDePesquisa.xhtml"
+							icon="ui-icon-search" />
+					</p:submenu>
+					<p:submenu label="Usuário"  icon="ui-icon-person">
+						<p:menuitem value="Novo" url="/usuario.xhtml" icon="ui-icon-plus" />
+						<p:menuitem value="Pesquisar" url="/usuario.xhtml"
+							icon="ui-icon-search" />
+					</p:submenu>
+					<p:menuitem value="Controle de Acesso" url="/controleDeAcesso.xhtml" icon="ui-icon-key"/>
+					<p:menuitem value="Relatórios" disabled="true" url="" icon="ui-icon-calculator	" />
+					<p:separator />
+					<p:menuitem value="Sair" url="/index.xhtml" icon="ui-icon-power" />
+				</p:submenu>
+				<p:submenu label="Questionários" icon="ui-icon-document">
+					<p:menuitem value="Novo" url="/questionario.xhtml" icon="ui-icon-plus" />
+					<p:menuitem value="Pesquisar" url="/questionario.xhtml"
+						icon="ui-icon-search" />
+				</p:submenu>
+
+
+			</p:menubar>
+			
+			
+			<h:form prependId="false">
+				<ui:insert name="content">
 			    	Content area.  See comments below this line in the source.
 			    	<!--  include your content file or uncomment the include below and create content.xhtml in this directory -->
-				  	<!-- <div> -->
-			    	<!-- <ui:include src="content.xhtml"/> -->  
-			    	<!-- </div> -->
-			  </ui:insert>  
-  
-        </h:form>  
-    </p:layoutUnit>  
-  
-</p:layout>  
+					<!-- <div> -->
+					<!-- <ui:include src="content.xhtml"/> -->
+					<!-- </div> -->
+				</ui:insert>
+
+			</h:form>
+			
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+		
+		</p:layoutUnit>
+		
+
+	</p:layout>
 </h:body>
 </html>
