@@ -9,15 +9,15 @@ import javax.faces.context.FacesContext;
 import org.hibernate.Session;
 
 import br.com.config.HibernateUtil;
-import br.com.tables.UsuarioDTO;
+import br.com.tables.Usuario;
 
 @ManagedBean(name = "cadastroUsuarioMB")
 public class CadastroUsuarioMB {
 
-	private UsuarioDTO usuarioDTO;
+	private Usuario usuario;
 	
 	public CadastroUsuarioMB(){
-		usuarioDTO = new UsuarioDTO();
+		usuario = new Usuario();
 	}
 
 	public String load(){
@@ -30,13 +30,13 @@ public class CadastroUsuarioMB {
 
 			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
-			if(usuarioDTO.getAtivoInativo() == null)
-				usuarioDTO.setAtivoInativo(true);
-			if(usuarioDTO.getDataNascimento() == null)
-				usuarioDTO.setDataNascimento(new Date());
-			if(usuarioDTO.getCpf()==null)
-				usuarioDTO.setCpf("00000000000");
-			session.save(usuarioDTO);
+			if(usuario.getAtivoInativo() == null)
+				usuario.setAtivoInativo(true);
+			if(usuario.getDataNascimento() == null)
+				usuario.setDataNascimento(new Date());
+			if(usuario.getCpf()==null)
+				usuario.setCpf("00000000000");
+			session.save(usuario);
 
 			session.getTransaction().commit();
 
@@ -54,15 +54,15 @@ public class CadastroUsuarioMB {
 		return "cadastrar.fwd";
 	}
 
-	public UsuarioDTO getUsuarioDTO() {
-		if(usuarioDTO == null){
-			usuarioDTO = new UsuarioDTO();
+	public Usuario getUsuario() {
+		if(usuario == null){
+			usuario = new Usuario();
 		}
-		return usuarioDTO;
+		return usuario;
 	}
 
-	public void setUsuarioDTO(UsuarioDTO usuarioDTO) {
-		this.usuarioDTO = usuarioDTO;
+	public void setUsuario(Usuario usuarioDTO) {
+		this.usuario = usuarioDTO;
 	}
 
 

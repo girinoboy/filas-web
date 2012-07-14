@@ -51,6 +51,33 @@
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
+		<description>Filial</description>
+		<from-view-id>/filial.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{filialBean.listarFiliais}</from-action>
+			<from-outcome>listarFiliais</from-outcome>
+			<to-view-id>/filial.xhtml</to-view-id>
+		</navigation-case>
+
+		<navigation-case>
+			<from-action>#{cadastroUsuarioMB.load}</from-action>
+			<from-outcome>load.fwd</from-outcome>
+			<to-view-id>/cadastroUsuario.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{loginBean.logar}</from-action>
+			<from-outcome>index.fwd</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+
+
+
+
+
+
+	<navigation-rule>
 		<description>Cadastro</description>
 		<from-view-id>/cadastroUsuario.xhtml</from-view-id>
 		<navigation-case>

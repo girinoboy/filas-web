@@ -7,7 +7,7 @@ import org.hibernate.cfg.Configuration;
 
 import br.com.tables.Event;
 import br.com.tables.MockObject;
-import br.com.tables.UsuarioDTO;
+import br.com.tables.Usuario;
 
 @SuppressWarnings("deprecation")
 public class HibernateUtil {
@@ -51,7 +51,7 @@ public class HibernateUtil {
             // Add your mapped classes here:
             config.addAnnotatedClass(Event.class);
             config.addAnnotatedClass(MockObject.class);
-            config.addAnnotatedClass(UsuarioDTO.class);
+            config.addAnnotatedClass(Usuario.class);
  
             sessionFactory = config.buildSessionFactory();
             
