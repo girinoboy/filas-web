@@ -14,7 +14,7 @@ import org.junit.Test;
 import br.com.config.Conexao;
 import br.com.managedBean.CadastroUsuarioMB;
 import br.com.managedBean.LoginBean;
-import br.com.tables.UsuarioDTO;
+import br.com.tables.Usuario;
 
 public class FilasWebTeste {
 	
@@ -48,13 +48,13 @@ public class FilasWebTeste {
     public void createUser() throws Exception {
     	CadastroUsuarioMB cadastro = new CadastroUsuarioMB();
     	
-    	UsuarioDTO usuario = new UsuarioDTO();
+    	Usuario usuario = new Usuario();
     	usuario.setLogin("marcleonio");
     	usuario.setSenha("123456");
     	usuario.setAtivoInativo(true);
     	usuario.setDataNascimento(new Date());
     	usuario.setCpf("11111111111");
-		cadastro.setUsuarioDTO(usuario);
+		cadastro.setUsuario(usuario);
 		
     	assertNotNull("Cadastro valido", cadastro.cadastrar());
 	}
@@ -63,7 +63,7 @@ public class FilasWebTeste {
     public void verificaLogin() throws Exception {
     	
     	LoginBean login = new LoginBean();
-    	UsuarioDTO usuario = new UsuarioDTO();
+    	Usuario usuario = new Usuario();
     	usuario.setLogin("marcleonio");
     	usuario.setSenha("123456");
     	login.setUsuarioDTO(usuario);

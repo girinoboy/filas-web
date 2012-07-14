@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @ManagedBean(name = "Usuario")
 @Entity
 @Table(name = "Usuario")
-public class UsuarioDTO {
+public class Usuario {
 
 	private Long id;
 	private String nome;
@@ -31,7 +31,7 @@ public class UsuarioDTO {
 	private String observacao;
 	
 
-	public UsuarioDTO() {}
+	public Usuario() {}
 
 	@Id
 	@GeneratedValue

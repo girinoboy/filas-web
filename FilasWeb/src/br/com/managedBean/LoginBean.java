@@ -12,7 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.config.HibernateUtil;
-import br.com.tables.UsuarioDTO;
+import br.com.tables.Usuario;
 
 @ManagedBean(name = "loginBean")
 @RequestScoped
@@ -20,10 +20,10 @@ public class LoginBean {
 
 	private String	usuario;
 	private String	senha;
-	private UsuarioDTO usuarioDTO;
+	private Usuario usuarioDTO;
 	
 	public LoginBean(){
-		usuarioDTO = new UsuarioDTO();
+		usuarioDTO = new Usuario();
 	}
 
 	public String verificaLogin() {
@@ -65,12 +65,12 @@ public class LoginBean {
 		
     	cadastro.cadastrar();*/
 		
-        Criteria b = session.createCriteria(UsuarioDTO.class);
+        Criteria b = session.createCriteria(Usuario.class);
         b.add( Restrictions.eq( "login",  usuarioDTO.getLogin()) );
         b.add( Restrictions.eq( "senha",  usuarioDTO.getSenha()) );
-        List<UsuarioDTO> objetos = b.list(); 
+        List<Usuario> objetos = b.list(); 
         if(objetos.size()>0){
-        	UsuarioDTO u = objetos.get(0);
+        	Usuario u = objetos.get(0);
         	System.out.println(u.getLogin());
         }else{
         	message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Login/Senha não encontrado",  "Tente mais tarte.");
@@ -109,14 +109,14 @@ public class LoginBean {
 		this.senha = senha;
 	}
 
-	public UsuarioDTO getUsuarioDTO() {
+	public Usuario getUsuarioDTO() {
 		if(usuarioDTO == null){
-			usuarioDTO = new UsuarioDTO();
+			usuarioDTO = new Usuario();
 		}
 		return usuarioDTO;
 	}
 
-	public void setUsuarioDTO(UsuarioDTO usuarioDTO) {
+	public void setUsuarioDTO(Usuario usuarioDTO) {
 		this.usuarioDTO = usuarioDTO;
 	}
 

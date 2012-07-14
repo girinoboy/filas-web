@@ -5,7 +5,7 @@ import java.util.List;
 import org.hibernate.*;
 
 import br.com.config.HibernateUtil;
-import br.com.tables.UsuarioDTO;
+import br.com.tables.Usuario;
 
 public class LoginDAO {
 
@@ -16,7 +16,7 @@ public class LoginDAO {
 		factory =  (SessionFactory) HibernateUtil.getSessionFactory().getCurrentSession();
 	}       
 
-	public void insert(UsuarioDTO amigo) throws Exception{  
+	public void insert(Usuario amigo) throws Exception{  
 		Session session = factory.openSession();  
 		session.save(amigo);  
 		session.flush();  
@@ -33,9 +33,9 @@ public class LoginDAO {
 	}  
 
 	@SuppressWarnings("unchecked")
-	public List<UsuarioDTO> getLogin(UsuarioDTO usuario) throws Exception{
+	public List<Usuario> getLogin(Usuario usuario) throws Exception{
 
-		List<UsuarioDTO> list = null;
+		List<Usuario> list = null;
 
 		Session session = factory.openSession();  
 		StringBuilder sql = new StringBuilder();
@@ -55,15 +55,15 @@ public class LoginDAO {
 		return list;  
 	}  
 
-	public UsuarioDTO retrieve(Long pk) throws Exception{  
+	public Usuario retrieve(Long pk) throws Exception{  
 		Session session = factory.openSession();  
-		UsuarioDTO amigo = (UsuarioDTO)session.load(UsuarioDTO.class, pk);  
+		Usuario amigo = (Usuario)session.load(Usuario.class, pk);  
 		session.flush();  
 		session.close();  
 		return amigo;  
 	}  
 
-	public void delete(UsuarioDTO amigo) throws Exception{  
+	public void delete(Usuario amigo) throws Exception{  
 		Session session = factory.openSession();  
 		session.delete(amigo);  
 		session.flush();  

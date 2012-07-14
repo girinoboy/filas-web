@@ -27,19 +27,19 @@
 				<p:growl id="messagesg" showDetail="true"/> 
 				<h:panelGrid columns="2"> 
 					<h:outputLabel for="nome" value="Nome: *"/>
-					<p:inputText id="nome" value="#{cadastroUsuarioMB.usuarioDTO.nome}" required="true" maxlength="20" label="Firstname"/>
+					<p:inputText id="nome" value="#{cadastroUsuarioMB.usuario.nome}" required="true" maxlength="20" label="Firstname"/>
 	
 					<h:outputLabel for="login" value="Login: *"/>
-					<p:inputText id="login" value="#{cadastroUsuarioMB.usuarioDTO.login}" requiredMessage="O campo Login é obrigartório!" required="true"/>
+					<p:inputText id="login" value="#{cadastroUsuarioMB.usuario.login}" requiredMessage="O campo Login é obrigartório!" required="true"/>
 	
 					<h:outputLabel for="password" value="Senha: *"/>
-					<p:password id="password" value="#{cadastroUsuarioMB.usuarioDTO.senha}" requiredMessage="O campo Senha é obrigartório!" required="true"/>
+					<p:password id="password" value="#{cadastroUsuarioMB.usuario.senha}" requiredMessage="O campo Senha é obrigartório!" required="true"/>
 	
 					<h:outputLabel for="cpf" value="CPF: *" />
-					<p:inputMask id="cpf" value="#{cadastroUsuarioMB.usuarioDTO.cpf}" mask="999.999.999-99" required="true"/>
+					<p:inputMask id="cpf" value="#{cadastroUsuarioMB.usuario.cpf}" mask="999.999.999-99" required="true"/>
 	
 					<h:outputLabel for="data" value="Data de Nascimento: *"/>
-					<p:calendar id="data" value="#{cadastroUsuarioMB.usuarioDTO.dataNascimento}" pattern="dd/MM/yyyy" alt="date" locale="pt_BR" required="true"/> 			
+					<p:calendar id="data" value="#{cadastroUsuarioMB.usuario.dataNascimento}" pattern="dd/MM/yyyy" alt="date" locale="pt_BR" required="true"/> 			
 	
 					<p:splitButton value="Salvar" action="#{cadastroUsuarioMB.cadastrar}" update="panel" icon="ui-icon-disk" > 
 				        <p:menuitem value="Cancelar" url="/index.xhtml" icon="ui-icon-extlink"/>  
