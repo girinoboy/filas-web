@@ -32,28 +32,28 @@ public class HibernateUtil {
     {
         try
         {
-            AnnotationConfiguration config = new AnnotationConfiguration();
-            config.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-            config.setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver");
+        	sessionFactory =  new AnnotationConfiguration()
+            .setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect")
+            .setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver")
             //config.setProperty("hibernate.connection.url", "jdbc:hsqldb:mem:.demodb");
-            config.setProperty("hibernate.connection.url", "jdbc:hsqldb:file:./data/contratos;shutdown=true");
-            config.setProperty("hibernate.connection.username", "sa");
-            config.setProperty("hibernate.connection.password", "");
-           //config.setProperty("hibernate.default_schema", "prontscm");
-            config.setProperty("hibernate.connection.pool_size", "1");
-            config.setProperty("hibernate.connection.autocommit", "true");
-            config.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider");
-            config.setProperty("hibernate.hbm2ddl.auto", "update");
-            config.setProperty("hibernate.show_sql", "true");
-            config.setProperty("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory");
-            config.setProperty("hibernate.current_session_context_class", "thread");
+            .setProperty("hibernate.connection.url", "jdbc:hsqldb:file:./data/contratos;shutdown=true")
+            .setProperty("hibernate.connection.username", "sa")
+            .setProperty("hibernate.connection.password", "")
+           //config.setProperty("hibernate.default_schema", "dbo");
+            .setProperty("hibernate.connection.pool_size", "1")
+            .setProperty("hibernate.connection.autocommit", "true")
+            .setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider")
+            .setProperty("hibernate.hbm2ddl.auto", "update")
+            .setProperty("hibernate.show_sql", "true")
+            .setProperty("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory")
+            .setProperty("hibernate.current_session_context_class", "thread")
  
             // Add your mapped classes here:
-            config.addAnnotatedClass(Event.class);
-            config.addAnnotatedClass(MockObject.class);
-            config.addAnnotatedClass(Usuario.class);
+            .addAnnotatedClass(Event.class)
+            .addAnnotatedClass(MockObject.class)
+            .addAnnotatedClass(Usuario.class)
  
-            sessionFactory = config.buildSessionFactory();
+            .buildSessionFactory();
             
         }
         catch (Throwable ex)
