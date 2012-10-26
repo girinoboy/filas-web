@@ -10,6 +10,11 @@
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
 	</context-param>
+	<!-- resolve erro de inicializacao, para n instancia biblioteca errada -->
+	<context-param>
+		<param-name>org.jboss.jbossfaces.WAR_BUNDLES_JSF_IMPL</param-name>
+		<param-value>true</param-value>
+	</context-param>
 	
 	<context-param>
         <param-name>primefaces.THEME</param-name>
