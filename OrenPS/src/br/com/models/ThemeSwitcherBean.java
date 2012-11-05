@@ -8,6 +8,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
+import br.com.dao.UsuarioDAO;
 
 @ManagedBean
 @RequestScoped
@@ -16,6 +20,8 @@ public class ThemeSwitcherBean {
     private Map<String, String> themes;  
       
     private List<Theme> advancedThemes;  
+    
+    UsuarioDAO usuarioDAO =  new UsuarioDAO();
       
     private String theme;  
     @ManagedProperty(value = "#{guestPreferences}")
@@ -81,6 +87,8 @@ public class ThemeSwitcherBean {
     }  
       
     public void saveTheme() {  
+    	HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+    	usuarioDAO.saveTheme(theme,((Usuario) session.getAttribute("usuarioSession")));
         gp.setTheme(theme);  
     }  
   

@@ -70,5 +70,17 @@ public class UsuarioDAO extends GenericoDAO<Usuario, Long>{
 			return usuario;
 		
 	}
+
+	public void saveTheme(String theme, Usuario usuario) {
+		//Nome da classe e atributo
+		String updateQuery = "UPDATE Usuario obj SET tema = :valor WHERE obj.id = :idUsuario";  
+		HibernateUtility.getSession().createQuery(updateQuery)
+		.setString("valor", theme)
+		.setLong("idUsuario",usuario.getId())
+		.executeUpdate();
+		
+		HibernateUtility.commitTransaction();
+		
+	}
 }
 
