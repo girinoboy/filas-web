@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:p="http://primefaces.org/ui"
+ xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Login</title>
+</h:head>
+	<h:body>
+
+    <h:outputLink id="loginLink" value="javascript:void(0)" onclick="dlg.show()" title="login">
+        <p:graphicImage value="/img/login.png" />
+    </h:outputLink>
+
+    <p:growl id="growl" showDetail="true" life="3000" />
+    
+    <p:dialog id="dialog" header="Login" widgetVar="dlg" showEffect="bounce" hideEffect="fade">
+        <h:form>
+      
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="username" value="Username:" />
+                <p:inputText value="#{loginManagedBean.usuario.login}"
+                        id="username" required="true" label="username" />
+                  
+                <h:outputLabel for="password" value="Password:" />
+                <h:inputSecret value="#{loginManagedBean.usuario.senha}"
+                        id="password" required="true" label="password" />
+                  
+                <f:facet name="footer">
+                    <p:commandButton id="loginButton" value="Login" update=":growl"
+                        actionListener="#{loginManagedBean.login}"
+                        oncomplete="handleLoginRequest(xhr, status, args)"/>
+                </f:facet>
+            </h:panelGrid>
+              
+        </h:form>
+    </p:dialog>
+      
+    <script type="text/javascript">  
+        function handleLoginRequest(xhr, status, args) {
+            if(args.validationFailed || !args.loggedIn) {
+                jQuery('#dialog').effect("shake", { times:3 }, 100);  
+            } else {
+                dlg.hide();
+                jQuery('#loginLink').fadeOut();
+                jQuery(window.document.location).attr('href','index.xhtml');
+            }
+        }
+    </script>  
+ 	</h:body>
+</html>                     
