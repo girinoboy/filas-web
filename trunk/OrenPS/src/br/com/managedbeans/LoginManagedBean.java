@@ -7,8 +7,13 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
+import org.apache.http.HttpRequest;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 import org.primefaces.context.RequestContext;
 
 import br.com.dao.UsuarioDAO;
@@ -26,9 +31,9 @@ public class LoginManagedBean {
 	
 	@ManagedProperty(value = "#{guestPreferences}")
 	GuestPreferences gp;
-	 public void setGp(GuestPreferences gp) {  
-	        this.gp = gp;  
-	    } 
+	
+	public LoginManagedBean(){}
+	 
 	public String login(ActionEvent actionEvent) {  
         RequestContext context = RequestContext.getCurrentInstance();  
         FacesMessage msg = null;  
@@ -38,7 +43,10 @@ public class LoginManagedBean {
             loggedIn = true;  
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", usuario.getLogin());
             context.addCallbackParam("theme", "blitzer");
-           
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+            context.addCallbackParam("usuarioSession", "usuario");
+            session.setAttribute("usuarioSession", usuario);
+
             gp.setTheme(usuario.getTema());
         } else {  
             loggedIn = false;  
@@ -58,5 +66,8 @@ public class LoginManagedBean {
 		this.usuario = usuario;
 	}
 	
+	public void setGp(GuestPreferences gp) {  
+        this.gp = gp;  
+    } 
 	
 }

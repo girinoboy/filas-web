@@ -16,7 +16,7 @@
                         <f:selectItems value="#{controleAcessoManagedBean.listaPerfil}" var="perfil"
                                        itemValue="#{perfil.id}" itemLabel="#{perfil.descricao}"/>
                         <p:ajax event="change" listener="#{controleAcessoManagedBean.carregaPermissoesUsuario}"
-                                update="panelPermissoes" />
+                                update="panelPermissoes,:corpoMenuDinamico" />
                     </h:selectOneMenu>
                     <p:ajaxStatus>
                         <f:facet name="start">
@@ -38,7 +38,7 @@
                     </p:treeNode>
                 </p:tree>
             </p:panel>
-            <p:commandButton value="Salvar" action="#{controleAcessoManagedBean.salvaPermissoes}" update="panelPermissoes"/>
+            <p:commandButton value="Salvar" action="#{controleAcessoManagedBean.salvaPermissoes}" update="panelPermissoes,:corpoMenuDinamico"/>
         </h:form>
     </h:body>
 </html>

@@ -15,7 +15,7 @@
     <p:themeSwitcher value="#{themeSwitcherBean.theme}" style="width:155px" effect="fade">
         <f:selectItem itemLabel="Choose Theme" itemValue="" />
         <f:selectItems value="#{themeSwitcherBean.themes}" />
-        <p:ajax event="change" listener="#{themeSwitcherBean.saveTheme}" update="panelTema"/>
+        <p:ajax event="change" listener="#{themeSwitcherBean.saveTheme}" update="panelTema,:corpoMenuDinamico"/>
     </p:themeSwitcher>
     </p:panel>
   </h:form>

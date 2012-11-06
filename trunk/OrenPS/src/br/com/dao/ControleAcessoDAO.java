@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
 
@@ -16,6 +17,7 @@ import br.com.factory.HibernateUtility;
 import br.com.models.Menu;
 import br.com.models.PermissaoMenu;
 import br.com.models.Usuario;
+import br.com.models.UsuarioPerfil;
 
 public class ControleAcessoDAO extends GenericoDAO<PermissaoMenu, Serializable>{
 
@@ -192,6 +194,28 @@ public class ControleAcessoDAO extends GenericoDAO<PermissaoMenu, Serializable>{
 
 		return permissao;
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<PermissaoMenu> listByIdsPerfil(List<UsuarioPerfil> usuarioPeril) {
+		List<PermissaoMenu> list;
+		try {
+
+			Criteria criteria = HibernateUtility.getSession().createCriteria(PermissaoMenu.class);
+			for (UsuarioPerfil usuarioPerfil : usuarioPeril) {
+				criteria.add(Restrictions.eq("perfil.id", usuarioPerfil.getPerfil().getId()));
+			}
+			list = criteria.list();
+			
+		} catch (HibernateException hibernateException) {
+			cancel();
+			throw hibernateException;
+		}finally{
+			HibernateUtility.closeSession();
+		}
+
+
+		return list;
 	}
 
 }
