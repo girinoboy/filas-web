@@ -8,6 +8,7 @@ import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -30,8 +31,8 @@ import br.com.models.Menu;
  * @author Marcleonio
  */
 @ManagedBean
-@RequestScoped
-public class indexController {
+@SessionScoped
+public class IndexController {
 
 	private MenuModel menuModel;
 	private MenuDAO menuDAO = new MenuDAO();
@@ -117,6 +118,11 @@ public class indexController {
 					param.setName("pagina");
 					param.setValue(m.getPagina());
 					mi.getChildren().add(param);
+					
+					param = new UIParameter();
+					param.setName("descricao");
+					param.setValue(m.getDescricao());
+					mi.getChildren().add(param);
 
 					mi.setUpdate(":corpoMenuDinamico");
 				}
@@ -152,8 +158,10 @@ public class indexController {
 	public void target(){
 		try{
 			String pagina = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("pagina");
+			String descricao = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("descricao");
 			if(pagina != null){
 				menu.setPagina(pagina);
+				menu.setDescricao(descricao);
 				//System.out.println("pagina: "+menu.getUrl());
 			}else{
 				addMessage(pagina);
@@ -169,7 +177,7 @@ public class indexController {
 
 	}
 
-	public indexController() {
+	public IndexController() {
 		geraMenu();
 
 	}

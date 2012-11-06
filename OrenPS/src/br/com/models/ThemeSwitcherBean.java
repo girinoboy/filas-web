@@ -88,7 +88,11 @@ public class ThemeSwitcherBean {
       
     public void saveTheme() {  
     	HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-    	usuarioDAO.saveTheme(theme,((Usuario) session.getAttribute("usuarioSession")));
+    	Usuario usuario = ((Usuario) session.getAttribute("usuarioSession"));
+    	if(theme !=null){
+    		usuario.setTema(theme);
+    	}
+    	usuarioDAO.saveTheme(theme,usuario);
         gp.setTheme(theme);  
     }  
   

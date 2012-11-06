@@ -1,14 +1,16 @@
 package br.com.models;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +25,8 @@ public class Usuario {
     @Column(name ="ultimo_acesso")
     private Timestamp ultimoAcesso;
     private String tema;
+    @OneToMany(mappedBy = "usuario", targetEntity = UsuarioPerfil.class, fetch = FetchType.EAGER, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<UsuarioPerfil> usuarioPeril;
     //private List<Permissao> listaPermissao = new ArrayList<Permissao>();
 
     
@@ -86,6 +90,14 @@ public class Usuario {
 
 	public void setTema(String tema) {
 		this.tema = tema;
+	}
+
+	public List<UsuarioPerfil> getUsuarioPeril() {
+		return usuarioPeril;
+	}
+
+	public void setUsuarioPeril(List<UsuarioPerfil> usuarioPeril) {
+		this.usuarioPeril = usuarioPeril;
 	}
 }
 
