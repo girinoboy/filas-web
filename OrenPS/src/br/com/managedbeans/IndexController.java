@@ -1,5 +1,6 @@
 package br.com.managedbeans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.el.ELContext;
@@ -12,6 +13,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.submenu.Submenu;
@@ -22,6 +24,9 @@ import org.apache.commons.lang.StringUtils;
 
 import br.com.dao.MenuDAO;
 import br.com.models.Menu;
+import br.com.models.PermissaoMenu;
+import br.com.models.Usuario;
+import br.com.models.UsuarioPerfil;
 
 
 
@@ -37,6 +42,26 @@ public class IndexController {
 	private MenuModel menuModel;
 	private MenuDAO menuDAO = new MenuDAO();
 	private Menu menu = new Menu();
+	private List<Menu>  menusPermitidos = new ArrayList<Menu>();
+	
+	public IndexController(){
+		geraMenu();
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
+		for (UsuarioPerfil usuarioPerfil : usuario.getUsuarioPeril()) {
+			for (PermissaoMenu permissaoMenu : usuarioPerfil.getPerfil().getPermissaoMenu()) {
+				menusPermitidos.add(permissaoMenu.getMenu());
+			}
+		}
+		
+		if(menu != null && menu.getPagina() == null){
+			 menu.setPagina("NewFile.xhtml");
+		}else{
+			menu = new Menu();
+			menu.setPagina("NewFile.xhtml");
+		}
+		
+	}
 
 	public void geraMenu() {
 		try{
@@ -120,8 +145,8 @@ public class IndexController {
 					mi.getChildren().add(param);
 					
 					param = new UIParameter();
-					param.setName("descricao");
-					param.setValue(m.getDescricao());
+					param.setName("idMenu");
+					param.setValue(m.getId());
 					mi.getChildren().add(param);
 
 					mi.setUpdate(":corpoMenuDinamico");
@@ -158,10 +183,19 @@ public class IndexController {
 	public void target(){
 		try{
 			String pagina = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("pagina");
-			String descricao = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("descricao");
+			String idMenu = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idMenu");
 			if(pagina != null){
+				
+				
+				if(!isPermitido(Long.parseLong(idMenu))){
+					menu.setPagina("acessoNegado.xhtml");
+					//menu.setDescricao("Acesso Negado");
+				}else{
+				
 				menu.setPagina(pagina);
-				menu.setDescricao(descricao);
+				//menu.setDescricao(descricao);
+				menu.setId(Long.parseLong(idMenu));
+				}
 				//System.out.println("pagina: "+menu.getUrl());
 			}else{
 				addMessage(pagina);
@@ -171,17 +205,21 @@ public class IndexController {
 		}
 	}
 
+	private boolean isPermitido(Long idMenu) {
+		boolean retorno = false;
+		for (Menu m : menusPermitidos) {
+			if (m.getId() !=null && idMenu != null && m.getId().equals(idMenu)) {
+				retorno = true;
+				break;
+			}
+		}
+		return retorno;
+	}
 
 	public MenuModel getMenuModel() {
 		return menuModel;
 
 	}
-
-	public IndexController() {
-		geraMenu();
-
-	}
-
 
 	public Menu getMenu() {
 		return menu;

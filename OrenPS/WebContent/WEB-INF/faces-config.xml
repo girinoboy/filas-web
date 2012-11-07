@@ -20,5 +20,18 @@
             <from-outcome>ok</from-outcome>
             <to-view-id>/login.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+        	<from-action>#{loginManagedBean.login}</from-action>
+            <from-outcome>pretty:login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        
     </navigation-rule> 
+    
+   	<lifecycle>
+
+    	<phase-listener>br.com.utility.LoginPhaseListener</phase-listener>
+
+	</lifecycle>
+    
 </faces-config>

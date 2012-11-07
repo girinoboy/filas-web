@@ -88,7 +88,7 @@ public class ThemeSwitcherBean {
       
     public void saveTheme() {  
     	HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-    	Usuario usuario = ((Usuario) session.getAttribute("usuarioSession"));
+    	Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
     	if(theme !=null){
     		usuario.setTema(theme);
     	}
