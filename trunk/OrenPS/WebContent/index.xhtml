@@ -8,6 +8,26 @@
 </h:head>
 	<h:body>
 	
+	<p:growl id="msg" showDetail="true" sticky="true" />
+ 
+	<!-- If idle 10 seconds, run 'idleDialog' -->
+	<p:idleMonitor timeout="300000" onidle="idleDialog.show()" />
+ 
+	<p:confirmDialog id="confirmDialog"
+		message="Você esta inativo por pelo menos 5 minutos, 
+                            Clique em OK para continuar."
+		header="Você está aí?" severity="alert" widgetVar="idleDialog">
+ 
+		<p:commandButton id="confirm" value="Ok" update="msg"
+			oncomplete="idleDialog.hide()"
+			actionListener="#{idleBean.welcomeListener}" />
+ 
+		<p:commandButton id="Logout" value="LogMeOut" update="msg"
+			oncomplete="idleDialog.hide()"
+			actionListener="#{idleBean.logoutListener}" />
+ 
+	</p:confirmDialog>
+	
 	
 		<center>
 		<p:panel header="Menu dinamico do BD" style="text-align: left;width: 850px; vertical-align: middle;">

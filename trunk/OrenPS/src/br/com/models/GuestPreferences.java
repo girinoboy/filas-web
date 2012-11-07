@@ -35,7 +35,7 @@ public class GuestPreferences implements Serializable {
 			theme = "aristo"; //default para pagina inicial
 		}else{
 			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-			Usuario usuario = ((Usuario) session.getAttribute("usuarioSession"));
+			Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
 			if(usuario != null){
 /*
 				ControleAcessoDAO permissaoDAO = new ControleAcessoDAO();

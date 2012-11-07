@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Controle de permissao</title>
     </h:head>
@@ -14,7 +15,14 @@
         
 	        <p:panel header="Acesso Negado" style="margin-top: 10px; width: 500px;">
 	
-	       		Nome da pagina proibida: #{guestPreferences.pagina}
+	       		Fale com o administrador do sistema.
+	       		<br/>
+	       		<ui:fragment rendered="#{indexController == null}">
+	       			<p:commandLink id="ajax"  actionListener="#{loginManagedBean.encerraSessao}" style="margin-right:20px;">  
+				        <h:outputText value="Voltar para o login." />  
+				    </p:commandLink> 
+	       		</ui:fragment>
+	       		 
 	        
 	        </p:panel>
 	        
