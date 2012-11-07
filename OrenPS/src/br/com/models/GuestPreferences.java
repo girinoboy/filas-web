@@ -37,7 +37,7 @@ public class GuestPreferences implements Serializable {
 			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 			Usuario usuario = ((Usuario) session.getAttribute("usuarioSession"));
 			if(usuario != null){
-
+/*
 				ControleAcessoDAO permissaoDAO = new ControleAcessoDAO();
 				List<PermissaoMenu> listaPermissao = permissaoDAO.listByIdsPerfil(usuario.getUsuarioPeril());
 				for (PermissaoMenu permissao : listaPermissao) {
@@ -52,10 +52,11 @@ public class GuestPreferences implements Serializable {
 						indexcontroller.getMenu().setPagina("acessoNegado.xhtml");
 						session.setAttribute("indexController", indexcontroller);
 						FacesContext.getCurrentInstance().getExternalContext().redirect("acessoNegado.xhtml");
+						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				}
+				}*/
 
 			}
 		}
