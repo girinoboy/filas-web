@@ -7,18 +7,12 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
-import org.apache.http.HttpRequest;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 import org.primefaces.context.RequestContext;
 
 import br.com.dao.UsuarioDAO;
 import br.com.models.GuestPreferences;
-import br.com.models.ThemeSwitcherBean;
 import br.com.models.Usuario;
 
 
