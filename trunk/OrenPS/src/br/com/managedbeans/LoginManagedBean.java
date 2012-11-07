@@ -36,7 +36,7 @@ public class LoginManagedBean {
         if(usuario.getTema() != null){
             loggedIn = true;  
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", usuario.getLogin());
-            context.addCallbackParam("theme", "blitzer");
+            context.addCallbackParam("theme", usuario.getTema());
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             context.addCallbackParam("usuarioSession", "usuario");
             session.setAttribute("usuarioSession", usuario);
