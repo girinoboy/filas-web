@@ -61,7 +61,7 @@ public class LoginPhaseListener implements PhaseListener {
 				}
 				IndexController indexcontroller = (IndexController)session.getAttribute("indexController");
 
-				if(!pagina.equals("/index.xhtml")  && !pagina.equals("/acessoNegado.xhtml") && !pagina.equals("/login.xhtml")){
+				if(indexcontroller != null && !pagina.equals("/index.xhtml")  && !pagina.equals("/acessoNegado.xhtml") && !pagina.equals("/login.xhtml")){
 
 					this.pagina = indexcontroller.getMenu().getPagina();
 					indexcontroller.getMenu().setPagina("acessoNegado.xhtml");
@@ -71,8 +71,12 @@ public class LoginPhaseListener implements PhaseListener {
 
 				}else if(pagina.equals("/login.xhtml")){//caso esteja autenticado remore a sessão
 					session.removeAttribute("usuarioAutenticado");
+					session.removeAttribute("indexController");
 					FacesContext.getCurrentInstance().getExternalContext().redirect(Constantes.PAGINA_INDEX);
 					//FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+				}else if(pagina.equals("/acessoNegado.xhtml")){
+					session.removeAttribute("indexController");
+					//session.removeAttribute("usuarioAutenticado");
 				}
 			}else if(!pagina.equals("/login.xhtml")){
 				session.removeAttribute("usuarioAutenticado");

@@ -25,7 +25,7 @@ public class Usuario {
     @Column(name ="ultimo_acesso")
     private Timestamp ultimoAcesso;
     private String tema;
-    @OneToMany(mappedBy = "usuario", targetEntity = UsuarioPerfil.class, fetch = FetchType.EAGER, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "usuario", targetEntity = UsuarioPerfil.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
     private List<UsuarioPerfil> usuarioPeril;
     //private List<Permissao> listaPermissao = new ArrayList<Permissao>();
 

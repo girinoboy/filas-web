@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -24,7 +25,8 @@ public class Perfil {
 	private Long id;
 	private String descricao;
 	private String observacao;
-	@OneToMany(mappedBy = "perfil", targetEntity = PermissaoMenu.class, fetch = FetchType.EAGER, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany(mappedBy = "perfil", targetEntity = PermissaoMenu.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+	//@OrderBy(value ="Perfil.descricao") 
 	private List<PermissaoMenu> permissaoMenu;
 
 	public Long getId() {
