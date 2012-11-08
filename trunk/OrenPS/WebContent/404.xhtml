@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:p="http://primefaces.org/ui"
+ xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:ui="http://java.sun.com/jsf/facelets"
+ xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Menu Dinamico</title>
+</h:head>
+	<h:body>
+	
+	<p:growl id="msg" showDetail="true" sticky="true" />
+	<center>
+		<h1>404 Not Found</h1>
+	
+		<p:separator id="separator"/>  
+		<p:graphicImage url="img/martinkorner.jpg"/>  
+		
+		<br/><br/><br/>
+   		<ui:fragment rendered="#{usuarioAutenticado != null}">
+ 			<p:commandLink id="ajax"  actionListener="#{loginManagedBean.encerraSessao}" style="margin-right:20px; align:center">  
+        		<h:outputText value="Voltar para a tela inicial." />  
+    		</p:commandLink>
+   		</ui:fragment>
+	</center>
+	</h:body>
+</html>

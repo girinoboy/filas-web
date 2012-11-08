@@ -73,7 +73,9 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
 
     public List<T> list() {
         try {
-            List list = HibernateUtility.getSession().createCriteria(oClass).list();
+            List list = HibernateUtility.getSession().createCriteria(oClass)
+            		//.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+            		.list();
             //HibernateUtility.closeSession();
             return (List<T>) list;
         } catch (HibernateException hibernateException) {
