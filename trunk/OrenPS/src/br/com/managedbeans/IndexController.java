@@ -7,9 +7,7 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
@@ -44,7 +42,7 @@ public class IndexController {
 	private MenuDAO menuDAO = new MenuDAO();
 	private Menu menu = new Menu();
 	private List<Menu>  menusPermitidos = new ArrayList<Menu>();
-	
+
 	public IndexController(){
 		geraMenu();
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -54,14 +52,14 @@ public class IndexController {
 				menusPermitidos.add(permissaoMenu.getMenu());
 			}
 		}
-		
+
 		if(menu != null && menu.getPagina() == null){
-			 menu.setPagina("NewFile.xhtml");
+			menu.setPagina("NewFile.xhtml");
 		}else{
 			menu = new Menu();
 			menu.setPagina("NewFile.xhtml");
 		}
-		
+
 	}
 
 	public void geraMenu() {
@@ -69,7 +67,7 @@ public class IndexController {
 			menuModel = new DefaultMenuModel();
 			List<Menu> listaMenu = menuDAO.listCabecalho(); // Substituir o listaTodos() pelos menus permitidos
 			for (Menu menu : listaMenu) {
-				
+
 				if(StringUtils.isBlank(menu.getUrl()) && StringUtils.isBlank(menu.getPagina()) ){
 					Submenu submenu = new Submenu();
 					submenu.setLabel(menu.getDescricao());
@@ -97,32 +95,37 @@ public class IndexController {
 						param.setValue(menu.getPagina());
 						mi.getChildren().add(param);
 
+						param = new UIParameter();
+						param.setName("idMenu");
+						param.setValue(menu.getId());
+						mi.getChildren().add(param);
+
 						mi.setUpdate(":corpoMenuDinamico");
 					}
 					if(StringUtils.isNotBlank(menu.getUrl())){
 						mi.setUrl(menu.getUrl());
 					}
 					menuModel.addMenuItem(mi);
-					
+
 				}
-				
-				
+
+
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Submenu geraMenu(Menu menu, Submenu submenu){
 		List<Menu> listaMenu = menuDAO.listByIdSub(menu.getId());
 		for(Menu m:listaMenu){
 			if(StringUtils.isBlank(m.getUrl()) && StringUtils.isBlank(m.getPagina()) ){
-				
+
 				Submenu sm = new Submenu();
 				sm.setLabel(m.getDescricao());
 				sm = geraMenu(m,sm);
 				submenu.getChildren().add(sm);
-				
+
 			}else{
 				MenuItem mi = new MenuItem();
 				mi.setValue(m.getDescricao());
@@ -144,7 +147,7 @@ public class IndexController {
 					param.setName("pagina");
 					param.setValue(m.getPagina());
 					mi.getChildren().add(param);
-					
+
 					param = new UIParameter();
 					param.setName("idMenu");
 					param.setValue(m.getId());
@@ -159,8 +162,8 @@ public class IndexController {
 			}
 		}
 		return submenu;
-		
-		
+
+
 	}
 	public void addMessage(String summary) {  
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);  
@@ -186,16 +189,13 @@ public class IndexController {
 			String pagina = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("pagina");
 			String idMenu = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idMenu");
 			if(pagina != null){
-				
-				
-				if(!isPermitido(Long.parseLong(idMenu))){
+
+				if(idMenu == null|| !isPermitido(Long.parseLong(idMenu))){
 					menu.setPagina("acessoNegado.xhtml");
 					//menu.setDescricao("Acesso Negado");
 				}else{
-				
-				menu.setPagina(pagina);
-				//menu.setDescricao(descricao);
-				menu.setId(Long.parseLong(idMenu));
+					menu.setPagina(pagina);
+					menu.setId(Long.parseLong(idMenu));
 				}
 				//System.out.println("pagina: "+menu.getUrl());
 			}else{
