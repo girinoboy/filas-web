@@ -1,18 +1,13 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
-    <h:head>
-        <title>Controle de permissao</title>
-    </h:head>
-    <h:body>
-        <h:form id="formControleAcesso">
-            <p:panel header="Controle de Permissões" style="margin-top: 10px; width: 500px;">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:p="http://primefaces.org/ui">
+        <h:form>    
+            <p:panel header="Controle de Acesso" style="margin-top: 10px; width: 500px;">
                 <h:panelGrid columns="2">
                     <h:selectOneMenu value="#{controleAcessoManagedBean.perfil.id}">
-                        <f:selectItem itemValue="0" itemLabel=""/>
+                        <f:selectItem itemValue="0" itemLabel="Selecione"/>
                         <f:selectItems value="#{controleAcessoManagedBean.listaPerfil}" var="perfil"
                                        itemValue="#{perfil.id}" itemLabel="#{perfil.descricao}"/>
                         <p:ajax event="change" listener="#{controleAcessoManagedBean.carregaPermissoesUsuario}"
@@ -40,5 +35,4 @@
             </p:panel>
             <p:commandButton value="Salvar" action="#{controleAcessoManagedBean.salvaPermissoes}" update="panelPermissoes"/>
         </h:form>
-    </h:body>
-</html>
+</ui:composition>

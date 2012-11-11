@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:p="http://primefaces.org/ui">
+
+      <h:form id="form">
+          <h:messages />
+           <p:panel id="panelQuestao" header="Controle de Questionarios" style="margin-top: 10px;">
+          <h:dataTable value="#{questionario.dataModelQuestoes}" var="questao" id="tabela">
+              <h:column>
+                <!--            Painel de Edicaoo           -->  
+                <h:panelGrid cellspacing="10" cellpadding="2" columns="3" rendered="#{questao.questao.editavel}">  
+                    <h:panelGroup>                  
+                        Pergunta da Questao:  <h:inputText value="#{questao.questao.pergunta}" size="50"/>
+                        <br/>
+                        Texto de Ajuda: <h:inputText value="#{questao.questao.textoDeAjuda}" size="50"/>
+                        <br/>
+                        <br/>
+                        <h:selectOneMenu value="#{questao.questao.tipoDeQuestao}" onchange="submit()" 
+                                         valueChangeListener="#{questionario.escolhaTipoDeQuestao}">
+                          <f:selectItem itemLabel="Escolha o Tipo de Questao" noSelectionOption="true"/>
+                          <f:selectItems value="#{questionario.opcoes}"/>
+                        </h:selectOneMenu>
+                        <br/>
+                        
+                        <!-- Questao de Texto -->
+                        <h:inputTextarea rows="2" cols="40" rendered="#{questao.questao.tipoDeQuestao eq 1}" disabled="true"/>
+                        
+                        <!-- Questao de Multipla escolha -->
+                        <h:panelGroup  rendered="#{questao.questao.tipoDeQuestao eq 2}">
+                            <h:dataTable value="#{questao.modelOpcao}" var="opcao">
+                                <h:column>
+                                    <h:panelGrid columns="3">
+                                        <input type="checkbox" disabled="disabled" />
+                                        <h:inputText value="#{opcao.campo}" />
+                                        <h:commandLink actionListener="#{questionario.removerOpcao}" value="Remover Opcao"/>
+                                    </h:panelGrid>
+                                </h:column>
+                            </h:dataTable>
+                            <h:commandLink actionListener="#{questionario.adicionarOpcao}" value="Adicionar Opcao" />
+                        </h:panelGroup>
+                        
+                        <!-- Questao de Unica escolha -->
+                        <h:panelGroup  rendered="#{questao.questao.tipoDeQuestao eq 3}">
+                            <h:dataTable value="#{questao.modelOpcao}" var="opcao">
+                                <h:column>
+                                    <h:panelGrid columns="3">
+                                        <input type="radio" disabled="disabled" />
+                                        <h:inputText value="#{opcao.campo}" />
+                                        <h:commandLink actionListener="#{questionario.removerOpcao}" value="Remover Opcao" icon="ui-icon-arrowreturnthick-1-e"/>
+                                    </h:panelGrid>
+                                </h:column>
+                            </h:dataTable>
+                            <h:commandLink actionListener="#{questionario.adicionarOpcao}" value="Adicionar Opcao" icon="ui-icon-arrowreturnthick-1-w"/>
+                        </h:panelGroup>      
+
+                      
+                    </h:panelGroup>
+                    
+                    <p:commandLink actionListener="#{questionario.salvarQuestao}" value="Salvar" upadate="panelQuestao,:corpoMenuDinamico,panelQuestao" icon="ui-icon-disk"/>
+                    <p:commandLink actionListener="#{questionario.excluirQuestao}" value="Excluir" upadate=":corpoMenuDinamico"  icon="ui-icon-close"/>
+                </h:panelGrid>   
+                
+                  <!--             Painel de Visualizacao            -->  
+                  <h:panelGrid cellspacing="10" cellpadding="2" columns="3" rendered="#{not questao.questao.editavel}">  
+                    <h:panelGroup>
+                        <h:outputText value="#{questao.questao.pergunta}" />
+                        <br/>
+                        <h:outputText value="#{questao.questao.textoDeAjuda}" />
+                        <br/>
+                        
+                        <!-- Questao de Texto -->
+                        <h:inputTextarea cols="40" rows="2" rendered="#{questao.questao.tipoDeQuestao eq 1}" />
+                        
+                        <!-- Questao de Multipla escolha -->
+                        <h:selectManyCheckbox value="#{questionario.respostas}"
+                                              rendered="#{questao.questao.tipoDeQuestao eq 2}" layout="pageDirection">
+                            <f:selectItems value="#{questao.opcoesCriadas}" />
+                        </h:selectManyCheckbox>
+                                              
+                        
+                        <!-- Questao de Unica escolha -->
+                        <h:selectOneRadio value="#{questionario.resposta}" 
+                                          rendered="#{questao.questao.tipoDeQuestao eq 3}" layout="pageDirection">
+                            <f:selectItems value="#{questao.questao.opcoes}" var="opcao" 
+                                           itemValue="#{opcao.campo}" itemLabel="#{opcao.campo}" />
+                        </h:selectOneRadio> 
+                    </h:panelGroup>
+                    <p:commandLink actionListener="#{questionario.editarQuestao}" value="Editar" upadate=":corpoMenuDinamico" icon="ui-icon-pencil"/>
+                    <p:commandLink actionListener="#{questionario.excluirQuestao}" value="Excluir" upadate="panelQuestao"  icon="ui-icon-close"/>	                    
+                </h:panelGrid>
+              </h:column>
+          </h:dataTable>
+          
+          <p:commandButton value="Adicionar Questao" actionListener="#{questionario.adicionarQuestao}" update=":corpoMenuDinamico"/>
+          </p:panel>
+      </h:form>
+
+</ui:composition>
