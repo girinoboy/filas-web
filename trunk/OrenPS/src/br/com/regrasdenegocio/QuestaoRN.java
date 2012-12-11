@@ -19,11 +19,11 @@ public class QuestaoRN
 
   public QuestaoRN()
   {
-    this.questao = new Questao("Digite a pergunta da questão", "Digite o texto de ajuda da questão", 1, false);
-    this.questao.setOpcoes(new ArrayList<Opcao>());
-    this.questao.getOpcoes().add(new Opcao());
-    this.opcoesCriadas = new HashMap<String, String>();
-    this.modelOpcao = new ListDataModel(this.questao.getOpcoes());
+    this.questao = new Questao("Digite a pergunta da questão", "Digite o texto de ajuda da questão", 1, false,":corpoMenuDinamico");
+    this.questao.setOpcoes(new ArrayList<Opcao>());//instancia opções
+    this.questao.getOpcoes().add(new Opcao());//popula com apenas um campo
+//    this.opcoesCriadas = new HashMap<String, String>();
+//    this.modelOpcao = new ListDataModel(this.questao.getOpcoes());
   }
 
   public QuestaoRN criarQuestaoModelo() {
@@ -33,12 +33,14 @@ public class QuestaoRN
   }
 
   public void salvarQuestao(QuestaoRN questao) {
-    questao.getQuestao().setEditavel(false);
-    if (questao.getQuestao().getTipoDeQuestao() == 2) {
+    questao.getQuestao().setEditavel(false);//esconde formulario de edição
+    
+    //não precisa desse map inutil, vai precisar depois para salvar talvez
+    if (questao.getQuestao().getTipoDeQuestao() == 2) {//questão checkbox
       System.out.println("Tipo de Questão: " + questao.getQuestao().getTipoDeQuestao());
       setOpcoesCriadas(new LinkedHashMap<String, String>());
       for (Opcao c : this.questao.getOpcoes())
-        questao.opcoesCriadas.put(c.getCampo(), c.getCampo());
+        questao.opcoesCriadas.put(c.getCampo(), c.getCampo()); //grava todos os campo digitados na tela nesse atributo para ser exibido depois
     }
   }
 

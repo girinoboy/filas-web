@@ -12,17 +12,19 @@ public class Questao
   private List<Opcao> opcoes;
   private int tipoDeQuestao;
   private boolean editavel;
+  private String update;
 
   public Questao()
   {
   }
 
-  public Questao(String pergunta, String textoDeAjuda, int tipoDeQuestao, boolean editavel)
+  public Questao(String pergunta, String textoDeAjuda, int tipoDeQuestao, boolean editavel,String update)
   {
     this.editavel = editavel;
     this.pergunta = pergunta;
     this.textoDeAjuda = textoDeAjuda;
     this.tipoDeQuestao = tipoDeQuestao;
+    this.update = update;
   }
 
   public List<Opcao> getOpcoes()
@@ -65,4 +67,12 @@ public class Questao
   public void setTipoDeQuestao(int tipoDeQuestao) {
     this.tipoDeQuestao = tipoDeQuestao;
   }
+
+public String getUpdate() {
+	return update;
+}
+
+public void setUpdate(String update) {
+	this.update = update;
+}
 }
