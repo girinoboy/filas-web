@@ -4,6 +4,12 @@
             xmlns:ui="http://java.sun.com/jsf/facelets"
             xmlns:p="http://primefaces.org/ui">
 
+    <style type="text/css">  
+    	.semBorda tr, .semBorda td {  
+        	border: none !important;  
+    	}   
+    </style>   
+
       <h:form id="form">
       	<h:messages />
         <p:panel id="panelQuestao" header="Controle de Questionarios" style="margin-top: 10px;">
@@ -11,7 +17,7 @@
 	        	<p:column>
 	            <!--             Painel de Visualizacao            -->  
 	            	<ui:fragment rendered="#{not questao.questao.editavel}">
-		                <p:panelGrid style="margin-top:20px">                                       
+		                <p:panelGrid style="margin-top:20px;" styleClass="semBorda">                                       
 		                   <p:row>  
 		                    <p:column> 
 		                      <h:outputText value="#{questao.questao.pergunta}" />
