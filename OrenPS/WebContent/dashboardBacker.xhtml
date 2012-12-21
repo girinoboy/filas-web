@@ -7,15 +7,44 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Controle de permissao</title>
+        
+        <style type="text/css">
+
+		.ui-dashboard-column {
+	        width: 335px;
+	        float: left;
+			padding-bottom: 100px;
+		}
+		.ui-panel, div.ui-state-hover {
+	        margin: 10px;
+/* 	        width:200px;   */
+        }
+		
+		</style>
     </h:head>
     
     <h:body>
     
-        <h:form id="formControleAcesso">
-        
-			<p:dashboard id="dynamic_dashboard" binding="#{dashboardBacker.dashboard}"/>
+    <h:form id="form1">
+	   	<p:panel>
+	   		<h:panelGrid columns="2" cellpadding="5">
+	   		
+				<h:outputLabel for="titulo" value="Titulo:" />
+				<p:inputText value="#{dashboardBacker.titulo}"
+	                 id="titulo" required="true" label="titulo" />
+		        <f:facet name="footer">
+					<p:commandButton id="adicionar" value="Adicionar questionario" actionListener="#{dashboardBacker.adicionarioWidget}" update="dynamic_dashboard"/>
+				</f:facet>
+			</h:panelGrid> 
+		</p:panel> 
 	
-	    </h:form>
-        
+		<p:dashboard id="dynamic_dashboard" binding="#{dashboardBacker.dashboard}"/>
+
+  	</h:form>
+	    
+    
+       
+	    
+	 
     </h:body>
 </html>
