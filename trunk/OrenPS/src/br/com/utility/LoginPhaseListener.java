@@ -78,11 +78,11 @@ public class LoginPhaseListener implements PhaseListener {
 					session.removeAttribute("indexController");
 					//session.removeAttribute("usuarioAutenticado");
 				}
-			}else if(!pagina.equals("/login.xhtml")){
+			}/*else if(!pagina.equals("/login.xhtml")){
 				session.removeAttribute("usuarioAutenticado");
 				session.removeAttribute("indexController");
 				FacesContext.getCurrentInstance().getExternalContext().redirect(Constantes.PAGINA_INDEX);
-			}
+			}*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
