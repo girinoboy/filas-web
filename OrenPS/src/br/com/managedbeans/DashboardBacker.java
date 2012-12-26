@@ -8,13 +8,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIParameter;
-import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 
-import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.commandlink.CommandLink;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.panel.Panel;

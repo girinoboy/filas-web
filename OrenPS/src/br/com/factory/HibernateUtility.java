@@ -9,7 +9,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.cfg.Configuration;
 
 import br.com.models.Menu;
 import br.com.models.Opcao;
@@ -21,7 +20,7 @@ import br.com.models.Usuario;
 import br.com.models.UsuarioPerfil;
 
 
-@SuppressWarnings({ "unchecked", "deprecation","rawtypes" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class HibernateUtility {
 
 	private static final SessionFactory sessionFactory;

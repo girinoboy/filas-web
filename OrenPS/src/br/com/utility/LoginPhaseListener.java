@@ -1,17 +1,14 @@
 package br.com.utility;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpSession;
 
-import br.com.dao.ControleAcessoDAO;
 import br.com.managedbeans.IndexController;
 import br.com.models.Menu;
 import br.com.models.PermissaoMenu;
@@ -23,7 +20,7 @@ public class LoginPhaseListener implements PhaseListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String PRG_DONE_ID = null;
+	//private static final String PRG_DONE_ID = null;
 	private List<Menu>  menusPermitidos = new ArrayList<Menu>();
 	String pagina = null;
 	public void afterPhase(PhaseEvent event) {/*
@@ -78,11 +75,11 @@ public class LoginPhaseListener implements PhaseListener {
 					session.removeAttribute("indexController");
 					//session.removeAttribute("usuarioAutenticado");
 				}
-			}/*else if(!pagina.equals("/login.xhtml")){
+			}else if(!pagina.equals("/login.xhtml")){
 				session.removeAttribute("usuarioAutenticado");
 				session.removeAttribute("indexController");
 				FacesContext.getCurrentInstance().getExternalContext().redirect(Constantes.PAGINA_INDEX);
-			}*/
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -121,7 +118,7 @@ public class LoginPhaseListener implements PhaseListener {
 
 	public PhaseId getPhaseId() {
 		return PhaseId.RESTORE_VIEW;
-	}
+	}/*
 	private boolean loggedIn() {
 		return FacesUtils.existeUsuarioLogado();
 	}
@@ -148,7 +145,7 @@ public class LoginPhaseListener implements PhaseListener {
 			}
 		}
 		return retorno;
-	}
+	}*/
 
 	public String getPagina() {
 		return pagina;

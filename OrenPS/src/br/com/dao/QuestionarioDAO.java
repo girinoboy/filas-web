@@ -5,7 +5,6 @@ package br.com.dao;
 
 import java.io.Serializable;
 
-import br.com.models.Menu;
 import br.com.models.Questionario;
 
 /**
