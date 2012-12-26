@@ -30,7 +30,7 @@
 	   		<h:panelGrid columns="2" cellpadding="5">
 	   		
 				<h:outputLabel for="titulo" value="Titulo:" />
-				<p:inputText value="#{dashboardBacker.titulo}"
+				<p:inputText value="#{dashboardBacker.questionario.titulo}"
 	                 id="titulo" required="true" label="titulo" />
 		        <f:facet name="footer">
 					<p:commandButton id="adicionar" value="Adicionar questionario" actionListener="#{dashboardBacker.adicionarioWidget}" update="dynamic_dashboard"/>

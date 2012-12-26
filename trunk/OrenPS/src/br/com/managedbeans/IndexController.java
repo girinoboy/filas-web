@@ -112,11 +112,12 @@ public class IndexController {
 
 			}
 		}catch(Exception e){
+			addMessage(e.getMessage());
 			e.printStackTrace();
 		}
 	}
 
-	public Submenu geraMenu(Menu menu, Submenu submenu){
+	public Submenu geraMenu(Menu menu, Submenu submenu) throws Exception{
 		List<Menu> listaMenu = menuDAO.listByIdSub(menu.getId());
 		for(Menu m:listaMenu){
 			if(StringUtils.isBlank(m.getUrl()) && StringUtils.isBlank(m.getPagina()) ){

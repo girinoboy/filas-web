@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.factory.ConnectionFactory;
@@ -61,7 +62,7 @@ public class UsuarioDAO extends GenericoDAO<Usuario, Long>{
         return usuario;
     }
 
-	public Usuario verificaLoginSenha(Usuario usuario) {
+	public Usuario verificaLoginSenha(Usuario usuario) throws HibernateException, Exception {
 		usuario = (Usuario) HibernateUtility.getSession().createCriteria(Usuario.class)
 				.add(Restrictions.eq("login", usuario.getLogin()))
 				.add(Restrictions.eq("senha", usuario.getSenha()))
@@ -71,7 +72,7 @@ public class UsuarioDAO extends GenericoDAO<Usuario, Long>{
 		
 	}
 
-	public void saveTheme(String theme, Usuario usuario) {
+	public void saveTheme(String theme, Usuario usuario) throws HibernateException, Exception {
 		//Nome da classe e atributo
 		String updateQuery = "UPDATE Usuario obj SET tema = :valor WHERE obj.id = :idUsuario";  
 		HibernateUtility.getSession().createQuery(updateQuery)

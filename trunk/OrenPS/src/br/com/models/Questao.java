@@ -3,76 +3,95 @@ package br.com.models;
 import java.io.Serializable;
 import java.util.List;
 
-public class Questao
-  implements Serializable
-{
-  private static final long serialVersionUID = -777752470916891894L;
-  private String pergunta;
-  private String textoDeAjuda;
-  private List<Opcao> opcoes;
-  private int tipoDeQuestao;
-  private boolean editavel;
-  private String update;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-  public Questao()
-  {
-  }
+/**
+ *
+ * @author Marcleonio
+ */
+@Entity
+@Table(name = "questionarios")
+public class Questao  implements Serializable {
 
-  public Questao(String pergunta, String textoDeAjuda, int tipoDeQuestao, boolean editavel,String update)
-  {
-    this.editavel = editavel;
-    this.pergunta = pergunta;
-    this.textoDeAjuda = textoDeAjuda;
-    this.tipoDeQuestao = tipoDeQuestao;
-    this.update = update;
-  }
+	private static final long serialVersionUID = -777752470916891894L;
+	@Id 
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	private Long id;
+	@ManyToOne
+	@JoinColumn(name = "questionario_id", insertable = true, updatable = true, nullable = true)
+	private Questionario questionario;
+	private String pergunta;
+	private String textoDeAjuda;
+	@OneToMany(mappedBy = "questao", targetEntity = Opcao.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+	private List<Opcao> opcoes;
+	private Integer tipoDeQuestao;
+	private Boolean editavel;
+	private String update;
 
-  public List<Opcao> getOpcoes()
-  {
-    return this.opcoes;
-  }
+	public Questao() {}
 
-  public void setOpcoes(List<Opcao> opcoes) {
-    this.opcoes = opcoes;
-  }
+	public Questao(String pergunta, String textoDeAjuda, int tipoDeQuestao, boolean editavel,String update){
+		this.editavel = editavel;
+		this.pergunta = pergunta;
+		this.textoDeAjuda = textoDeAjuda;
+		this.tipoDeQuestao = tipoDeQuestao;
+		this.update = update;
+	}
 
-  public boolean isEditavel() {
-    return this.editavel;
-  }
+	public List<Opcao> getOpcoes() {
+		return this.opcoes;
+	}
 
-  public void setEditavel(boolean editavel) {
-    this.editavel = editavel;
-  }
+	public void setOpcoes(List<Opcao> opcoes) {
+		this.opcoes = opcoes;
+	}
 
-  public String getPergunta() {
-    return this.pergunta;
-  }
+	public boolean isEditavel() {
+		return this.editavel;
+	}
 
-  public void setPergunta(String pergunta) {
-    this.pergunta = pergunta;
-  }
+	public void setEditavel(boolean editavel) {
+		this.editavel = editavel;
+	}
 
-  public String getTextoDeAjuda() {
-    return this.textoDeAjuda;
-  }
+	public String getPergunta() {
+		return this.pergunta;
+	}
 
-  public void setTextoDeAjuda(String textoDeAjuda) {
-    this.textoDeAjuda = textoDeAjuda;
-  }
+	public void setPergunta(String pergunta) {
+		this.pergunta = pergunta;
+	}
 
-  public int getTipoDeQuestao() {
-    return this.tipoDeQuestao;
-  }
+	public String getTextoDeAjuda() {
+		return this.textoDeAjuda;
+	}
 
-  public void setTipoDeQuestao(int tipoDeQuestao) {
-    this.tipoDeQuestao = tipoDeQuestao;
-  }
+	public void setTextoDeAjuda(String textoDeAjuda) {
+		this.textoDeAjuda = textoDeAjuda;
+	}
 
-public String getUpdate() {
-	return update;
-}
+	public int getTipoDeQuestao() {
+		return this.tipoDeQuestao;
+	}
 
-public void setUpdate(String update) {
-	this.update = update;
-}
+	public void setTipoDeQuestao(int tipoDeQuestao) {
+		this.tipoDeQuestao = tipoDeQuestao;
+	}
+
+	public String getUpdate() {
+		return update;
+	}
+
+	public void setUpdate(String update) {
+		this.update = update;
+	}
 }

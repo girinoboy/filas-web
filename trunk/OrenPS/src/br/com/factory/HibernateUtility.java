@@ -12,8 +12,11 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 
 import br.com.models.Menu;
+import br.com.models.Opcao;
 import br.com.models.Perfil;
 import br.com.models.PermissaoMenu;
+import br.com.models.Questao;
+import br.com.models.Questionario;
 import br.com.models.Usuario;
 import br.com.models.UsuarioPerfil;
 
@@ -26,11 +29,15 @@ public class HibernateUtility {
 	private static final ThreadLocal transactionThread = new ThreadLocal();
 
 
-	public static Session getSession() {
-		Session session = (Session) sessionThread.get();
-		if ((session == null) || (!(session.isOpen()))) {
-			session = sessionFactory.openSession();
-			sessionThread.set(session);
+	public static Session getSession() throws Exception {
+		try{
+			Session session = (Session) sessionThread.get();
+			if ((session == null) || (!(session.isOpen()))) {
+				session = sessionFactory.openSession();
+				sessionThread.set(session);
+			}
+		}catch(Exception e){
+			throw e;
 		}
 		return ((Session) sessionThread.get());
 	}
@@ -43,9 +50,13 @@ public class HibernateUtility {
 		}
 	}
 
-	public static void beginTransaction() {
-		Transaction transaction = getSession().beginTransaction();
-		transactionThread.set(transaction);
+	public static void beginTransaction() throws Exception {
+		try{
+			Transaction transaction = getSession().beginTransaction();
+			transactionThread.set(transaction);
+		}catch(Exception e){
+			throw e;
+		}
 	}
 
 	public static void commitTransaction() {
@@ -66,58 +77,64 @@ public class HibernateUtility {
 
 	static {
 		try {
-			  sessionFactory =  ((AnnotationConfiguration) new AnnotationConfiguration()
-            	
-		            .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")// tipo de dialeto do banco
-		            //.setProperty("hibernate.connection.driver_class","net.sourceforge.jtds.jdbc.Driver")// driver do banco
-		            //.setProperty("hibernate.connection.url", "jdbc:jtds:sqlserver://10.100.100.132:1433/citmensageria")// endereço do banco de dados
-		            //.setProperty("hibernate.connection.username", "sa")
-		            //.setProperty("hibernate.connection.password", "CITmensageria123")
+			sessionFactory =  ((AnnotationConfiguration) new AnnotationConfiguration()
 
-		            //para tomcat
-		            //.setProperty("hibernate.connection.datasource", "java:comp/env/jdbc/proserDS")
-		            //para jboss
+			.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")// tipo de dialeto do banco
+			//.setProperty("hibernate.connection.driver_class","net.sourceforge.jtds.jdbc.Driver")// driver do banco
+			//.setProperty("hibernate.connection.url", "jdbc:jtds:sqlserver://10.100.100.132:1433/citmensageria")// endereço do banco de dados
+			//.setProperty("hibernate.connection.username", "sa")
+			//.setProperty("hibernate.connection.password", "CITmensageria123")
 
+			//para tomcat
+			//.setProperty("hibernate.connection.datasource", "java:comp/env/jdbc/proserDS")
+			//para jboss
 
-		            .setProperty("hibernate.connection.datasource", "java:orenDS")
-                    .setProperty("hibernate.hbm2ddl.auto", "update")
-                    .setProperty("hibernate.c3p0.max_size", "10")
-                    .setProperty("hibernate.c3p0.min_size", "2")
-                    .setProperty("hibernate.c3p0.timeout", "5000")
-                    .setProperty("hibernate.c3p0.max_statements", "10")
-                    .setProperty("hibernate.c3p0.idle_test_period", "3000")
-                    .setProperty("hibernate.c3p0.acquire_increment", "2")
-                    .setProperty("hibernate.show_sql", "true")
-                    .setProperty("hibernate.use_outer_join", "true")
-                    .setProperty("hibernate.generate_statistics", "true")
-                    .setProperty("hibernate.use_sql_comments", "true")
-                    .setProperty("hibernate.format_sql", "true")
-					//.setProperty("hibernate.order_updates", "true")
-					.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider")
-					.setProperty("hibernate.current_session_context_class", "thread")
-					//.setProperty("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory")
-					//.setProperty("hibernate.default_schema", "dbo")
-					
-					.setProperty("hibernate.validator.apply_to_ddl", "false")
-					.setProperty("hibernate.validator.autoregister_listeners", "false")
-					
-					//.setProperty("hibernate.query.factory_class", "org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory")
-					//.setProperty("hibernate.query.factory_class", "org.hibernate.hql.classic.ClassicQueryTranslatorFactory")
-					
-)
-					
-                    //.setProperty("hibernate.connection.autocommit", "true")
-                    //.setProperty("hibernate.connection.pool_size", "1")
-                    //CADASTROS abaixo coloque todas classes que deseja ser modelo para criação do banco de dados
+//			.setProperty("hibernate.connection.driver_class","org.hsqldb.jdbcDriver") 
+//			.setProperty("hibernate.connection.url", "jdbc:hsqldb:file:C:/tmp/satisfacao")
+//			.setProperty("hibernate.connection.username", "SA")
+//			.setProperty("hibernate.connection.password", "")
+			.setProperty("hibernate.connection.datasource", "java:orenDS")
+			.setProperty("hibernate.hbm2ddl.auto", "update")
+			.setProperty("hibernate.c3p0.max_size", "10")
+			.setProperty("hibernate.c3p0.min_size", "2")
+			.setProperty("hibernate.c3p0.timeout", "5000")
+			.setProperty("hibernate.c3p0.max_statements", "10")
+			.setProperty("hibernate.c3p0.idle_test_period", "3000")
+			.setProperty("hibernate.c3p0.acquire_increment", "2")
+			.setProperty("hibernate.show_sql", "true")
+			.setProperty("hibernate.use_outer_join", "true")
+			.setProperty("hibernate.generate_statistics", "true")
+			.setProperty("hibernate.use_sql_comments", "true")
+			.setProperty("hibernate.format_sql", "true")
+			//.setProperty("hibernate.order_updates", "true")
+			.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider")
+			.setProperty("hibernate.current_session_context_class", "thread")
+			//.setProperty("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory")
+			//.setProperty("hibernate.default_schema", "dbo")
+
+			.setProperty("hibernate.validator.apply_to_ddl", "false")
+			.setProperty("hibernate.validator.autoregister_listeners", "false")
+
+			//.setProperty("hibernate.query.factory_class", "org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory")
+			//.setProperty("hibernate.query.factory_class", "org.hibernate.hql.classic.ClassicQueryTranslatorFactory")
+
+					)
+
+					//.setProperty("hibernate.connection.autocommit", "true")
+					//.setProperty("hibernate.connection.pool_size", "1")
+					//CADASTROS abaixo coloque todas classes que deseja ser modelo para criação do banco de dados
 					.addAnnotatedClass(Menu.class)
-                    .addAnnotatedClass(Perfil.class)
-                    .addAnnotatedClass(PermissaoMenu.class)
-                    .addAnnotatedClass(Usuario.class)
-                    .addAnnotatedClass(UsuarioPerfil.class)
-                    //MOVIMENTOS
-                    //.configure()
-                    .buildSessionFactory();
-/*
+					.addAnnotatedClass(Perfil.class)
+					.addAnnotatedClass(PermissaoMenu.class)
+					.addAnnotatedClass(Usuario.class)
+					.addAnnotatedClass(UsuarioPerfil.class)
+					.addAnnotatedClass(Questao.class)
+					.addAnnotatedClass(Questionario.class)
+					.addAnnotatedClass(Opcao.class)
+					//MOVIMENTOS
+					//.configure()
+					.buildSessionFactory();
+			/*
             AnnotationConfiguration annotationConfiguration = null;//.addAnnotatedClass(AdditionalInformation.class);
             annotationConfiguration.addAnnotatedClass(Usuario.class);
             annotationConfiguration.addAnnotatedClass(Usuario.class);
@@ -133,7 +150,7 @@ public class HibernateUtility {
             .configure()
             .buildSessionFactory();
 			 */
-/*
+			/*
 			try {  
 				AnnotationConfiguration configuration = new AnnotationConfiguration();
 				//CADASTROS abaixo coloque todas classes que deseja ser modelo para criação do banco de dados
@@ -141,7 +158,7 @@ public class HibernateUtility {
 //					configuration.addAnnotatedClass(clazz);
 //				}  
 				((AnnotationConfiguration) configuration //configura as propiedades
-				
+
 				.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")// tipo de dialeto do banco
 				.setProperty("hibernate.connection.datasource", "java:orenDS")
 				.setProperty("hibernate.hbm2ddl.auto", "validate")

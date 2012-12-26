@@ -87,7 +87,7 @@ public class ControleAcessoDAO extends GenericoDAO<PermissaoMenu, Serializable>{
 	}*/
 
 	@SuppressWarnings("unchecked")
-	public List<PermissaoMenu> listByIdUsuario(int id) {
+	public List<PermissaoMenu> listByIdUsuario(int id) throws Exception {
 		List<PermissaoMenu> list;
 		try {
 			list = HibernateUtility.getSession()
@@ -105,7 +105,7 @@ public class ControleAcessoDAO extends GenericoDAO<PermissaoMenu, Serializable>{
 		return list;
 	}
 
-	public void deletePermissaoPorUsuario(int id) {
+	public void deletePermissaoPorUsuario(int id) throws Exception {
 		try {
 			//Nome da classe e atributo
 			String deleteQuery = "delete from Permissao where usuario.id = :usuariosId";  
@@ -122,7 +122,8 @@ public class ControleAcessoDAO extends GenericoDAO<PermissaoMenu, Serializable>{
 			HibernateUtility.closeSession();
 		}
 	}
-	public void deletePermissaoPorPerfil(Long id) {
+	
+	public void deletePermissaoPorPerfil(Long id) throws Exception {
 		try {
 			//Nome da classe e atributo
 			String deleteQuery = "delete from PermissaoMenu where perfil.id = :idPerfil";  
@@ -140,7 +141,7 @@ public class ControleAcessoDAO extends GenericoDAO<PermissaoMenu, Serializable>{
 		}
 	}
 
-	public PermissaoMenu buscaPorMenuUsuario(int menu, int usuario) throws SQLException {
+	public PermissaoMenu buscaPorMenuUsuario(int menu, int usuario) throws Exception {
 		PermissaoMenu permissao;
 		try {
 			permissao = (PermissaoMenu) HibernateUtility.getSession().createCriteria(PermissaoMenu.class)
@@ -159,7 +160,7 @@ public class ControleAcessoDAO extends GenericoDAO<PermissaoMenu, Serializable>{
 
 	}
 	@SuppressWarnings("unchecked")
-	public List<PermissaoMenu> listByIdPerfil(Long id) {
+	public List<PermissaoMenu> listByIdPerfil(Long id) throws Exception {
 		List<PermissaoMenu> list;
 		try {
 			list = HibernateUtility.getSession()
@@ -177,7 +178,7 @@ public class ControleAcessoDAO extends GenericoDAO<PermissaoMenu, Serializable>{
 		return list;
 	}
 
-	public PermissaoMenu buscaPorMenuPerfil(Long menu, Long perfil) throws SQLException {
+	public PermissaoMenu buscaPorMenuPerfil(Long menu, Long perfil) throws Exception {
 		PermissaoMenu permissao;
 		try {
 			permissao = (PermissaoMenu) HibernateUtility.getSession().createCriteria(PermissaoMenu.class)
@@ -197,7 +198,7 @@ public class ControleAcessoDAO extends GenericoDAO<PermissaoMenu, Serializable>{
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<PermissaoMenu> listByIdsPerfil(List<UsuarioPerfil> usuarioPeril) {
+	public List<PermissaoMenu> listByIdsPerfil(List<UsuarioPerfil> usuarioPeril) throws Exception {
 		List<PermissaoMenu> list;
 		try {
 

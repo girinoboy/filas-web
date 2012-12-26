@@ -11,6 +11,8 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.HibernateException;
+
 import br.com.dao.UsuarioDAO;
 
 @ManagedBean
@@ -86,7 +88,7 @@ public class ThemeSwitcherBean {
         themes.put("Vader", "vader");  
     }  
       
-    public void saveTheme() {  
+    public void saveTheme() throws HibernateException, Exception {  
     	HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     	Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
     	if(theme !=null){
