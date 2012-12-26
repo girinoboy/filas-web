@@ -169,7 +169,7 @@ public class MenuDAO extends GenericoDAO<Menu, Serializable>{
     }*/
 
 	@SuppressWarnings("unchecked")
-	public List<Menu> listCabecalho() {
+	public List<Menu> listCabecalho() throws Exception {
 		List<Menu> list;
 		try {
 			list = HibernateUtility.getSession()
@@ -186,7 +186,7 @@ public class MenuDAO extends GenericoDAO<Menu, Serializable>{
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Menu> listByIdSub(long id) {
+	public List<Menu> listByIdSub(long id) throws Exception {
 		// select * from tab_menus where tab_menus_id=?
 		List<Menu> list;
 		try {

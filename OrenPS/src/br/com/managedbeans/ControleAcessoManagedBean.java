@@ -88,7 +88,7 @@ public class ControleAcessoManagedBean {
     }
     */
     
-    public void carregarFilhos(Menu menu, TreeNode treeNode){
+    public void carregarFilhos(Menu menu, TreeNode treeNode) throws Exception{
 		List<Menu> listaMenu = menuDAO.listByIdSub(menu.getId());
 		TreeNode tr;
 		for(Menu m:listaMenu){
@@ -168,7 +168,7 @@ public class ControleAcessoManagedBean {
         }
     }
 
-    public void salvaPai(TreeNode no) {
+    public void salvaPai(TreeNode no) throws Exception {
         TreeNode tr = no.getParent();
         if (!tr.equals(root)) {
             PermissaoMenu p;

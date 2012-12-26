@@ -11,7 +11,6 @@ import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.factory.HibernateUtility;
@@ -33,7 +32,7 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
         return this.oClass;
     }
 
-    public T save(T objeto) {
+    public T save(T objeto) throws Exception {
         try {
             Object obj = null;
             HibernateUtility.beginTransaction();
@@ -47,7 +46,7 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
         }
     }
 
-    public void delete(T objeto) {
+    public void delete(T objeto) throws Exception {
         try {
             HibernateUtility.beginTransaction();
             HibernateUtility.getSession().delete(objeto);
@@ -59,7 +58,7 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
         }
     }
 
-    public void deleteItem(T objeto) {
+    public void deleteItem(T objeto) throws Exception {
         try {
             HibernateUtility.beginTransaction();
             HibernateUtility.getSession().delete(objeto);
@@ -71,7 +70,7 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
         }
     }
 
-    public List<T> list() {
+    public List<T> list() throws Exception {
         try {
             List list = HibernateUtility.getSession().createCriteria(oClass)
             		//.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
@@ -86,7 +85,7 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
         }
     }
 
-    public T getById(Serializable id) {
+    public T getById(Serializable id) throws Exception {
         try {
             return (T) HibernateUtility.getSession().get(oClass, id);
         } catch (HibernateException hibernateException) {
@@ -97,7 +96,7 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
         }
     }
 
-    public T getById(Serializable id, boolean lock) {
+    public T getById(Serializable id, boolean lock) throws Exception {
         try {
             if (lock) {
 				return (T) HibernateUtility.getSession().get(oClass, id, LockMode.UPGRADE);
@@ -112,7 +111,7 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
         }
     }
     
-    public List<T> listById(Serializable id) {
+    public List<T> listById(Serializable id) throws Exception {
         try {
 			return (List<T>) HibernateUtility.getSession().createCriteria(oClass).add(Restrictions.idEq(id)).list();
         } catch (HibernateException hibernateException) {
@@ -123,7 +122,7 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
         }
     }
 
-    public List<T> listCriterio(String subClazz, Map<String, Object> filtrosConsulta, int tipoConsulta) {
+    public List<T> listCriterio(String subClazz, Map<String, Object> filtrosConsulta, int tipoConsulta) throws Exception {
         List<T> lista = new ArrayList<T>();
         Set entradas = filtrosConsulta.entrySet();
 
@@ -185,7 +184,7 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
         }
     }
 
-    public List<T> consultaHQL(String consulta) {
+    public List<T> consultaHQL(String consulta) throws HibernateException, Exception {
         return (List<T>) HibernateUtility.getSession().createQuery(consulta).list();
     }
 

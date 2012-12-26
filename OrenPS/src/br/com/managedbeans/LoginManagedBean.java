@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.HibernateException;
 import org.primefaces.context.RequestContext;
 
 import br.com.dao.UsuarioDAO;
@@ -30,7 +31,7 @@ public class LoginManagedBean {
 
 	public LoginManagedBean(){}
 
-	public String login(ActionEvent actionEvent) {  
+	public String login(ActionEvent actionEvent) throws HibernateException, Exception {  
 		RequestContext context = RequestContext.getCurrentInstance();  
 		FacesMessage msg = null;  
 		boolean loggedIn = false;  
