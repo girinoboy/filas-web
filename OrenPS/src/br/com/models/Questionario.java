@@ -25,6 +25,7 @@ public class Questionario {
 	private String titulo;
 	@OneToMany(mappedBy = "questionario", targetEntity = Questao.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Questao> questao;
+	private Integer dashboardColumn = 0;//default 0
 
 	public Questionario() {}
 
@@ -54,6 +55,34 @@ public class Questionario {
 	 */
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
+	}
+
+	/**
+	 * @return the questao
+	 */
+	public List<Questao> getQuestao() {
+		return questao;
+	}
+
+	/**
+	 * @param questao the questao to set
+	 */
+	public void setQuestao(List<Questao> questao) {
+		this.questao = questao;
+	}
+
+	/**
+	 * @return the dashboardColumn
+	 */
+	public Integer getDashboardColumn() {
+		return (dashboardColumn == null) ? 0 : dashboardColumn;
+	}
+
+	/**
+	 * @param dashboardColumn the dashboardColumn to set
+	 */
+	public void setDashboardColumn(Integer dashboardColumn) {
+		this.dashboardColumn = dashboardColumn;
 	}
 
 }
