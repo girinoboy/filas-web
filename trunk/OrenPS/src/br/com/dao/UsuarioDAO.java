@@ -12,7 +12,6 @@ import org.hibernate.criterion.Restrictions;
 
 import br.com.factory.ConnectionFactory;
 import br.com.factory.HibernateUtility;
-import br.com.models.PermissaoMenu;
 import br.com.models.Usuario;
 
 public class UsuarioDAO extends GenericoDAO<Usuario, Long>{

@@ -15,6 +15,10 @@ import org.primefaces.model.DefaultDashboardModel;
 @ManagedBean
 public class DashboardBean implements Serializable {  
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DashboardModel model;  
 
 	public DashboardBean() {
