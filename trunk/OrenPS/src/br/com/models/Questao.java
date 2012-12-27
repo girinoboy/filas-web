@@ -35,16 +35,16 @@ public class Questao  implements Serializable {
 	private List<Opcao> opcoes;
 	private Integer tipoDeQuestao;
 	private Boolean editavel;
-	private String update;
+	private String atualiza;
 
 	public Questao() {}
 
-	public Questao(String pergunta, String textoDeAjuda, int tipoDeQuestao, boolean editavel,String update){
+	public Questao(String pergunta, String textoDeAjuda, int tipoDeQuestao, boolean editavel,String atualiza){
 		this.editavel = editavel;
 		this.pergunta = pergunta;
 		this.textoDeAjuda = textoDeAjuda;
 		this.tipoDeQuestao = tipoDeQuestao;
-		this.update = update;
+		this.atualiza = atualiza;
 	}
 
 	public List<Opcao> getOpcoes() {
@@ -87,11 +87,11 @@ public class Questao  implements Serializable {
 		this.tipoDeQuestao = tipoDeQuestao;
 	}
 
-	public String getUpdate() {
-		return update;
+	public String getAtualiza() {
+		return atualiza;
 	}
 
-	public void setUpdate(String update) {
-		this.update = update;
+	public void setAtualiza(String atualiza) {
+		this.atualiza = atualiza;
 	}
 }

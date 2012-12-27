@@ -189,18 +189,15 @@ public class IndexController {
 		try{
 			String pagina = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("pagina");
 			String idMenu = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idMenu");
-			if(pagina != null){
-
-				if(idMenu == null|| !isPermitido(Long.parseLong(idMenu))){
-					menu.setPagina("acessoNegado.xhtml");
-					//menu.setDescricao("Acesso Negado");
-				}else{
-					menu.setPagina(pagina);
-					menu.setId(Long.parseLong(idMenu));
-				}
+			if(!pagina.equals("") && idMenu.equals("")){
+				menu.setPagina(pagina);
 				//System.out.println("pagina: "+menu.getUrl());
+			}else if(isPermitido(Long.parseLong(idMenu))){
+				menu.setPagina(pagina);
+				menu.setId(Long.parseLong(idMenu));
 			}else{
-				addMessage(pagina);
+				menu.setPagina("acessoNegado.xhtml");
+				//addMessage(pagina);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
