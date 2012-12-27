@@ -3,10 +3,12 @@ package br.com.models;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,7 +23,8 @@ public class Opcao implements Serializable {
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
-	@JoinColumn(name = "questao_id", insertable = true, updatable = true, nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="questao_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = true)
 	private Questao questao;
 	private String campo;
 

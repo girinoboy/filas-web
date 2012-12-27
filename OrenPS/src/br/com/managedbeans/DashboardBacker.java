@@ -26,7 +26,7 @@ import br.com.models.Questionario;
 @RequestScoped
 public class DashboardBacker {
 
-	public static final int DEFAULT_COLUMN_COUNT = 5;
+	public static final int DEFAULT_COLUMN_COUNT = 4;
 	private int columnCount = DEFAULT_COLUMN_COUNT;
 
 	private Dashboard dashboard;
@@ -98,15 +98,15 @@ public class DashboardBacker {
 			UIParameter param = new UIParameter();
 			param = new UIParameter();
 			param.setName("idMenu");
-			param.setValue(19);
+			param.setValue("");
 			link.getChildren().add(param);
 
 			param = new UIParameter();
 			param.setName("pagina");
 			param.setValue("questionario.xhtml");
 			link.getChildren().add(param);
-			//link.setUpdate(":corpoMenuDinamico");
-			link.setUpdate("dynamic_dashboard");
+			link.setUpdate(":corpoMenuDinamico");
+			//link.setUpdate("dynamic_dashboard");
 
 			panel.getChildren().add(link);
 		}catch(Exception e){
