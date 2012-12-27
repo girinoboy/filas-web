@@ -72,7 +72,7 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
 
     public List<T> list() throws Exception {
         try {
-            List list = HibernateUtility.getSession().createCriteria(oClass)
+            List<T> list = HibernateUtility.getSession().createCriteria(oClass)
             		//.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
             		.list();
             //HibernateUtility.closeSession();
