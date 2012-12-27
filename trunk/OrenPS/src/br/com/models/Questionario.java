@@ -3,6 +3,7 @@ package br.com.models;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,10 @@ public class Questionario {
 	private String titulo;
 	@OneToMany(mappedBy = "questionario", targetEntity = Questao.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Questao> questao;
+	@Column(name="dashboard_column")
 	private Integer dashboardColumn = 0;//default 0
+	@Column(name="item_index")
+	private Integer itemIndex = 0;
 
 	public Questionario() {}
 
@@ -85,4 +89,17 @@ public class Questionario {
 		this.dashboardColumn = dashboardColumn;
 	}
 
+	/**
+	 * @return the itemIndex
+	 */
+	public Integer getItemIndex() {
+		return itemIndex;
+	}
+
+	/**
+	 * @param itemIndex the itemIndex to set
+	 */
+	public void setItemIndex(Integer itemIndex) {
+		this.itemIndex = itemIndex;
+	}
 }

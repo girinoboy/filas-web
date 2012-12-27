@@ -26,6 +26,7 @@
     <h:body>
     
     <h:form id="form1">
+    	<p:growl id="growl" showDetail="true" autoUpdate="true"/>
 	   	<p:panel>
 	   		<h:panelGrid columns="2" cellpadding="5">
 	   		
@@ -38,7 +39,9 @@
 			</h:panelGrid> 
 		</p:panel> 
 	
-		<p:dashboard id="dynamic_dashboard" binding="#{dashboardBacker.dashboard}"/>
+		<p:dashboard id="dynamic_dashboard" binding="#{dashboardBacker.dashboard}" >
+			<p:ajax event="reorder" listener="#{dashboardBacker.handleReorder}" update="growl" />
+		</p:dashboard>
 
   	</h:form>
 	    

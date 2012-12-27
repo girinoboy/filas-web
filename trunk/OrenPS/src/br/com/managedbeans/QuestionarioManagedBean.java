@@ -134,5 +134,6 @@ public class QuestionarioManagedBean
     opcoes.put("Texto", Integer.valueOf(1));
     opcoes.put("Múltipla escolha", Integer.valueOf(2));
     opcoes.put("Única escolha", Integer.valueOf(3));
+    opcoes.put("Estrela", Integer.valueOf(4));
   }
 }

@@ -40,6 +40,11 @@
 		                          <f:selectItems value="#{questao.questao.opcoes}" var="opcao" 
 		                                         itemValue="#{opcao.campo}" itemLabel="#{opcao.campo}" />
 		                      </h:selectOneRadio> 
+		                      <!-- rating -->
+		                      <ui:fragment rendered="#{questao.questao.tipoDeQuestao eq 4}">
+		                      	<p:rating  stars="10" cancel="false"/>
+		                      </ui:fragment>
+		                      
 		                    </p:column>  
 		                    <p:column>                     
 		                    	<p:commandButton value="Editar" actionListener="#{questionario.editarQuestao}" update=":corpoMenuDinamico"/>                    
@@ -103,6 +108,11 @@
 		                          <p:commandButton value="Adicionar Opcao" actionListener="#{questionario.adicionarOpcao}" update=":corpoMenuDinamico"/>
 		                       </p:column>      
 							   </ui:fragment>
+							   
+							   <!-- rating -->
+		                       <ui:fragment rendered="#{questao.questao.tipoDeQuestao eq 4}">
+		                      	 <p:rating  stars="10" cancel="false" readonly="true"/>
+		                       </ui:fragment>
 	                    
 			                    </p:column>  
 			                    <p:column>      
