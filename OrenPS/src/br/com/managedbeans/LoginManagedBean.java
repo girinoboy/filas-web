@@ -31,25 +31,32 @@ public class LoginManagedBean {
 
 	public LoginManagedBean(){}
 
-	public String login(ActionEvent actionEvent) throws HibernateException, Exception {  
-		RequestContext context = RequestContext.getCurrentInstance();  
-		FacesMessage msg = null;  
-		boolean loggedIn = false;  
-		usuario = usuarioDAO.verificaLoginSenha(usuario);
-		if(usuario.getTema() != null){
-			loggedIn = true;  
-			msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", usuario.getLogin());
-			session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);//true cria sessão caso ñ exista - false retorna nulo caso ñ exista
-			session.setAttribute("usuarioAutenticado", usuario);
+	public String login(ActionEvent actionEvent) {
+		RequestContext context = RequestContext.getCurrentInstance();
+		FacesMessage msg = null;
+		boolean loggedIn = false;
+		
+		try{  
+			usuario = usuarioDAO.verificaLoginSenha(usuario);
+			if(usuario.getTema() != null){
+				loggedIn = true;
+				msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", usuario.getLogin());
+				session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);//true cria sessão caso ñ exista - false retorna nulo caso ñ exista
+				session.setAttribute("usuarioAutenticado", usuario);
 
-			gp.setTheme(usuario.getTema());
-		} else {  
-			loggedIn = false;  
-			msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials");  
+				gp.setTheme(usuario.getTema());
+			} else {  
+				loggedIn = false;  
+				msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials");  
+			}
+
+			FacesContext.getCurrentInstance().addMessage(null, msg);  
+			context.addCallbackParam("loggedIn", loggedIn);
+		}catch(Exception e){
+			e.printStackTrace();
+			msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Erro no banco");  
+			FacesContext.getCurrentInstance().addMessage(null, msg); 
 		}
-
-		FacesContext.getCurrentInstance().addMessage(null, msg);  
-		context.addCallbackParam("loggedIn", loggedIn);
 		return "ok";  
 	}
 

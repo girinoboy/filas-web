@@ -44,20 +44,25 @@ public class IndexController {
 	private List<Menu>  menusPermitidos = new ArrayList<Menu>();
 
 	public IndexController(){
-		geraMenu();
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-		Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
-		for (UsuarioPerfil usuarioPerfil : usuario.getUsuarioPeril()) {
-			for (PermissaoMenu permissaoMenu : usuarioPerfil.getPerfil().getPermissaoMenu()) {
-				menusPermitidos.add(permissaoMenu.getMenu());
+		try{
+			geraMenu();
+			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+			Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
+			for (UsuarioPerfil usuarioPerfil : usuario.getUsuarioPeril()) {
+				for (PermissaoMenu permissaoMenu : usuarioPerfil.getPerfil().getPermissaoMenu()) {
+					menusPermitidos.add(permissaoMenu.getMenu());
+				}
 			}
-		}
 
-		if(menu != null && menu.getPagina() == null){
-			menu.setPagina("NewFile.xhtml");
-		}else{
-			menu = new Menu();
-			menu.setPagina("NewFile.xhtml");
+			if(menu != null && menu.getPagina() == null){
+				menu.setPagina("NewFile.xhtml");
+			}else{
+				menu = new Menu();
+				menu.setPagina("NewFile.xhtml");
+			}
+		}catch(Exception e){
+			addMessage(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}

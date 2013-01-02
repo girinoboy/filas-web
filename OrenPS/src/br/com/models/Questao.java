@@ -19,7 +19,7 @@ import javax.persistence.Table;
  * @author Marcleonio
  */
 @Entity
-@Table(name = "questionarios")
+@Table(name = "questoes")
 public class Questao  implements Serializable {
 
 	private static final long serialVersionUID = -777752470916891894L;
@@ -93,5 +93,54 @@ public class Questao  implements Serializable {
 
 	public void setAtualiza(String atualiza) {
 		this.atualiza = atualiza;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the questionario
+	 */
+	public Questionario getQuestionario() {
+		return questionario;
+	}
+
+	/**
+	 * @param questionario the questionario to set
+	 */
+	public void setQuestionario(Questionario questionario) {
+		this.questionario = questionario;
+	}
+
+	/**
+	 * @return the editavel
+	 */
+	public Boolean getEditavel() {
+		return editavel;
+	}
+
+	/**
+	 * @param editavel the editavel to set
+	 */
+	public void setEditavel(Boolean editavel) {
+		this.editavel = editavel;
+	}
+
+	/**
+	 * @param tipoDeQuestao the tipoDeQuestao to set
+	 */
+	public void setTipoDeQuestao(Integer tipoDeQuestao) {
+		this.tipoDeQuestao = tipoDeQuestao;
 	}
 }

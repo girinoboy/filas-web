@@ -36,6 +36,10 @@ public class Opcao implements Serializable {
 		this.campo = campo;
 	}
 
+	public Opcao(Questao questao) {
+		this.questao = questao;
+	}
+
 	public String getCampo() {
 		return this.campo;
 	}

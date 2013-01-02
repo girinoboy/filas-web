@@ -73,7 +73,7 @@ public class DashboardBacker {
 				model.transferWidget(oldColumn, newColumn, panel.getId(), questionario.getItemIndex());
 				//model.transferWidget(arg0, arg1, arg2, arg3);
 				
-				panel.getChildren().add(criaLink(i));
+				panel.getChildren().add(criaLink(questionario,i));
 
 				i++;
 			}
@@ -104,7 +104,7 @@ public class DashboardBacker {
 			DashboardColumn column = model.getColumn(0);
 			column.addWidget(panel.getId());
 
-			panel.getChildren().add(criaLink(dashboard.getChildCount()+1));
+			panel.getChildren().add(criaLink(questionario,dashboard.getChildCount()+1));
 		}catch(Exception e){
 			e.printStackTrace();
 			addMessage(e.getMessage());
@@ -133,7 +133,7 @@ public class DashboardBacker {
 		}
 	}
 	
-	private UIComponent criaLink(int i) {
+	private UIComponent criaLink(Questionario questionario, int i) {
 		CommandLink link = new CommandLink();
 		link.setId("lk_" + i);
 
@@ -155,6 +155,17 @@ public class DashboardBacker {
 		param.setName("pagina");
 		param.setValue("questionario.xhtml");
 		link.getChildren().add(param);
+		
+		param = new UIParameter();
+		param.setName("questionario.titulo");
+		param.setValue(questionario.getTitulo());
+		link.getChildren().add(param);
+		
+		param = new UIParameter();
+		param.setName("questionario.id");
+		param.setValue(questionario.getId());
+		link.getChildren().add(param);
+		
 		link.setUpdate(":corpoMenuDinamico");
 		//link.setUpdate("dynamic_dashboard");
 		return link;
