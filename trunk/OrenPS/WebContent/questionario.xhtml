@@ -12,9 +12,13 @@
 
       <h:form id="form">
       	<h:messages />
+      	
         <p:panel id="panelQuestao" header="Controle de Questionarios" style="margin-top: 10px;">
-	        <p:dataTable value="#{questionario.dataModelQuestoes}" var="questao" id="tabela">
-	        	<p:column>
+	        <p:dataTable value="#{questionario.dataModelQuestoes}" var="questao" id="tabela" scrollHeight="550" scrollable="true" >
+	        	<f:facet name="header">  
+	                #{questionario.questionario.titulo}  
+	            </f:facet> 
+	        	<p:column headerText="Questionario">
 	            <!--             Painel de Visualizacao            -->  
 	            	<ui:fragment rendered="#{not questao.questao.editavel}">
 		                <p:panelGrid style="margin-top:20px;" styleClass="semBorda">                                       
@@ -31,7 +35,8 @@
 		                      <!-- Questao de Multipla escolha -->
 		                      <h:selectManyCheckbox value="#{questionario.respostas}"
 		                                            rendered="#{questao.questao.tipoDeQuestao eq 2}" layout="pageDirection">
-		                          <f:selectItems value="#{questao.opcoesCriadas}" />
+		                          <f:selectItems value="#{questao.questao.opcoes}" var="opcao" 
+		                                         itemValue="#{opcao.campo}" itemLabel="#{opcao.campo}" />
 		                      </h:selectManyCheckbox>		                                            
 		                      
 		                      <!-- Questao de Unica escolha -->
@@ -116,7 +121,9 @@
 	                    
 			                    </p:column>  
 			                    <p:column>      
-			                  		<p:commandButton value="Salvar" actionListener="#{questionario.salvarQuestao}" update=":corpoMenuDinamico"/>                    
+			                  		<p:commandButton value="Salvar" actionListener="#{questionario.salvarQuestao}" update=":corpoMenuDinamico">
+			                  			
+			                  		</p:commandButton>                    
 			                    </p:column>  
 			                    <p:column> 
 			                  		<p:commandButton value="Excluir" actionListener="#{questionario.excluirQuestao}" update=":corpoMenuDinamico"/> 

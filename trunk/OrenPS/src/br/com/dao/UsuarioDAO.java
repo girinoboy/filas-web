@@ -62,11 +62,14 @@ public class UsuarioDAO extends GenericoDAO<Usuario, Long>{
     }
 
 	public Usuario verificaLoginSenha(Usuario usuario) throws HibernateException, Exception {
-		usuario = (Usuario) HibernateUtility.getSession().createCriteria(Usuario.class)
-				.add(Restrictions.eq("login", usuario.getLogin()))
-				.add(Restrictions.eq("senha", usuario.getSenha()))
-				.uniqueResult();
-		
+		try{
+			usuario = (Usuario) HibernateUtility.getSession().createCriteria(Usuario.class)
+					.add(Restrictions.eq("login", usuario.getLogin()))
+					.add(Restrictions.eq("senha", usuario.getSenha()))
+					.uniqueResult();
+		}catch(Exception e){
+			throw e;
+		}
 			return usuario;
 		
 	}

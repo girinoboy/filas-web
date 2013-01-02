@@ -93,6 +93,9 @@ public class Questionario {
 	 * @return the itemIndex
 	 */
 	public Integer getItemIndex() {
+		if(itemIndex ==null){
+			itemIndex = 0;
+		}
 		return itemIndex;
 	}
 
