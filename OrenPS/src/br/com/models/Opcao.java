@@ -24,7 +24,7 @@ public class Opcao implements Serializable {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="questao_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = true)
+	@JoinColumn(name="questao_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
 	private Questao questao;
 	private String campo;
 

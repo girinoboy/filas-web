@@ -8,7 +8,9 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -18,43 +20,65 @@ import javax.faces.model.ListDataModel;
 import br.com.dao.OpcaoDAO;
 import br.com.dao.QuestaoDAO;
 import br.com.models.Opcao;
+import br.com.models.Questao;
 import br.com.models.Questionario;
 import br.com.regrasdenegocio.QuestaoRN;
 
 @ManagedBean(name="questionario")
-@SessionScoped
+@ViewScoped
 public class QuestionarioManagedBean
 implements Serializable
 {
 	private static final long serialVersionUID = 930035270802431115L;
 	private QuestaoRN questao = new QuestaoRN();
 	private List<QuestaoRN> questoes;
+	private Questionario questionario;
 	private DataModel<QuestaoRN> dataModelQuestoes;
 	private static Map<String, Object> opcoes = new LinkedHashMap<String, Object>();
 	private String resposta;
 	private List<String> respostas;
-	private Questionario questionario;
 	private QuestaoDAO questaoDAO = new QuestaoDAO();
 	private OpcaoDAO opcaoDAO = new OpcaoDAO();
 
-	public QuestionarioManagedBean()
-	{
+	//@SessionScoped so chama o construtor uma unica vez
+	//@RequestScoped  chama o construtor toda hora xD
+	public QuestionarioManagedBean() {
+		carretaQuestao();
+	}
+
+
+	private void carretaQuestao() {
 		try{
+			if(questionario==null){
+				questionario = new Questionario();
+			}
+			if(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id") != null){
+				questionario.setTitulo(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.titulo"));
+				questionario.setId(Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id")));
+			}
 			questoes = new ArrayList<QuestaoRN>();
-			//this.questao = new QuestaoRN(getQuestionario());
-			//this.questao = this.questao.criarQuestaoModelo(getQuestionario());
-			//this.questoes.add(this.questao);
+
+			questaoDAO.listarPorQuestionario(questionario.getId());
+			//this.questao = this.questao.getQuestao() criarQuestaoModelo(getQuestionario());
+			for(Questao questao : questaoDAO.listarPorQuestionario(questionario.getId())){
+				this.questao = new QuestaoRN();
+
+				this.questao.getQuestao().setQuestionario(questionario);
+				this.questao.setQuestao(questao);
+				this.questao.getQuestao().setOpcoes(opcaoDAO.listByIdQuestao(questao.getId()));
+
+				this.questoes.add(this.questao);
+			}
 			dataModelQuestoes = new ListDataModel<QuestaoRN>(this.questoes);
 
 			respostas = new ArrayList<String>();
 
-			getQuestionario().setTitulo(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.titulo"));
-			getQuestionario().setId(Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id")));
 		} catch (Exception e) {
 			e.printStackTrace();
 			addMessage(e.getMessage());
 		}
 	}
+
 
 	public QuestaoRN novaQuestao()	{
 		QuestaoRN q =null;
@@ -109,8 +133,14 @@ implements Serializable
 	}
 
 	public void excluirQuestao(ActionEvent event) {
-		questao = ((QuestaoRN)this.dataModelQuestoes.getRowData());
-		questoes.remove(questao);
+		try {
+			questao = ((QuestaoRN)this.dataModelQuestoes.getRowData());
+			questaoDAO.delete(questao.getQuestao());
+			questoes.remove(questao);
+		} catch (Exception e) {
+			addMessage(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public void adicionarOpcao(ActionEvent event) {
@@ -130,7 +160,8 @@ implements Serializable
 	}
 
 	public DataModel<QuestaoRN> getDataModelQuestoes() {
-		return this.dataModelQuestoes;
+		//carretaQuestao();
+		return dataModelQuestoes;
 	}
 
 	public void setDataModelQuestoes(DataModel<QuestaoRN> dataModelQuestoes) {
@@ -142,7 +173,7 @@ implements Serializable
 	}
 
 	public QuestaoRN getQuestao() {
-		return this.questao;
+		return questao;
 	}
 
 	public void setQuestao(QuestaoRN questao) {
@@ -150,7 +181,7 @@ implements Serializable
 	}
 
 	public List<QuestaoRN> getQuestoes() {
-		return this.questoes;
+		return questoes;
 	}
 
 	public void setQuestoes(List<QuestaoRN> questoes) {
@@ -158,7 +189,7 @@ implements Serializable
 	}
 
 	public String getResposta() {
-		return this.resposta;
+		return resposta;
 	}
 
 	public void setResposta(String resposta) {
@@ -188,9 +219,8 @@ implements Serializable
 		if(questionario==null){
 			questionario = new Questionario();
 		}else if(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id") != null){
-			questionario.setTitulo(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.titulo"));
-			questionario.setId(Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id")));
-			questao.getQuestao().setQuestionario(questionario);
+			//			dataModelQuestoes = new ListDataModel<QuestaoRN>();
+			carretaQuestao();
 		}
 		return questionario;
 	}

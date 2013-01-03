@@ -27,11 +27,12 @@ public class Questao  implements Serializable {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
 	@ManyToOne
-	@JoinColumn(name = "questionario_id", insertable = true, updatable = true, nullable = true)
+	@JoinColumn(name = "questionario_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
 	private Questionario questionario;
 	private String pergunta;
 	private String textoDeAjuda;
 	@OneToMany(mappedBy = "questao", targetEntity = Opcao.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinColumn(name="opcoes_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = true)
 	private List<Opcao> opcoes;
 	private Integer tipoDeQuestao;
 	private Boolean editavel;
