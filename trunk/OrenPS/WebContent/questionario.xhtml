@@ -13,11 +13,13 @@
       <h:form id="form">
       	<h:messages />
       	
-        <p:panel id="panelQuestao" header="Controle de Questionarios" style="margin-top: 10px;">
+        <p:panel id="panelQuestao" header="#{questionario.questionario.titulo}" style="margin-top: 10px;">
 	        <p:dataTable value="#{questionario.dataModelQuestoes}" var="questao" id="tabela" scrollHeight="550" scrollable="true" >
+	        	<!-- 
 	        	<f:facet name="header">  
 	                #{questionario.questionario.titulo}  
 	            </f:facet> 
+	          	-->
 	        	<p:column headerText="Questionario">
 	            <!--             Painel de Visualizacao            -->  
 	            	<ui:fragment rendered="#{not questao.questao.editavel}">

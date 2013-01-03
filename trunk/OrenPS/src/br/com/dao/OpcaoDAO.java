@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 import br.com.factory.HibernateUtility;
 import br.com.models.Opcao;
@@ -52,5 +53,26 @@ public class OpcaoDAO extends GenericoDAO<Opcao, Serializable>{
 	            throw hibernateException;
 	        }
 	    }
+
+
+	public List<Opcao> listByIdQuestao(Long id) throws Exception {
+		try {
+			@SuppressWarnings("unchecked")
+			List<Opcao> list = HibernateUtility.getSession().createCriteria(Opcao.class)
+			//.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+			.add(Restrictions.eq("questao.id", id))
+			.list();
+			//HibernateUtility.closeSession();
+			return (List<Opcao>) list;
+		} catch (HibernateException hibernateException) {
+			cancel();
+			throw hibernateException;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally{
+			HibernateUtility.closeSession();
+		}
+	}
 
 }
