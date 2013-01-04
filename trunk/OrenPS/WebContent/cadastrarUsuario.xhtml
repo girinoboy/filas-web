@@ -7,55 +7,37 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Cadastro de usuario</title>
-    </h:head>
+    </h:head>    
     
-    
-    <h:form id="form">  
+    <h:form id="form">
   
-    <p:panel id="panel" header="Novo Usuario" style="margin-bottom:10px;">  
-        <p:messages id="messages" />  
-        <h:panelGrid columns="3">  
-            <h:outputLabel for="nome" value="Nome: *" />  
-            <p:inputText id="nome"   
-                value="#{usuario.nome}" required="true" label="Nome">  
-                <f:validateLength minimum="2" />  
-            </p:inputText>  
-            <p:message for="nome" />  
+    <p:panel id="panel" header="Novo Usuario" style="margin-bottom:10px;">
+        <p:messages id="messages" autoUpdate="true"/>
+        <h:panelGrid columns="3">
+            <h:outputLabel for="nome" value="Nome: *" />
+            <p:inputText id="nome"
+                value="#{usuarioManagedBean.usuarioBean.nome}" required="true" label="Nome">
+                <f:validateLength minimum="2" />
+            </p:inputText>
+            <p:message for="nome" />
               
-            <h:outputLabel for="login" value="Login: *" />  
-            <p:inputText id="login"   
-                value="#{usuario.login}" required="true" label="Login"/>  
-            <p:message for="login" />  
+            <h:outputLabel for="login" value="Login: *" />
+            <p:inputText id="login"
+                value="#{usuarioManagedBean.usuarioBean.login}" required="true" label="Login"/> 
+            <p:message for="login" />
             
-            <h:outputLabel for="senha" value="Senha: *" />  
-            <p:inputText id="senha"   
-                value="#{usuario.senha}" required="true" label="Senha"/>  
-            <p:message for="senha" /> 
-        </h:panelGrid>  
-    </p:panel>  
+            <h:outputLabel for="senha" value="Senha: *" />
+            <p:inputText id="senha"
+                value="#{usuarioManagedBean.usuarioBean.senha}" required="true" label="Senha"/>  
+            <p:message for="senha" />
+        </h:panelGrid>
+    </p:panel>
     
-    <p:commandButton value="With Icon" actionListener="#{usuarioManagedBean.saveUsuario}" id="withIcon"   
-            update="panel,display" icon="ui-icon-disk" /> 
-    
+    <p:commandButton value="Salvar" actionListener="#{usuarioManagedBean.saveUsuario}" id="withIcon"   
+            update="panel,messages" icon="ui-icon-disk" />
+            
+    <p:commandButton value="Limpar" update="panel" process="@this" actionListener="#{usuarioManagedBean.reset}" />  
+  
     </h:form>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 </html>
