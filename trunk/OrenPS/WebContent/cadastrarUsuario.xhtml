@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Cadastro de usuario</title>
+    </h:head>
+    
+    
+    <h:form id="form">  
+  
+    <p:panel id="panel" header="Novo Usuario" style="margin-bottom:10px;">  
+        <p:messages id="messages" />  
+        <h:panelGrid columns="3">  
+            <h:outputLabel for="nome" value="Nome: *" />  
+            <p:inputText id="nome"   
+                value="#{usuario.nome}" required="true" label="Nome">  
+                <f:validateLength minimum="2" />  
+            </p:inputText>  
+            <p:message for="nome" />  
+              
+            <h:outputLabel for="login" value="Login: *" />  
+            <p:inputText id="login"   
+                value="#{usuario.login}" required="true" label="Login"/>  
+            <p:message for="login" />  
+            
+            <h:outputLabel for="senha" value="Senha: *" />  
+            <p:inputText id="senha"   
+                value="#{usuario.senha}" required="true" label="Senha"/>  
+            <p:message for="senha" /> 
+        </h:panelGrid>  
+    </p:panel>  
+    
+    <p:commandButton value="With Icon" actionListener="#{usuarioManagedBean.saveUsuario}" id="withIcon"   
+            update="panel,display" icon="ui-icon-disk" /> 
+    
+    </h:form>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</html>
