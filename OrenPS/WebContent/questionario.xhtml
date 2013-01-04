@@ -25,34 +25,7 @@
 	            	<ui:fragment rendered="#{not questao.questao.editavel}">
 		                <p:panelGrid style="margin-top:20px;" styleClass="semBorda">                                       
 		                   <p:row>  
-		                    <p:column> 
-		                      <h:outputText value="#{questao.questao.pergunta}" />
-		                      <br/>
-		                      <h:outputText value="#{questao.questao.textoDeAjuda}" />
-		                      <br/>
-		                      
-		                      <!-- Questao de Texto -->
-		                      <h:inputTextarea cols="40" rows="2" rendered="#{questao.questao.tipoDeQuestao eq 1}" />
-		                      
-		                      <!-- Questao de Multipla escolha -->
-		                      <h:selectManyCheckbox value="#{questionario.respostas}"
-		                                            rendered="#{questao.questao.tipoDeQuestao eq 2}" layout="pageDirection">
-		                          <f:selectItems value="#{questao.questao.opcoes}" var="opcao" 
-		                                         itemValue="#{opcao.campo}" itemLabel="#{opcao.campo}" />
-		                      </h:selectManyCheckbox>		                                            
-		                      
-		                      <!-- Questao de Unica escolha -->
-		                      <h:selectOneRadio value="#{questionario.resposta}" 
-		                                        rendered="#{questao.questao.tipoDeQuestao eq 3}" layout="pageDirection">
-		                          <f:selectItems value="#{questao.questao.opcoes}" var="opcao" 
-		                                         itemValue="#{opcao.campo}" itemLabel="#{opcao.campo}" />
-		                      </h:selectOneRadio> 
-		                      <!-- rating -->
-		                      <ui:fragment rendered="#{questao.questao.tipoDeQuestao eq 4}">
-		                      	<p:rating  stars="10" cancel="false"/>
-		                      </ui:fragment>
-		                      
-		                    </p:column>  
+		                    <ui:include src="visaoQuestao.xhtml" cache="false"/>  
 		                    <p:column>                     
 		                    	<p:commandButton value="Editar" actionListener="#{questionario.editarQuestao}" update=":corpoMenuDinamico"/>                    
 		                    </p:column>  

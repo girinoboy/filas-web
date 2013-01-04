@@ -15,6 +15,7 @@ import org.primefaces.context.RequestContext;
 import br.com.dao.UsuarioDAO;
 import br.com.models.GuestPreferences;
 import br.com.models.Usuario;
+import br.com.models.UsuarioPerfil;
 import br.com.utility.Constantes;
 
 
@@ -35,6 +36,7 @@ public class LoginManagedBean {
 		RequestContext context = RequestContext.getCurrentInstance();
 		FacesMessage msg = null;
 		boolean loggedIn = false;
+		String retorno = "ok";
 		
 		try{  
 			usuario = usuarioDAO.verificaLoginSenha(usuario);
@@ -52,15 +54,32 @@ public class LoginManagedBean {
 
 			FacesContext.getCurrentInstance().addMessage(null, msg);  
 			context.addCallbackParam("loggedIn", loggedIn);
+			
 		}catch(Exception e){
 			e.printStackTrace();
 			msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Erro no banco");  
 			FacesContext.getCurrentInstance().addMessage(null, msg); 
 		}
-		return "ok";  
+		for(UsuarioPerfil a : usuario.getUsuarioPeril()){
+			if(a.getPerfil().getDescricao().equals("Visitante")){
+				FacesContext.getCurrentInstance()
+	            .getExternalContext()
+	            .getSessionMap()
+	            .put("questionario.id","1"); 
+				
+				FacesContext.getCurrentInstance()
+				.getExternalContext()
+				.getSessionMap()
+				.put("questionario.titulo","teste");
+				
+				retorno = "visitante";
+			}
+		}
+		context.addCallbackParam("perfil", retorno);
+		return retorno;  
 	}
 
-	public void encerraSessao() {
+	public void logout() {
 
 		try {
 

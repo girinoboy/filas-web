@@ -1,0 +1,95 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+            
+    <h:head>
+        <title>Controle de Perfil</title>
+        
+        <script type="text/javascript">  
+	        function handleDrop(event, ui) {  
+	            var draggable = ui.draggable,   
+	            helper = ui.helper,   
+	            position = ui.position,   
+	            offset = ui.offset;  
+	        }  
+		</script> 
+    </h:head>
+            
+	<h:form id="usuarioPerfilForm">  
+  
+	    <p:fieldset legend="Perfis Disponiveis">  
+	        <p:dataTable id="availablePerfil" var="perfil" value="#{associarPerfilManagedBean.perfisSmall}">  
+	            <p:column style="width:20px">  
+	                <h:outputText id="dragIcon"  
+	                    styleClass="ui-icon ui-icon-arrow-4" />  
+	                <p:draggable for="dragIcon" revert="true" />  
+	            </p:column>  
+	  
+	            <p:column headerText="Descrição">  
+	                <h:outputText value="#{perfil.descricao}" />  
+	            </p:column>  
+	  
+	            <p:column headerText="Observação">  
+	                <h:outputText value="#{perfil.observacao}" />  
+	            </p:column>  
+	  
+	        </p:dataTable>  
+	    </p:fieldset>  
+	  
+	    <p:fieldset id="selectedPerfis" legend="Perfis Selecionados" style="margin-top:20px">  
+	        <p:outputPanel id="dropArea">  
+	            <h:outputText value="!!!Araste aqui!!!"  
+	                    rendered="#{empty associarPerfilManagedBean.droppedPerfis}"  
+	                    style="font-size:24px;" />  
+	  
+	            <p:dataTable var="perfil" value="#{associarPerfilManagedBean.droppedPerfis}"   
+	                    rendered="#{not empty associarPerfilManagedBean.droppedPerfis}">  
+	  
+	                <p:column headerText="Descrição">  
+		                <h:outputText value="#{perfil.descricao}" />  
+		            </p:column>  
+		  
+		            <p:column headerText="Observação">  
+		                <h:outputText value="#{perfil.observacao}" />  
+		            </p:column>  
+	  
+	                <p:column style="width:32px">  
+	                    <p:commandButton update=":usuarioPerfilForm:display"  
+	                            oncomplete="perfilDialog.show()"  
+	                            icon="ui-icon-close">  
+	                        <f:setPropertyActionListener value="#{perfil}"  
+	                            target="#{associarPerfilManagedBean.selectedPerfil}" />  
+	                    </p:commandButton>  
+	                </p:column>  
+	            </p:dataTable>  
+	        </p:outputPanel>  
+	    </p:fieldset>  
+	  
+	    <p:droppable for="selectedPerfis" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="availablePerfil" onDrop="handleDrop">  
+	        <p:ajax listener="#{associarPerfilManagedBean.onPerfilDrop}" update="dropArea availablePerfil" />  
+	    </p:droppable>  
+	  
+	    <p:dialog header="Perfil Detail" widgetVar="perfilDialog" resizable="false" draggable="false"  
+	              width="200" showEffect="fade" hideEffect="fade" modal="true">  
+	  
+	        <h:panelGrid id="display" columns="2" cellpadding="4">  
+	  
+	            <f:facet name="header">  
+	                <p:graphicImage value="/images/cars/#{associarPerfilManagedBean.selectedPerfil.id}.jpg"/>  
+	            </f:facet>  
+	  
+	            <h:outputText value="Descrição:" />  
+	            <h:outputText value="#{associarPerfilManagedBean.selectedPerfil.descricao}"/>  
+	  
+	            <h:outputText value="Observação:" />  
+	            <h:outputText value="#{associarPerfilManagedBean.selectedPerfil.observacao}"/>  
+	  
+	        </h:panelGrid>  
+	    </p:dialog>  
+	  
+	</h:form>             
+            
+            
+</html>

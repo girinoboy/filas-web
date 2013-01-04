@@ -55,6 +55,10 @@ implements Serializable
 			if(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id") != null){
 				questionario.setTitulo(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.titulo"));
 				questionario.setId(Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id")));
+			}else if(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("questionario.id") != null){
+				questionario.setTitulo(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("questionario.titulo").toString());
+				questionario.setId(Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("questionario.id").toString()));
+				//TODO Mudar para flash
 			}
 			questoes = new ArrayList<QuestaoRN>();
 

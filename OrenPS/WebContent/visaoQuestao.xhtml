@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:p="http://primefaces.org/ui">
+            
+    <style type="text/css">  
+    	.semBorda tr, .semBorda td {  
+        	border: none !important;  
+    	}   
+    </style> 
+    
+	<!--             Painel de Visualizacao            -->  
+	
+		        <p:column> 
+		          <h:outputText value="#{questao.questao.pergunta}" />
+		          <br/>
+		          <h:outputText value="#{questao.questao.textoDeAjuda}" />
+		          <br/>
+		          
+		          <!-- Questao de Texto -->
+		          <h:inputTextarea cols="40" rows="2" rendered="#{questao.questao.tipoDeQuestao eq 1}" />
+		          
+		          <!-- Questao de Multipla escolha -->
+		          <h:selectManyCheckbox value="#{questionario.respostas}" 
+		          						rendered="#{questao.questao.tipoDeQuestao eq 2}" layout="pageDirection">
+		              <f:selectItems value="#{questao.questao.opcoes}" var="opcao" 
+		              				 itemValue="#{opcao.campo}" itemLabel="#{opcao.campo}" />
+		          </h:selectManyCheckbox>		                                            
+		          
+		          <!-- Questao de Unica escolha -->
+		          <h:selectOneRadio value="#{questionario.resposta}" 
+		                            rendered="#{questao.questao.tipoDeQuestao eq 3}" layout="pageDirection">
+		              <f:selectItems value="#{questao.questao.opcoes}" var="opcao" 
+		                             itemValue="#{opcao.campo}" itemLabel="#{opcao.campo}" />
+		          </h:selectOneRadio> 
+		          <!-- rating -->
+		          <ui:fragment rendered="#{questao.questao.tipoDeQuestao eq 4}">
+		          	<p:rating  stars="10" cancel="false"/>
+		          </ui:fragment>
+		           
+		        </p:column>  
+	    	
+</ui:composition>
