@@ -11,7 +11,12 @@ import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
+import br.com.dao.UsuarioDAO;
+import br.com.dao.UsuarioPerfilDAO;
+import br.com.models.Perfil;
 import br.com.models.Usuario;
+import br.com.models.UsuarioPerfil;
+import br.com.utility.Constantes;
 
 /**
  * @author marcleonio.medeiros
@@ -22,6 +27,8 @@ import br.com.models.Usuario;
 public class UsuarioManagedBean {
 	
 	private Usuario usuarioBean;
+	private UsuarioDAO usuarioDAO;
+	UsuarioPerfilDAO usuarioPerfilDAO;
 
 	/**
 	 * 
@@ -37,7 +44,25 @@ public class UsuarioManagedBean {
 	}
 	
 	public void saveUsuario(ActionEvent event){
-		addMessage("Salvo.");
+		try {
+			usuarioDAO = new UsuarioDAO();
+			usuarioBean = usuarioDAO.save(usuarioBean);
+			usuarioPerfilDAO = new UsuarioPerfilDAO();
+			
+			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
+			usuarioPerfil.setUsuario(usuarioBean);
+			
+			Perfil perfil = new Perfil();
+			perfil.setId(Constantes.ID_PERIL_PADRAO);
+			usuarioPerfil.setPerfil(perfil );
+			//atribui perfil padrão para o novo usuario.
+			usuarioPerfilDAO.save(usuarioPerfil);
+			addMessage("Salvo.");
+		} catch (Exception e) {
+			addMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
