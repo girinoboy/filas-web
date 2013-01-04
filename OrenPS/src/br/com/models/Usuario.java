@@ -24,10 +24,12 @@ public class Usuario {
     private String senha;
     @Column(name ="ultimo_acesso")
     private Timestamp ultimoAcesso;
+    @Column(nullable=false )
     private String tema;
     @OneToMany(mappedBy = "usuario", targetEntity = UsuarioPerfil.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
     private List<UsuarioPerfil> usuarioPeril;
     //private List<Permissao> listaPermissao = new ArrayList<Permissao>();
+    private String nome;
 
     
     @Override
@@ -85,6 +87,9 @@ public class Usuario {
 	}
 
 	public String getTema() {
+		if(tema == null){
+			tema = "aristo";
+		}
 		return tema;
 	}
 
@@ -98,6 +103,20 @@ public class Usuario {
 
 	public void setUsuarioPeril(List<UsuarioPerfil> usuarioPeril) {
 		this.usuarioPeril = usuarioPeril;
+	}
+
+	/**
+	 * @return the nome
+	 */
+	public String getNome() {
+		return nome;
+	}
+
+	/**
+	 * @param nome the nome to set
+	 */
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 }
 
