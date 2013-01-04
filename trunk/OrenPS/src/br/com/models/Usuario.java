@@ -19,7 +19,7 @@ public class Usuario {
 	
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String login;
     private String senha;
     @Column(name ="ultimo_acesso")
@@ -43,20 +43,20 @@ public class Usuario {
             return false;
         }
         return true;
-    }
+    }/*
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + this.id;
         return hash;
-    }
+    }*/
     
-    public int getId() {
+    public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

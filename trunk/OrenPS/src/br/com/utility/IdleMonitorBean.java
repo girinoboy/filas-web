@@ -1,4 +1,4 @@
-package br.com.managedbeans;
+package br.com.utility;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;

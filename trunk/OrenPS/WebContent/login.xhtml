@@ -12,7 +12,10 @@
 	            } else {
 	                dlg.hide();
 	                jQuery('#loginLink').fadeOut();
-	                jQuery(window.document.location).attr('href','index.xhtml');
+	                if(args.perfil !='visitante')
+	                	jQuery(window.document.location).attr('href','index.xhtml');
+	                else
+	                	jQuery(window.document.location).attr('href','responderQuestionario.xhtml');    
 	            }
 	        }
 	    </script>  

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Controle de permissao</title>
+        
+        <style type="text/css">
+
+		.ui-dashboard-column {
+	        width: 335px;
+	        float: left;
+			padding-bottom: 100px;
+		}
+		.ui-panel, div.ui-state-hover {
+	        margin: 10px;
+/* 	        width:200px;   */
+        }
+		.ui-datatable .ui-datatable-data td, .ui-datatable .ui-datatable-data-empty td{
+			border-width: 0;
+		
+		}
+		.ui-widget-content{
+			border:  none !important;
+		}
+		</style>
+    </h:head>
+    
+    <h:body>
+    
+     <h:form id="form">
+      	<h:messages />
+      	
+        <p:panel id="panelQuestao" header="#{questionario.questionario.titulo}" style="margin-top: 10px;">
+	        <p:dataTable value="#{questionario.dataModelQuestoes}" var="questao" id="tabela" scrollHeight="734" scrollable="true">
+	        	<!-- 
+	        	<f:facet name="header">  
+	                #{questionario.questionario.titulo}  
+	            </f:facet> 
+	          	-->
+	        	<p:column headerText="Questionario">
+	        		<ui:fragment rendered="#{not questao.questao.editavel}">
+						<p:panelGrid style="margin-top:10px;" styleClass="semBorda">                                       
+					    	<p:row>  
+	            				<ui:include src="visaoQuestao.xhtml" cache="false"/>
+	            			</p:row> 
+						</p:panelGrid>
+					</ui:fragment>
+	            </p:column>
+	        </p:dataTable>
+	        <br/>      
+        	<p:commandButton value="Salvar" actionListener="#{questionario.adicionarQuestao}" update="panelQuestao" icon="ui-icon-disk"/>
+        	<p:commandButton value="Sair" actionListener="#{loginManagedBean.logout}" id="idSair"  icon="ui-icon-close" />
+      	</p:panel>
+      </h:form>
+    
+	</h:body>
+</html>
