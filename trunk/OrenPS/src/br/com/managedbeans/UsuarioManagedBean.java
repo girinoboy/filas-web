@@ -52,9 +52,7 @@ public class UsuarioManagedBean {
 			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
 			usuarioPerfil.setUsuario(usuarioBean);
 			
-			Perfil perfil = new Perfil();
-			perfil.setId(Constantes.ID_PERIL_PADRAO);
-			usuarioPerfil.setPerfil(perfil );
+			usuarioPerfil.getPerfil().setId(Constantes.ID_PERIL_PADRAO);
 			//atribui perfil padrão para o novo usuario.
 			usuarioPerfilDAO.save(usuarioPerfil);
 			addMessage("Salvo.");

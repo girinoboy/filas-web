@@ -1,5 +1,7 @@
 package br.com.utility;
 
+import java.io.IOException;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -15,7 +17,7 @@ public class IdleMonitorBean {
  
 	}
  
-	public void logoutListener() {
+	public void logoutListener() throws IOException {
 	    FacesContext.getCurrentInstance().addMessage(
 		null,
 		new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -23,5 +25,6 @@ public class IdleMonitorBean {
 			"Thank you for using abc Online Financial Services"));
  
 		// invalidate session, and redirect to other pages
+	    FacesContext.getCurrentInstance().getExternalContext().redirect(Constantes.PAGINA_INDEX);
 	}
 }

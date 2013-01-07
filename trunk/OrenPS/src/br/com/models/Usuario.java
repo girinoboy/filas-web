@@ -25,13 +25,13 @@ public class Usuario {
     @Column(name ="ultimo_acesso")
     private Timestamp ultimoAcesso;
     @Column(nullable=false )
-    private String tema;
+    private String tema = "aristo";
     @OneToMany(mappedBy = "usuario", targetEntity = UsuarioPerfil.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
     private List<UsuarioPerfil> usuarioPeril;
     //private List<Permissao> listaPermissao = new ArrayList<Permissao>();
     private String nome;
 
-    
+    /*
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -87,7 +87,7 @@ public class Usuario {
 	}
 
 	public String getTema() {
-		if(tema == null){
+		if(tema.equals(null)){
 			tema = "aristo";
 		}
 		return tema;
