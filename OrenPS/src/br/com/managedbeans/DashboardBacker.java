@@ -5,7 +5,6 @@ import java.util.List;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
-import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -13,9 +12,12 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.component.behavior.ajax.AjaxBehavior;
+import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
 import org.primefaces.component.commandlink.CommandLink;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.panel.Panel;
+import org.primefaces.event.CloseEvent;
 import org.primefaces.event.DashboardReorderEvent;
 import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
@@ -38,10 +40,7 @@ public class DashboardBacker {
 
 	public DashboardBacker() {
 		try{
-			FacesContext fc = FacesContext.getCurrentInstance();
-			Application application = fc.getApplication();
-
-			dashboard = (Dashboard) application.createComponent("org.primefaces.component.Dashboard");
+			dashboard = new Dashboard();
 			dashboard.setId("dashboard");
 
 
@@ -56,49 +55,70 @@ public class DashboardBacker {
 			List<Questionario> listQuestionario = questionarioDAO.listOrdenada();
 			int i = 0;
 			for (Questionario questionario : listQuestionario) {
-				Panel panel = (Panel) application.createComponent("org.primefaces.component.Panel");
-				panel.setId("p_"+questionario.getId().toString());
-				panel.setHeader(questionario.getTitulo());
-				panel.setClosable(true);
-				//panel.setToggleable(true);
+				Panel panel = criaPanel(questionario);
 
 				getDashboard().getChildren().add(panel);
 				DashboardColumn column = model.getColumn(i%getColumnCount());
 				column.addWidget(panel.getId());
-				
-//				column.reorderWidget(0, panel.getId());
+
+				//column.reorderWidget(0, panel.getId());
 				DashboardColumn oldColumn=model.getColumn(i%getColumnCount());
 				DashboardColumn newColumn= model.getColumn(questionario.getDashboardColumn());
 				//model.transferWidget(oldColumn, newColumn, widgetId, itemIndex);
 				model.transferWidget(oldColumn, newColumn, panel.getId(), questionario.getItemIndex());
 				//model.transferWidget(arg0, arg1, arg2, arg3);
-				
+
 				panel.getChildren().add(criaLink(questionario,i));
 
 				i++;
 			}
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 			addMessage(e.getMessage());
 		}
 	}
 
+	private Panel criaPanel(Questionario questionario) throws Exception {
+
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		Panel panel = new Panel();
+		try{
+			panel.setId("p_"+questionario.getId().toString());
+			panel.setHeader(questionario.getTitulo());
+			panel.setClosable(true);
+			//panel.setToggleable(true);
+
+			//para Behavior <p:ajax even='close'>
+			AjaxBehavior ajaxBehavior = new AjaxBehavior();
+			ExpressionFactory ef = ctx.getApplication().getExpressionFactory();
+			String expression ="#{dashboardBacker.handleClose}";
+			Class<?> expectedReturnType = void.class;
+			Class<?>[] expectedParamTypes =  new Class[] {Object.class};
+			MethodExpression me = ef.createMethodExpression(ctx.getELContext(),
+					expression,//Sua ELExpression #{dashboardBacker.handleClose}
+					expectedReturnType, //nesse caso null
+					expectedParamTypes); //se receber paremetro colocar new Class[]{Object.class} se não apenas new Class[]
+			ajaxBehavior.addAjaxBehaviorListener( new AjaxBehaviorListenerImpl( me ) );
+			//ajaxBehavior.setListener(me);
+			ajaxBehavior.setUpdate("growl");
+			panel.addClientBehavior( "close", ajaxBehavior);
+		}catch(Exception e){
+			throw e;
+		}
+		return panel;
+	}
+
 	public void adicionarioWidget(){
 		try{
-			FacesContext fc = FacesContext.getCurrentInstance();
-			Application application = fc.getApplication();
 			DashboardModel model = dashboard.getModel();
+
 			//cria no banco antes de criar visualmente. Se der erro no banco não será criado visualmente.
 			questionario.setDashboardColumn(0);
 			questionario.setItemIndex(0);
 			questionario = questionarioDAO.save(questionario);
 
-			Panel panel = (Panel) application.createComponent("org.primefaces.component.Panel");
-			panel.setId("p_"+questionario.getId().toString());
-			panel.setHeader(questionario.getTitulo());
-			panel.setClosable(true);
-			//panel.setToggleable(true);
+			Panel panel = criaPanel(questionario);
 
 			getDashboard().getChildren().add(panel);
 			DashboardColumn column = model.getColumn(0);
@@ -122,8 +142,8 @@ public class DashboardBacker {
 			questionario.setId(Long.valueOf(event.getWidgetId().substring(2,event.getWidgetId().length())));
 			questionario.setDashboardColumn(event.getColumnIndex());
 			questionario.setItemIndex(event.getItemIndex());
-			
-			
+
+
 			questionarioDAO.salvaColunaIndex(questionario);
 
 			addMessage(message);
@@ -132,7 +152,22 @@ public class DashboardBacker {
 			addMessage(e.getMessage());
 		}
 	}
-	
+
+	public void handleClose(CloseEvent event) {
+		try {
+			
+			questionario.setId(Long.valueOf(event.getComponent().getId().substring(2,event.getComponent().getId().length())));
+			questionarioDAO.delete(questionario);
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Questionario apagado", "Questionario excluido com sucesso.");  
+
+			addMessage(message);
+		} catch (Exception e) {
+			addMessage(e.getMessage());
+			e.printStackTrace();
+		}
+	}  
+
 	private UIComponent criaLink(Questionario questionario, int i) {
 		CommandLink link = new CommandLink();
 		link.setId("lk_" + i);
@@ -144,7 +179,7 @@ public class DashboardBacker {
 		link.setActionExpression(methodExpression);
 		link.setValue("Clique para editar questões");
 		link.setProcess("@none");
-		
+
 		UIParameter param = new UIParameter();
 		param = new UIParameter();
 		param.setName("idMenu");
@@ -155,17 +190,17 @@ public class DashboardBacker {
 		param.setName("pagina");
 		param.setValue("questionario.xhtml");
 		link.getChildren().add(param);
-		
+
 		param = new UIParameter();
 		param.setName("questionario.titulo");
 		param.setValue(questionario.getTitulo());
 		link.getChildren().add(param);
-		
+
 		param = new UIParameter();
 		param.setName("questionario.id");
 		param.setValue(questionario.getId());
 		link.getChildren().add(param);
-		
+
 		link.setUpdate(":corpoMenuDinamico");
 		//link.setUpdate("dynamic_dashboard");
 		return link;
