@@ -30,6 +30,14 @@
             <p:password id="senha"
                 value="#{usuarioManagedBean.usuarioBean.senha}" required="true" label="Senha"/>  
             <p:message for="senha" />
+            
+            <h:outputLabel for="email" value="Email: *" />
+            <p:inputText id="email"
+                value="#{usuarioManagedBean.usuarioBean.email}" required="true" label="Email">
+                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+            </p:inputText>
+            <p:watermark for="email" value="Endereço de email *" />
+            <p:message for="email" />
         </h:panelGrid>
     </p:panel>
     
