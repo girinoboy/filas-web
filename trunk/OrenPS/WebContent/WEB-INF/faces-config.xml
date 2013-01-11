@@ -11,6 +11,12 @@
             <from-outcome>ok</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+        	<from-action>#{loginManagedBean.login}</from-action>
+            <from-outcome>visitante</from-outcome>
+            <to-view-id>/responderQuestionario.xhtml</to-view-id>
+        </navigation-case>
+        
     </navigation-rule> 
     <navigation-rule>
 		<description>Menu</description>
@@ -19,6 +25,11 @@
         	<from-action>#{loginManagedBean.login}</from-action>
             <from-outcome>ok</from-outcome>
             <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+        	<from-action>#{loginManagedBean.login}</from-action>
+            <from-outcome>visitante</from-outcome>
+            <to-view-id>/responderQuestionario.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
         	<from-action>#{loginManagedBean.login}</from-action>

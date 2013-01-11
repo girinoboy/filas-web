@@ -33,6 +33,7 @@
     
      <h:form id="form">
       	<h:messages />
+      	<p:messages autoUpdate="true"/>
       	
         <p:panel id="panelQuestao" header="#{questionario.questionario.titulo}" style="margin-top: 10px;">
 	        <p:dataTable value="#{questionario.dataModelQuestoes}" var="questao" id="tabela" scrollHeight="734" scrollable="true">
@@ -52,7 +53,7 @@
 	            </p:column>
 	        </p:dataTable>
 	        <br/>      
-        	<p:commandButton value="Salvar" actionListener="#{questionario.adicionarQuestao}" update="panelQuestao" icon="ui-icon-disk"/>
+        	<p:commandButton value="Salvar" actionListener="#{responderQuestionarioManagedBean.salvarRespostas}" update="panelQuestao" icon="ui-icon-disk"/>
         	<p:commandButton value="Sair" actionListener="#{loginManagedBean.logout}" id="idSair"  icon="ui-icon-close" />
       	</p:panel>
       </h:form>

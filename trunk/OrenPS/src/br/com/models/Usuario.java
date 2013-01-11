@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Table(name = "usuarios")
 public class Usuario {
 	
-	@Id 
+	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String login;
@@ -31,6 +31,8 @@ public class Usuario {
     //private List<Permissao> listaPermissao = new ArrayList<Permissao>();
     private String nome;
     private String email;
+    @OneToMany(mappedBy = "usuario", targetEntity = Resposta.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Resposta> resposta;
 
     /*
     @Override
@@ -133,5 +135,6 @@ public class Usuario {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 }
 

@@ -23,7 +23,7 @@ import br.com.models.UsuarioPerfil;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class HibernateUtility {
 
-	private static final SessionFactory sessionFactory;
+	private static SessionFactory sessionFactory;
 	private static final ThreadLocal sessionThread = new ThreadLocal();
 	private static final ThreadLocal transactionThread = new ThreadLocal();
 
@@ -45,7 +45,9 @@ public class HibernateUtility {
 		Session session = (Session) sessionThread.get();
 		if ((session != null) && (session.isOpen())) {
 			sessionThread.set(null);
+			//session.flush();
 			session.close();
+			//sessionFactory.close();
 		}
 	}
 
@@ -78,8 +80,9 @@ public class HibernateUtility {
 		try {
 			sessionFactory =  ((AnnotationConfiguration) new AnnotationConfiguration()
 
-			.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")// tipo de dialeto do banco
-			//.setProperty("hibernate.connection.driver_class","net.sourceforge.jtds.jdbc.Driver")// driver do banco
+			//.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")// tipo de dialeto do banco
+			.setProperty("hibernate.connection.driver_class","net.sourceforge.jtds.jdbc.Driver")// driver do banco
+			.setProperty("dialect","org.hibernate.dialect.SQLServerDialect")
 			//.setProperty("hibernate.connection.url", "jdbc:jtds:sqlserver://10.100.100.132:1433/citmensageria")// endereço do banco de dados
 			//.setProperty("hibernate.connection.username", "sa")
 			//.setProperty("hibernate.connection.password", "CITmensageria123")
@@ -109,7 +112,7 @@ public class HibernateUtility {
 			.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider")
 			.setProperty("hibernate.current_session_context_class", "thread")
 			//.setProperty("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory")
-			//.setProperty("hibernate.default_schema", "dbo")
+			.setProperty("hibernate.default_schema", "dbo")
 
 			.setProperty("hibernate.validator.apply_to_ddl", "false")
 			.setProperty("hibernate.validator.autoregister_listeners", "false")
@@ -133,6 +136,49 @@ public class HibernateUtility {
 					//MOVIMENTOS
 					//.configure()
 					.buildSessionFactory();
+			
+			/*
+			Configuration cfg = new Configuration()//.configure();
+			.setProperty("hibernate.connection.driver_class","net.sourceforge.jtds.jdbc.Driver")
+			.setProperty("hibernate.dialect","org.hibernate.dialect.SQLServerDialect")
+			.setProperty("hibernate.connection.datasource", "java:orenDS")
+			.setProperty("hibernate.hbm2ddl.auto", "update")
+			.setProperty("hibernate.default_schema", "dbo")//talves não precise 
+			.setProperty("hibernate.connection.autocommit", "true")
+			.setProperty("hibernate.c3p0.max_size", "10")
+			.setProperty("hibernate.c3p0.min_size", "2")
+			.setProperty("hibernate.c3p0.timeout", "5000")
+			.setProperty("hibernate.c3p0.max_statements", "10")
+			.setProperty("hibernate.c3p0.idle_test_period", "3000")
+			.setProperty("hibernate.c3p0.acquire_increment", "2")
+			.setProperty("hibernate.show_sql", "true")
+			.setProperty("hibernate.use_outer_join", "true")
+			.setProperty("hibernate.generate_statistics", "true")
+			.setProperty("hibernate.use_sql_comments", "true")
+			.setProperty("hibernate.format_sql", "true")
+			.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider")
+			.setProperty("hibernate.current_session_context_class", "thread")
+			.setProperty("hibernate.validator.apply_to_ddl", "false")
+			.setProperty("hibernate.validator.autoregister_listeners", "false" )
+			.addAnnotatedClass(Menu.class)
+			.addAnnotatedClass(Perfil.class)
+			.addAnnotatedClass(PermissaoMenu.class)
+			.addAnnotatedClass(Usuario.class)
+			.addAnnotatedClass(UsuarioPerfil.class)
+			.addAnnotatedClass(Questao.class)
+			.addAnnotatedClass(Questionario.class)
+			.addAnnotatedClass(Opcao.class);
+			ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
+			.applySettings(cfg.getProperties())
+			//.configure()//apenas se tiver um hibernate.cfg.xml configurado no projeto.
+			.buildServiceRegistry();
+			
+			 sessionFactory = cfg.buildSessionFactory(serviceRegistry);
+			 
+			 */
+
+
+			
 			/*
             AnnotationConfiguration annotationConfiguration = null;//.addAnnotatedClass(AdditionalInformation.class);
             annotationConfiguration.addAnnotatedClass(Usuario.class);
