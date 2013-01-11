@@ -13,10 +13,10 @@ import javax.persistence.Table;
 @Table(name = "usuarios_perfis")
 public class UsuarioPerfil {
 
-	@Id 
+	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="usuarios_id", referencedColumnName = "id")
     private Usuario usuario = new Usuario();
     @ManyToOne(fetch = FetchType.EAGER)
