@@ -16,21 +16,23 @@ import br.com.models.Perfil;
 import br.com.models.PermissaoMenu;
 import br.com.models.Questao;
 import br.com.models.Questionario;
+import br.com.models.Resposta;
 import br.com.models.Usuario;
 import br.com.models.UsuarioPerfil;
+import br.com.models.UsuarioQuestionario;
 
 
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({ "rawtypes" })
 public class HibernateUtility {
 
 	private static SessionFactory sessionFactory;
-	private static final ThreadLocal sessionThread = new ThreadLocal();
-	private static final ThreadLocal transactionThread = new ThreadLocal();
+	private static final ThreadLocal<Session> sessionThread = new ThreadLocal<Session>();
+	private static final ThreadLocal<Transaction> transactionThread = new ThreadLocal<Transaction>();
 
 
 	public static Session getSession() throws Exception {
 		try{
-			Session session = (Session) sessionThread.get();
+			Session session = sessionThread.get();
 			if ((session == null) || (!(session.isOpen()))) {
 				session = sessionFactory.openSession();
 				sessionThread.set(session);
@@ -38,11 +40,11 @@ public class HibernateUtility {
 		}catch(Exception e){
 			throw e;
 		}
-		return ((Session) sessionThread.get());
+		return sessionThread.get();
 	}
 
 	public static void closeSession() {
-		Session session = (Session) sessionThread.get();
+		Session session = sessionThread.get();
 		if ((session != null) && (session.isOpen())) {
 			sessionThread.set(null);
 			//session.flush();
@@ -61,7 +63,7 @@ public class HibernateUtility {
 	}
 
 	public static void commitTransaction() {
-		Transaction transaction = (Transaction) transactionThread.get();
+		Transaction transaction = transactionThread.get();
 		if ((transaction != null) && (!(transaction.wasCommitted())) && (!(transaction.wasRolledBack()))) {
 			transaction.commit();
 			transactionThread.set(null);
@@ -69,7 +71,7 @@ public class HibernateUtility {
 	}
 
 	public static void rollbackTransaction() {
-		Transaction transaction = (Transaction) transactionThread.get();
+		Transaction transaction = transactionThread.get();
 		if ((transaction != null) && (!(transaction.wasCommitted())) && (!(transaction.wasRolledBack()))) {
 			transaction.rollback();
 			transactionThread.set(null);
@@ -80,9 +82,10 @@ public class HibernateUtility {
 		try {
 			sessionFactory =  ((AnnotationConfiguration) new AnnotationConfiguration()
 
-			//.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")// tipo de dialeto do banco
-			.setProperty("hibernate.connection.driver_class","net.sourceforge.jtds.jdbc.Driver")// driver do banco
-			.setProperty("dialect","org.hibernate.dialect.SQLServerDialect")
+			.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")// tipo de dialeto do banco
+			.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver")
+			//.setProperty("hibernate.connection.driver_class","net.sourceforge.jtds.jdbc.Driver")// driver do banco
+			//.setProperty("dialect","org.hibernate.dialect.SQLServerDialect")
 			//.setProperty("hibernate.connection.url", "jdbc:jtds:sqlserver://10.100.100.132:1433/citmensageria")// endereço do banco de dados
 			//.setProperty("hibernate.connection.username", "sa")
 			//.setProperty("hibernate.connection.password", "CITmensageria123")
@@ -112,7 +115,7 @@ public class HibernateUtility {
 			.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider")
 			.setProperty("hibernate.current_session_context_class", "thread")
 			//.setProperty("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory")
-			.setProperty("hibernate.default_schema", "dbo")
+			//.setProperty("hibernate.default_schema", "dbo")
 
 			.setProperty("hibernate.validator.apply_to_ddl", "false")
 			.setProperty("hibernate.validator.autoregister_listeners", "false")
@@ -133,6 +136,8 @@ public class HibernateUtility {
 					.addAnnotatedClass(Questao.class)
 					.addAnnotatedClass(Questionario.class)
 					.addAnnotatedClass(Opcao.class)
+					.addAnnotatedClass(Resposta.class)
+					.addAnnotatedClass(UsuarioQuestionario.class)
 					//MOVIMENTOS
 					//.configure()
 					.buildSessionFactory();

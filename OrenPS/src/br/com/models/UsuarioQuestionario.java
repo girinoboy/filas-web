@@ -44,6 +44,11 @@ public class UsuarioQuestionario {
 	}
 
 
+	public UsuarioQuestionario(String randomModel, int randomYear,
+			String randomManufacturer, String randomColor) {
+	}
+
+
 	/**
 	 * @return the id
 	 */
