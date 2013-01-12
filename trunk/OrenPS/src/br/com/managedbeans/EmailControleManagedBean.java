@@ -9,15 +9,20 @@ import java.util.Date;
 import java.util.List;  
 import java.util.UUID;  
   
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.servlet.ServletContext;  
   
 import org.primefaces.model.LazyDataModel;
 
+import br.com.dao.UsuarioQuestionarioDAO;
 import br.com.models.UsuarioQuestionario;
 /**
  * @author marcleonio.medeiros
  *
  */
+@ManagedBean
+@ViewScoped
 public class EmailControleManagedBean {
 
 	
@@ -26,11 +31,13 @@ public class EmailControleManagedBean {
 	  
     private UsuarioQuestionario selectedCar;  
   
-    private List<UsuarioQuestionario> cars;
+    private List<UsuarioQuestionario> usuarioQuestionario;
 
 	private static String[] colors;
 
 	private static String[] manufacturers;  
+	
+	private UsuarioQuestionarioDAO usuarioQuestionarioDAO = new UsuarioQuestionarioDAO();
   
     static {  
         colors = new String[10];  
@@ -62,8 +69,15 @@ public class EmailControleManagedBean {
 	 * 
 	 */
 	public EmailControleManagedBean() {
-		 populateRandomCars(cars, 50);  
-	        lazyModel = new LazyUsuarioQuestionarioDataModel(cars);  
+		 //populateRandomCars(usuarioQuestionario, 50);  
+	        
+	        try {
+	        	usuarioQuestionario = usuarioQuestionarioDAO.list();
+	        	lazyModel = new LazyUsuarioQuestionarioDataModel(usuarioQuestionario);  
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	} 
   
     public UsuarioQuestionario getSelectedCar() {  
@@ -84,7 +98,12 @@ public class EmailControleManagedBean {
         }  
     }  
   
-    private String getRandomColor() {  
+    private String getRandomModel() {
+		
+		return String.valueOf((Math.random() * 100))  ;
+	}
+
+	private String getRandomColor() {  
         return colors[(int) (Math.random() * 10)];  
     }  
   
@@ -96,5 +115,7 @@ public class EmailControleManagedBean {
         return (int) (Math.random() * 50 + 1960);  
     }
 	
-
+    public void onRowSelect(){
+    	
+    }
 }

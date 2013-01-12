@@ -10,26 +10,26 @@
     </h:head>
 	<h:form id="form">  
 	  
-	    <p:dataTable var="car" value="#{tableBean.lazyModel}" paginator="true" rows="10"  
+	    <p:dataTable var="car" value="#{emailControleManagedBean.lazyModel}" paginator="true" rows="10"  
 	                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"  
-	                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{tableBean.selectedCar}" id="carTable" lazy="true">  
+	                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{emailControleManagedBean.selectedCar}" id="carTable" lazy="true">  
 	  
-	        <p:ajax event="rowSelect" listener="#{tableBean.onRowSelect}" update=":form:display" oncomplete="carDialog.show()" />  
+	        <p:ajax event="rowSelect" listener="#{emailControleManagedBean.onRowSelect}" update=":form:display" oncomplete="carDialog.show()" />  
 	  
-	        <p:column headerText="Model" sortBy="#{car.model}" filterBy="#{car.model}">  
-	            <h:outputText value="#{car.model}" />  
+	        <p:column headerText="Nome" sortBy="#{car.usuario.nome}" filterBy="#{car.usuario.nome}">  
+	            <h:outputText value="#{car.usuario.nome}" />  
 	        </p:column>  
 	  
-	        <p:column headerText="Year" sortBy="#{car.year}" filterBy="#{car.year}">  
-	            <h:outputText value="#{car.year}" />  
+	        <p:column headerText="Questionario" sortBy="#{car.questionario.titulo}" filterBy="#{car.questionario.titulo}">  
+	            <h:outputText value="#{car.questionario.titulo}" />  
 	        </p:column>  
 	  
-	        <p:column headerText="Manufacturer" sortBy="#{car.manufacturer}" filterBy="#{car.manufacturer}">  
-	            <h:outputText value="#{car.manufacturer}" />  
+	        <p:column headerText="Email Enviado" sortBy="#{car.emailEnviado}" filterBy="#{car.emailEnviado}">  
+	            <h:outputText value="#{car.emailEnviado}" />  
 	        </p:column>  
 	  
-	        <p:column headerText="Color" sortBy="#{car.color}" filterBy="#{car.color}">  
-	            <h:outputText value="#{car.color}" />  
+	        <p:column headerText="Respondido" sortBy="#{car.questionarioRespondido}" filterBy="#{car.questionarioRespondido}">  
+	            <h:outputText value="#{car.questionarioRespondido}" />  
 	        </p:column>  
 	    </p:dataTable>  
 	  
@@ -42,17 +42,17 @@
 	                <p:graphicImage value="/images/cars/#{tableBean.selectedCar.manufacturer}.jpg"/>  
 	            </f:facet>  
 	  
-	            <h:outputText value="Model:" />  
-	            <h:outputText value="#{tableBean.selectedCar.model}" style="font-weight:bold"/>  
+	            <h:outputText value="Nome:" />  
+	            <h:outputText value="#{car.usuario.nome}" style="font-weight:bold"/>  
 	  
-	            <h:outputText value="Year:" />  
-	            <h:outputText value="#{tableBean.selectedCar.year}" style="font-weight:bold"/>  
+	            <h:outputText value="Questionario:" />  
+	            <h:outputText value="#{car.questionario.titulo}" style="font-weight:bold"/>  
 	  
-	            <h:outputText value="Manufacturer:" />  
-	            <h:outputText value="#{tableBean.selectedCar.manufacturer}" style="font-weight:bold"/>  
+	            <h:outputText value="Enviado:" />  
+	            <h:outputText value="#{car.emailEnviado}" style="font-weight:bold"/>  
 	  
-	            <h:outputText value="Color:" />  
-	            <h:outputText value="#{tableBean.selectedCar.color}" style="font-weight:bold"/>  
+	            <h:outputText value="Respondido:" />  
+	            <h:outputText value="#{car.questionarioRespondido}" style="font-weight:bold"/>  
 	        </h:panelGrid>  
 	    </p:dialog>  
 	  
