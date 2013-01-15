@@ -15,7 +15,7 @@ public class UsuarioPerfil {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="usuarios_id", referencedColumnName = "id")
     private Usuario usuario = new Usuario();
@@ -23,10 +23,10 @@ public class UsuarioPerfil {
 	@JoinColumn(name="perfis_id", referencedColumnName = "id")
     private Perfil perfil = new Perfil();
     
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public Usuario getUsuario() {

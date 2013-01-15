@@ -25,7 +25,7 @@ public class Questao  implements Serializable {
 	private static final long serialVersionUID = -777752470916891894L;
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	@ManyToOne
 	@JoinColumn(name = "questionario_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
 	private Questionario questionario;
@@ -99,14 +99,14 @@ public class Questao  implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -144,4 +144,5 @@ public class Questao  implements Serializable {
 	public void setTipoDeQuestao(Integer tipoDeQuestao) {
 		this.tipoDeQuestao = tipoDeQuestao;
 	}
+
 }

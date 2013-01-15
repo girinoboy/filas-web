@@ -19,7 +19,7 @@
 		          <br/>
 		          
 		          <!-- Questao de Texto -->
-		          <h:inputTextarea cols="40" rows="2" rendered="#{questao.questao.tipoDeQuestao eq 1}" />
+		          <h:inputTextarea value="#{questionario.resposta1}" cols="40" rows="2" rendered="#{questao.questao.tipoDeQuestao eq 1}" />
 		          
 		          <!-- Questao de Multipla escolha -->
 		          <h:selectManyCheckbox value="#{questionario.respostas}" 
@@ -29,14 +29,14 @@
 		          </h:selectManyCheckbox>		                                            
 		          
 		          <!-- Questao de Unica escolha -->
-		          <h:selectOneRadio value="#{questionario.resposta}" 
+		          <h:selectOneRadio value="#{questionario.resposta3}" 
 		                            rendered="#{questao.questao.tipoDeQuestao eq 3}" layout="pageDirection">
 		              <f:selectItems value="#{questao.questao.opcoes}" var="opcao" 
 		                             itemValue="#{opcao.campo}" itemLabel="#{opcao.campo}" />
 		          </h:selectOneRadio> 
 		          <!-- rating -->
 		          <ui:fragment rendered="#{questao.questao.tipoDeQuestao eq 4}">
-		          	<p:rating  stars="10" cancel="false"/>
+		          	<p:rating  value="#{questionario.resposta4}" stars="10" cancel="false" onRate="alert('You rated ' + value)"/>
 		          </ui:fragment>
 		           
 		        </p:column>  

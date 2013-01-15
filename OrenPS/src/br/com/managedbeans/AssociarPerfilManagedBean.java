@@ -10,13 +10,16 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.event.DragDropEvent;
 
 import br.com.dao.PerfilDAO;
+import br.com.dao.UsuarioPerfilDAO;
 import br.com.models.Perfil;
 import br.com.models.Usuario;
+import br.com.models.UsuarioPerfil;
 
 /**
  * @author marcleonio.medeiros
@@ -33,6 +36,8 @@ public class AssociarPerfilManagedBean {
 	private List<Perfil> droppedPerfis;
 
 	private Perfil selectedPerfil = new Perfil();
+	
+	private UsuarioPerfilDAO usuarioPerfilDAO = new UsuarioPerfilDAO();
 
 	/**
 	 * 
@@ -65,15 +70,52 @@ public class AssociarPerfilManagedBean {
 	public void onPerfilDrop(DragDropEvent ddEvent) {  
 		Perfil perfil = ((Perfil) ddEvent.getData());  
 
-		droppedPerfis.add(perfil);  
-		perfisSmall.remove(perfil);  
+		try {
+			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+			Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
+			
+			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
+			usuarioPerfil.setUsuario(usuario);
+			usuarioPerfil.setPerfil(perfil);
+			
+			usuarioPerfilDAO.save(usuarioPerfil);
+			
+			droppedPerfis.add(perfil);
+			perfisSmall.remove(perfil);
+		} catch (Exception e) {
+			addMessage(e.getMessage());
+			e.printStackTrace();
+		}
 	}  
 
 	public void addMessage(String summary) {  
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);  
 		FacesContext.getCurrentInstance().addMessage(null, message);  
 	}
-
+	
+	public void removerPerfil(ActionEvent event){
+		
+		try {
+			
+			
+			
+			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+			Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
+			
+			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
+			usuarioPerfil.setUsuario(usuario);
+			usuarioPerfil.setPerfil(selectedPerfil);
+			usuarioPerfilDAO.delete(usuarioPerfil);//precisa do id ¬¬
+			
+			droppedPerfis.remove(selectedPerfil);
+			perfisSmall.add(selectedPerfil);
+			
+		} catch (Exception e) {
+			addMessage(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * @return the perfisSmall
 	 */

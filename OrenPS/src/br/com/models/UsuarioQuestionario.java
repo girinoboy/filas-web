@@ -23,7 +23,7 @@ public class UsuarioQuestionario {
 	
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="usuarios_id", referencedColumnName = "id")
 	private Usuario usuario;
@@ -52,7 +52,7 @@ public class UsuarioQuestionario {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -60,7 +60,7 @@ public class UsuarioQuestionario {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

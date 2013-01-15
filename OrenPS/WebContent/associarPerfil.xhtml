@@ -56,9 +56,9 @@
 		            </p:column>  
 	  
 	                <p:column style="width:32px">  
-	                    <p:commandButton update=":usuarioPerfilForm:display"  
-	                            oncomplete="perfilDialog.show()"  
-	                            icon="ui-icon-close">  
+	                    <p:commandButton update=":usuarioPerfilForm:dropArea,:usuarioPerfilForm:availablePerfil"  
+	                             
+	                            icon="ui-icon-close" actionListener="#{associarPerfilManagedBean.removerPerfil}">  
 	                        <f:setPropertyActionListener value="#{perfil}"  
 	                            target="#{associarPerfilManagedBean.selectedPerfil}" />  
 	                    </p:commandButton>  

@@ -22,7 +22,7 @@ public class Questionario {
 	
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	private String titulo;
 	@OneToMany(mappedBy = "questionario", targetEntity = Questao.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Questao> questao;
@@ -36,14 +36,14 @@ public class Questionario {
 	/**
 	 * @return the id
 	 */
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
