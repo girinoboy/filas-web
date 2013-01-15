@@ -18,7 +18,7 @@
 	       		Fale com o administrador do sistema.
 	       		<br/>
 	       		<ui:fragment rendered="#{usuarioAutenticado == null}">
-	       			<p:commandLink id="ajax"  actionListener="#{loginManagedBean.encerraSessao}" style="margin-right:20px; align:center">  
+	       			<p:commandLink id="ajax"  actionListener="#{loginManagedBean.logout}" style="margin-right:20px; align:center">  
 				        <h:outputText value="Voltar para o login." />  
 				    </p:commandLink> 
 	       		</ui:fragment>
