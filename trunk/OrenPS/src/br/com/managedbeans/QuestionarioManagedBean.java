@@ -16,12 +16,16 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.servlet.http.HttpSession;
 
 import br.com.dao.OpcaoDAO;
 import br.com.dao.QuestaoDAO;
+import br.com.dao.RespostaDAO;
 import br.com.models.Opcao;
 import br.com.models.Questao;
 import br.com.models.Questionario;
+import br.com.models.Resposta;
+import br.com.models.Usuario;
 import br.com.regrasdenegocio.QuestaoRN;
 
 @ManagedBean(name="questionario")
@@ -35,10 +39,15 @@ implements Serializable
 	private Questionario questionario;
 	private DataModel<QuestaoRN> dataModelQuestoes;
 	private static Map<String, Object> opcoes = new LinkedHashMap<String, Object>();
-	private String resposta;
+	private String resposta1;
+	private String resposta2;
+	private String resposta3;
+	private String resposta4;
 	private List<String> respostas;
 	private QuestaoDAO questaoDAO = new QuestaoDAO();
 	private OpcaoDAO opcaoDAO = new OpcaoDAO();
+	private RespostaDAO respostaDAO = new RespostaDAO();
+	private Resposta respostaBean = new Resposta();
 
 	//@SessionScoped so chama o construtor uma unica vez
 	//@RequestScoped  chama o construtor toda hora xD
@@ -54,10 +63,10 @@ implements Serializable
 			}
 			if(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id") != null){
 				questionario.setTitulo(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.titulo"));
-				questionario.setId(Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id")));
+				questionario.setId(Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id")));
 			}else if(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("questionario.id") != null){
 				questionario.setTitulo(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("questionario.titulo").toString());
-				questionario.setId(Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("questionario.id").toString()));
+				questionario.setId(Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("questionario.id").toString()));
 				//TODO Mudar para flash
 			}
 			questoes = new ArrayList<QuestaoRN>();
@@ -132,6 +141,57 @@ implements Serializable
 		this.questao = new QuestaoRN();
 	}
 
+	public void salvarRespostas(ActionEvent event){
+
+		try {
+			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+			Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
+			String resposta = null;
+			Opcao opcaoEscolhida = null;
+			for (QuestaoRN questao : dataModelQuestoes) {
+
+				switch (questao.getQuestao().getTipoDeQuestao()) {
+				case 1://<!-- Questao de Texto -->
+					resposta = resposta1;
+					break;
+				case 2://<!-- Questao de Multipla escolha -->
+					resposta = resposta2;
+					break;
+				case 3://<!-- Questao de Unica escolha -->
+					for (Opcao opcoes : questao.getQuestao().getOpcoes()) {
+						if(resposta3 != null && opcoes.getCampo().equals(resposta3)){
+							opcaoEscolhida = opcoes;
+						}
+					}
+					resposta = resposta3;
+					break;
+				case 4://<!-- rating -->
+					resposta = resposta4;
+					break;
+
+				default:
+					resposta ="";
+					break;
+				}
+				System.out.println(respostas);
+				respostaBean.setOpcao(opcaoEscolhida);
+				respostaBean.setQuestionario(questionario);
+				if(questao.getQuestao().getTipoDeQuestao() == 2 ){
+					resposta = respostas.toString();
+				}
+				respostaBean.setResposta(resposta);
+				respostaBean.setUsuario(usuario);
+				respostaDAO.save(respostaBean);
+			}
+
+		} catch (Exception e) {
+			addMessage(e.getMessage());
+			e.printStackTrace();
+		}
+
+		addMessage("Respostas salvas com sucesso.");
+	}
+
 	public void adicionarQuestao(ActionEvent event) {
 		questoes.add(novaQuestao());
 	}
@@ -192,12 +252,43 @@ implements Serializable
 		this.questoes = questoes;
 	}
 
-	public String getResposta() {
-		return resposta;
+	public String getResposta1() {
+		return resposta1;
 	}
 
-	public void setResposta(String resposta) {
-		this.resposta = resposta;
+
+	public void setResposta1(String resposta1) {
+		this.resposta1 = resposta1;
+	}
+
+
+	public String getResposta2() {
+		return resposta2;
+	}
+
+
+	public void setResposta2(String resposta2) {
+		this.resposta2 = resposta2;
+	}
+
+
+	public String getResposta3() {
+		return resposta3;
+	}
+
+
+	public void setResposta3(String resposta3) {
+		this.resposta3 = resposta3;
+	}
+
+
+	public String getResposta4() {
+		return resposta4;
+	}
+
+
+	public void setResposta4(String resposta4) {
+		this.resposta4 = resposta4;
 	}
 
 	public List<String> getRespostas() {

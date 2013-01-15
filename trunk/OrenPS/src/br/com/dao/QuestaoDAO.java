@@ -61,7 +61,7 @@ public class QuestaoDAO extends GenericoDAO<Questao, Serializable>{
 	}
 
 
-	public List<Questao> listarPorQuestionario(Long id) throws Exception {
+	public List<Questao> listarPorQuestionario(Integer id) throws Exception {
 		try {
 			@SuppressWarnings("unchecked")
 			List<Questao> list = HibernateUtility.getSession().createCriteria(Questao.class)

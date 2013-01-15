@@ -139,7 +139,7 @@ public class DashboardBacker {
 			message.setSummary("Reordered: " + event.getWidgetId());
 			message.setDetail("Item index: " + event.getItemIndex() + ", Column index: " + event.getColumnIndex() + ", Sender index: " + event.getSenderColumnIndex()); 
 
-			questionario.setId(Long.valueOf(event.getWidgetId().substring(2,event.getWidgetId().length())));
+			questionario.setId(Integer.valueOf(event.getWidgetId().substring(2,event.getWidgetId().length())));
 			questionario.setDashboardColumn(event.getColumnIndex());
 			questionario.setItemIndex(event.getItemIndex());
 
@@ -156,7 +156,7 @@ public class DashboardBacker {
 	public void handleClose(CloseEvent event) {
 		try {
 			
-			questionario.setId(Long.valueOf(event.getComponent().getId().substring(2,event.getComponent().getId().length())));
+			questionario.setId(Integer.valueOf(event.getComponent().getId().substring(2,event.getComponent().getId().length())));
 			questionarioDAO.delete(questionario);
 			
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Questionario apagado", "Questionario excluido com sucesso.");  

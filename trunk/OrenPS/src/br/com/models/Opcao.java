@@ -22,7 +22,7 @@ public class Opcao implements Serializable {
 	private static final long serialVersionUID = 3598147865115425993L;
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="questao_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
 	private Questao questao;
@@ -51,5 +51,33 @@ public class Opcao implements Serializable {
 	public String toString()
 	{
 		return this.campo;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the questao
+	 */
+	public Questao getQuestao() {
+		return questao;
+	}
+
+	/**
+	 * @param questao the questao to set
+	 */
+	public void setQuestao(Questao questao) {
+		this.questao = questao;
 	}
 }

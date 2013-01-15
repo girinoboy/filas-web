@@ -15,7 +15,7 @@ public class PermissaoMenu {
 
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @ManyToOne
 	@JoinColumn(name="menus_id", referencedColumnName = "id")
     private Menu menu = new Menu();
@@ -24,7 +24,7 @@ public class PermissaoMenu {
     private Perfil perfil = new Perfil();
 
    /* Getters e Setters */
-
+/*
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -38,20 +38,20 @@ public class PermissaoMenu {
             return false;
         }
         return true;
-    }
-    
+    }*/
+    /*
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 11 * hash + this.id;
         return hash;
-    }
+    }*/
 
-    public int getId() {
+    public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

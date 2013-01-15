@@ -55,7 +55,7 @@ public class OpcaoDAO extends GenericoDAO<Opcao, Serializable>{
 	    }
 
 
-	public List<Opcao> listByIdQuestao(Long id) throws Exception {
+	public List<Opcao> listByIdQuestao(Integer id) throws Exception {
 		try {
 			@SuppressWarnings("unchecked")
 			List<Opcao> list = HibernateUtility.getSession().createCriteria(Opcao.class)

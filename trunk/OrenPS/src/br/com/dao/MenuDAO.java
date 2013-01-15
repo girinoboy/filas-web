@@ -177,7 +177,7 @@ public class MenuDAO extends GenericoDAO<Menu, Serializable>{
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Menu> listByIdSub(long id) throws Exception {
+	public List<Menu> listByIdSub(Integer id) throws Exception {
 		// select * from tab_menus where tab_menus_id=?
 		List<Menu> list;
 		try {

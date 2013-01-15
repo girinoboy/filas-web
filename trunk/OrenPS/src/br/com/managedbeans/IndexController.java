@@ -197,9 +197,9 @@ public class IndexController {
 			if(!pagina.equals("") && idMenu.equals("")){
 				menu.setPagina(pagina);
 				//System.out.println("pagina: "+menu.getUrl());
-			}else if(isPermitido(Long.parseLong(idMenu))){
+			}else if(isPermitido(Integer.valueOf(idMenu))){
 				menu.setPagina(pagina);
-				menu.setId(Long.parseLong(idMenu));
+				menu.setId(Integer.valueOf(idMenu));
 			}else{
 				menu.setPagina("acessoNegado.xhtml");
 				//addMessage(pagina);
@@ -209,7 +209,7 @@ public class IndexController {
 		}
 	}
 
-	private boolean isPermitido(Long idMenu) {
+	private boolean isPermitido(Integer idMenu) {
 		boolean retorno = false;
 		for (Menu m : menusPermitidos) {
 			if (m.getId() !=null && idMenu != null && m.getId().equals(idMenu)) {

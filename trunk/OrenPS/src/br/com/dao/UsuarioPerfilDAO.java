@@ -29,7 +29,7 @@ public class UsuarioPerfilDAO extends GenericoDAO<UsuarioPerfil, Long>{
 	 */
 	public UsuarioPerfilDAO() {}
 
-	public List<UsuarioPerfil> listPorUsuario(Long id) throws Exception {
+	public List<UsuarioPerfil> listPorUsuario(Integer id) throws Exception {
 		try {
 			@SuppressWarnings("unchecked")
 			List<UsuarioPerfil> list = HibernateUtility.getSession().createCriteria(UsuarioPerfil.class)

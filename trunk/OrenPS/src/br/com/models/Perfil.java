@@ -21,17 +21,17 @@ public class Perfil {
 
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	private String descricao;
 	private String observacao;
 	@OneToMany(mappedBy = "perfil", targetEntity = PermissaoMenu.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
 	//@OrderBy(value ="Perfil.descricao") 
 	private List<PermissaoMenu> permissaoMenu;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getDescricao() {

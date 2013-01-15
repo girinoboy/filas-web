@@ -20,20 +20,33 @@ import javax.persistence.Table;
 @Table(name = "respostas")
 public class Resposta {
 	
+	
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="usuarios_id", referencedColumnName = "id")
+	@JoinColumn(name="usuarios_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
 	private Usuario usuario;
     @ManyToOne(fetch = FetchType.EAGER)
-   	@JoinColumn(name="questionarios_id", referencedColumnName = "id")
+   	@JoinColumn(name="questionarios_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
 	private Questionario questionario;
     @ManyToOne(fetch = FetchType.EAGER)
-   	@JoinColumn(name="opcoes_id", referencedColumnName = "id")
+   	@JoinColumn(name="opcoes_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
 	private Opcao opcao;
 	private String resposta;
 	
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	/**
 	 * @return the usuario
 	 */

@@ -115,7 +115,7 @@ public class ControleAcessoDAO extends GenericoDAO<PermissaoMenu, Serializable>{
 		}
 	}
 	
-	public void deletePermissaoPorPerfil(Long id) throws Exception {
+	public void deletePermissaoPorPerfil(Integer id) throws Exception {
 		try {
 			//Nome da classe e atributo
 			String deleteQuery = "delete from PermissaoMenu where perfil.id = :idPerfil";  
@@ -152,7 +152,7 @@ public class ControleAcessoDAO extends GenericoDAO<PermissaoMenu, Serializable>{
 
 	}
 	@SuppressWarnings("unchecked")
-	public List<PermissaoMenu> listByIdPerfil(Long id) throws Exception {
+	public List<PermissaoMenu> listByIdPerfil(Integer id) throws Exception {
 		List<PermissaoMenu> list;
 		try {
 			list = HibernateUtility.getSession()
@@ -170,7 +170,7 @@ public class ControleAcessoDAO extends GenericoDAO<PermissaoMenu, Serializable>{
 		return list;
 	}
 
-	public PermissaoMenu buscaPorMenuPerfil(Long menu, Long perfil) throws Exception {
+	public PermissaoMenu buscaPorMenuPerfil(Integer menu, Integer perfil) throws Exception {
 		PermissaoMenu permissao;
 		try {
 			permissao = (PermissaoMenu) HibernateUtility.getSession().createCriteria(PermissaoMenu.class)
