@@ -18,6 +18,8 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.servlet.http.HttpSession;
 
+import org.primefaces.push.PushContextFactory;
+
 import br.com.dao.OpcaoDAO;
 import br.com.dao.QuestaoDAO;
 import br.com.dao.RespostaDAO;
@@ -52,15 +54,25 @@ implements Serializable
 	//@SessionScoped so chama o construtor uma unica vez
 	//@RequestScoped  chama o construtor toda hora xD
 	public QuestionarioManagedBean() {
-		carretaQuestao();
+		carregaQuestao();
 	}
 
 
-	private void carretaQuestao() {
+	private void carregaQuestao() {
 		try{
+			/*
+			Object objEnvio = new Object();  
+		      
+		    //Para enviar ao mapa da sessão.  
+		    FacesContext contexto = FacesContext.getCurrentInstance();  
+		    contexto.getExternalContext().getSessionMap().put("meuObjeto", objEnvio);  
+		      
+		    //Para pegar do mapa da sessão.  
+		    Object objRecebimento = contexto.getExternalContext().getSessionMap().get("meuObjeto");  
+		    */
 			if(questionario==null){
 				questionario = new Questionario();
-			}
+			}//FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
 			if(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id") != null){
 				questionario.setTitulo(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.titulo"));
 				questionario.setId(Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id")));
@@ -68,7 +80,7 @@ implements Serializable
 				questionario.setTitulo(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("questionario.titulo").toString());
 				questionario.setId(Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("questionario.id").toString()));
 				//TODO Mudar para flash
-			}
+			}//PushContextFactory.getDefault().getPushContext();
 			questoes = new ArrayList<QuestaoRN>();
 
 			questaoDAO.listarPorQuestionario(questionario.getId());
@@ -315,7 +327,7 @@ implements Serializable
 			questionario = new Questionario();
 		}else if(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id") != null){
 			//			dataModelQuestoes = new ListDataModel<QuestaoRN>();
-			carretaQuestao();
+			carregaQuestao();
 		}
 		return questionario;
 	}

@@ -1,5 +1,6 @@
 package br.com.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,7 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -28,6 +32,10 @@ public class Menu {
 	private String url;
 	private String pagina;
 	private String icone;
+	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+	@Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+	@JoinColumn(name="questao_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
+	private Questionario questionario;
 	
 
 	//colocar isso em uma interface depois para diferenciar os menus de questionarios
@@ -56,6 +64,12 @@ public class Menu {
 		hash = 67 * hash + this.id;
 		return hash;
 	}*/
+	public Menu() {}
+
+	public Menu(Integer id) {
+		this.id = id;
+	}
+
 
 	@Override
 	public String toString() {
@@ -118,4 +132,20 @@ public class Menu {
 		this.iconeNativo = iconeNativo;
 	}
 
+	/**
+	 * @return the questionario
+	 */
+	public Questionario getQuestionario() {
+		if(questionario == null){
+			questionario = new Questionario();
+		}
+		return questionario;
+	}
+
+	/**
+	 * @param questionario the questionario to set
+	 */
+	public void setQuestionario(Questionario questionario) {
+		this.questionario = questionario;
+	}
 }

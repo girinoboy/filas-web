@@ -9,9 +9,11 @@ import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.FacesListener;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.component.menuitem.MenuItem;
@@ -20,6 +22,7 @@ import org.primefaces.model.DefaultMenuModel;
 import org.primefaces.model.MenuModel;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.myfaces.application.ActionListenerImpl;
 
 import br.com.dao.MenuDAO;
 import br.com.models.Menu;
@@ -91,7 +94,7 @@ public class IndexController {
 						//FacesContext context = FacesContext.getCurrentInstance();
 						ExpressionFactory factory = FacesContext.getCurrentInstance().getApplication().getExpressionFactory();
 						ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-						MethodExpression methodExpression = factory.createMethodExpression(elContext,"#{indexController.target}", Object.class, new Class[] {});
+						MethodExpression methodExpression = factory.createMethodExpression(elContext,"#{indexController.target}", void.class, new Class[] {});
 						//mi.addActionListener(new MethodExpressionActionListener(methodExpression));
 						mi.setActionExpression(methodExpression);
 
@@ -103,6 +106,16 @@ public class IndexController {
 						param = new UIParameter();
 						param.setName("idMenu");
 						param.setValue(menu.getId());
+						mi.getChildren().add(param);
+						
+						param = new UIParameter();
+						param.setName("questionario.id");
+						param.setValue(menu.getQuestionario().getId());
+						mi.getChildren().add(param);
+						
+						param = new UIParameter();
+						param.setName("questionario.titulo");
+						param.setValue(menu.getQuestionario().getTitulo());
 						mi.getChildren().add(param);
 
 						mi.setUpdate(":corpoMenuDinamico");
@@ -145,10 +158,10 @@ public class IndexController {
 					//FacesContext context = FacesContext.getCurrentInstance();
 					ExpressionFactory factory = FacesContext.getCurrentInstance().getApplication().getExpressionFactory();
 					ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-					MethodExpression methodExpression = factory.createMethodExpression(elContext,"#{indexController.target}", Object.class, new Class[] {});
+					MethodExpression methodExpression = factory.createMethodExpression(elContext,"#{indexController.target}", void.class, new Class[] {});
 					//mi.addActionListener(new MethodExpressionActionListener(methodExpression));
 					mi.setActionExpression(methodExpression);
-
+					
 					UIParameter param = new UIParameter();
 					param.setName("pagina");
 					param.setValue(m.getPagina());
@@ -157,6 +170,16 @@ public class IndexController {
 					param = new UIParameter();
 					param.setName("idMenu");
 					param.setValue(m.getId());
+					mi.getChildren().add(param);
+					
+					param = new UIParameter();
+					param.setName("questionario.id");
+					param.setValue(m.getQuestionario().getId());
+					mi.getChildren().add(param);
+					
+					param = new UIParameter();
+					param.setName("questionario.titulo");
+					param.setValue(m.getQuestionario().getTitulo());
 					mi.getChildren().add(param);
 
 					mi.setUpdate(":corpoMenuDinamico");
@@ -179,13 +202,19 @@ public class IndexController {
 	public void target(ActionEvent actionEvent){
 		try{
 			String pagina = (String) actionEvent.getComponent().getAttributes().get("pagina");
-			if(pagina != null){
-				menu.setPagina(pagina);			
-				//System.out.println("url: "+pagina);
+			String idMenu = (String) actionEvent.getComponent().getAttributes().get("idMenu");
+			if(!pagina.equals("") && idMenu.equals("")){
+				menu.setPagina(pagina);
+				//System.out.println("pagina: "+menu.getUrl());
+			}else if(isPermitido(Integer.valueOf(idMenu))){
+				menu.setPagina(pagina);
+				menu.setId(Integer.valueOf(idMenu));
 			}else{
-				addMessage(pagina);
+				menu.setPagina("acessoNegado.xhtml");
+				//addMessage(pagina);
 			}
 		}catch(Exception e){
+			addMessage(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -205,6 +234,7 @@ public class IndexController {
 				//addMessage(pagina);
 			}
 		}catch(Exception e){
+			addMessage(e.getMessage());
 			e.printStackTrace();
 		}
 	}

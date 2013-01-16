@@ -9,27 +9,36 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+
 /**
-*
-* @author Marcleonio
-*/
+ *
+ * @author Marcleonio
+ */
 @Entity
 @Table(name = "questionarios")
 public class Questionario {
-	
+
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
 	private String titulo;
 	@OneToMany(mappedBy = "questionario", targetEntity = Questao.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Questao> questao;
+	private List<Questao> questao;
 	@Column(name="dashboard_column")
 	private Integer dashboardColumn = 0;//default 0
 	@Column(name="item_index")
 	private Integer itemIndex = 0;
+	@OneToOne(fetch = FetchType.EAGER, cascade={CascadeType.REMOVE, CascadeType.PERSIST})
+	@Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+	@JoinColumn(name = "menus_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = true)
+	private Menu menu;
 
 	public Questionario() {}
 
@@ -104,5 +113,22 @@ public class Questionario {
 	 */
 	public void setItemIndex(Integer itemIndex) {
 		this.itemIndex = itemIndex;
+	}
+
+	/**
+	 * @return the menu
+	 */
+	public Menu getMenu() {
+		if(menu == null){
+			menu = new Menu();
+		}
+		return menu;
+	}
+
+	/**
+	 * @param menu the menu to set
+	 */
+	public void setMenu(Menu menu) {
+		this.menu = menu;
 	}
 }
