@@ -24,7 +24,9 @@ import org.primefaces.model.DashboardModel;
 import org.primefaces.model.DefaultDashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
 
+import br.com.dao.MenuDAO;
 import br.com.dao.QuestionarioDAO;
+import br.com.models.Menu;
 import br.com.models.Questionario;
 
 @ManagedBean
@@ -37,6 +39,7 @@ public class DashboardBacker {
 	private Dashboard dashboard;
 	private Questionario questionario =  new Questionario();
 	private QuestionarioDAO questionarioDAO = new QuestionarioDAO();
+	private MenuDAO menuDAO = new MenuDAO();
 
 	public DashboardBacker() {
 		try{
@@ -84,7 +87,7 @@ public class DashboardBacker {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		Panel panel = new Panel();
 		try{
-			panel.setId("p_"+questionario.getId().toString());
+			panel.setId("p_"+questionario.getId().toString()+"_m_"+questionario.getMenu().getId());
 			panel.setHeader(questionario.getTitulo());
 			panel.setClosable(true);
 			//panel.setToggleable(true);
@@ -117,6 +120,15 @@ public class DashboardBacker {
 			questionario.setDashboardColumn(0);
 			questionario.setItemIndex(0);
 			questionario = questionarioDAO.save(questionario);
+			
+			Menu menu = new Menu();
+			menu.setDescricao(questionario.getTitulo());
+			menu.setPagina("responderQuestionario.xhtml");
+			menu.setQuestionario(questionario);
+			Menu sub = new Menu();
+			sub.setId(8);
+			menu.setSub(sub);
+			menuDAO.save(menu);//cria link no meu dinamico
 
 			Panel panel = criaPanel(questionario);
 
@@ -156,8 +168,12 @@ public class DashboardBacker {
 	public void handleClose(CloseEvent event) {
 		try {
 			
-			questionario.setId(Integer.valueOf(event.getComponent().getId().substring(2,event.getComponent().getId().length())));
+			questionario.setId(Integer.valueOf(event.getComponent().getId().substring(2,event.getComponent().getId().indexOf("_m_"))));
 			questionarioDAO.delete(questionario);
+			
+			questionario.getMenu().setId(Integer.valueOf(event.getComponent().getId().substring(event.getComponent().getId().indexOf("_m_")+3,event.getComponent().getId().length())));
+			Integer idMenu = questionario.getMenu().getId();
+			menuDAO.delete(new Menu(idMenu));
 			
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Questionario apagado", "Questionario excluido com sucesso.");  
 
