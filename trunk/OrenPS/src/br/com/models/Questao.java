@@ -14,8 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-
 /**
  *
  * @author Marcleonio
@@ -28,8 +26,7 @@ public class Questao  implements Serializable {
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
-	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-	@Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "questionario_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
 	private Questionario questionario;
 	private String pergunta;

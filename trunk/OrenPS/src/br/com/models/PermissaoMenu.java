@@ -16,11 +16,11 @@ public class PermissaoMenu {
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne
-	@JoinColumn(name="menus_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="menus_id", referencedColumnName = "id", insertable=true,updatable=true,nullable=false)
     private Menu menu = new Menu();
     @ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="perfis_id", referencedColumnName = "id")
+	@JoinColumn(name="perfis_id", referencedColumnName = "id",nullable=false)
     private Perfil perfil = new Perfil();
 
    /* Getters e Setters */

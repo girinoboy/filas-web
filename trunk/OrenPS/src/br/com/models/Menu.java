@@ -1,5 +1,7 @@
 package br.com.models;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,7 +29,7 @@ public class Menu {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "menus_id", insertable = true, updatable = false, nullable = true)
+	@JoinColumn(name = "menus_id", insertable = true, updatable = true, nullable = true)
 	private Menu sub;
 	private String descricao;
 	private String url;
@@ -34,8 +37,10 @@ public class Menu {
 	private String icone;
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 	@Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-	@JoinColumn(name="questionarios_id", referencedColumnName = "id", insertable = true, updatable = false, nullable = true)
+	@JoinColumn(name="questionarios_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = true)
 	private Questionario questionario;
+	@OneToMany(mappedBy = "menu", targetEntity = PermissaoMenu.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<PermissaoMenu> permissaoMenu;
 	
 
 	//colocar isso em uma interface depois para diferenciar os menus de questionarios
@@ -147,5 +152,19 @@ public class Menu {
 	 */
 	public void setQuestionario(Questionario questionario) {
 		this.questionario = questionario;
+	}
+
+	/**
+	 * @return the permissaoMenu
+	 */
+	public List<PermissaoMenu> getPermissaoMenu() {
+		return permissaoMenu;
+	}
+
+	/**
+	 * @param permissaoMenu the permissaoMenu to set
+	 */
+	public void setPermissaoMenu(List<PermissaoMenu> permissaoMenu) {
+		this.permissaoMenu = permissaoMenu;
 	}
 }

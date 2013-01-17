@@ -10,12 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -35,12 +32,15 @@ public class Questionario {
 	private Integer dashboardColumn = 0;//default 0
 	@Column(name="item_index")
 	private Integer itemIndex = 0;
-	@OneToOne(mappedBy = "questionario")/* serve para indicar um relacionamento bidirecional, 
+	@OneToOne(mappedBy = "questionario", targetEntity = Menu.class, fetch = FetchType.EAGER, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+	/* serve para indicar um relacionamento bidirecional, 
 	 * informando que questionario é o final do relacionamento 
 	 * entre Menu-Questionario e que é mapeado em Menu pelo atributo questionairo.
 	 * Ou seja, a tabela Menu terá a chave estrangeira para Questionario*/
-	@JoinColumn(name = "menus_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = true)
+	@JoinColumn(name = "menus_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
 	private Menu menu;
+	@Column(name="ativo_inativo", nullable = false)
+	private Boolean ativoInativo = false;
 
 	public Questionario() {}
 
@@ -132,5 +132,22 @@ public class Questionario {
 	 */
 	public void setMenu(Menu menu) {
 		this.menu = menu;
+	}
+
+	/**
+	 * @return the ativoInativo
+	 */
+	public Boolean getAtivoInativo() {
+		if(ativoInativo == null){
+			ativoInativo = false;
+		}
+		return ativoInativo;
+	}
+
+	/**
+	 * @param ativoInativo the ativoInativo to set
+	 */
+	public void setAtivoInativo(Boolean ativoInativo) {
+		this.ativoInativo = ativoInativo;
 	}
 }
