@@ -26,7 +26,7 @@ public class Menu {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "menus_id", insertable = true, updatable = true, nullable = true)
+	@JoinColumn(name = "menus_id", insertable = true, updatable = false, nullable = true)
 	private Menu sub;
 	private String descricao;
 	private String url;
@@ -34,7 +34,7 @@ public class Menu {
 	private String icone;
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 	@Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-	@JoinColumn(name="questao_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
+	@JoinColumn(name="questionarios_id", referencedColumnName = "id", insertable = true, updatable = false, nullable = true)
 	private Questionario questionario;
 	
 

@@ -129,7 +129,7 @@ public class DashboardBacker {
 			sub.setId(8);
 			menu.setSub(sub);
 			menuDAO.save(menu);//cria link no meu dinamico
-
+ 
 			Panel panel = criaPanel(questionario);
 
 			getDashboard().getChildren().add(panel);
@@ -151,7 +151,7 @@ public class DashboardBacker {
 			message.setSummary("Reordered: " + event.getWidgetId());
 			message.setDetail("Item index: " + event.getItemIndex() + ", Column index: " + event.getColumnIndex() + ", Sender index: " + event.getSenderColumnIndex()); 
 
-			questionario.setId(Integer.valueOf(event.getWidgetId().substring(2,event.getWidgetId().length())));
+			questionario.setId(Integer.valueOf(event.getWidgetId().substring(2,event.getWidgetId().indexOf("_m_"))));
 			questionario.setDashboardColumn(event.getColumnIndex());
 			questionario.setItemIndex(event.getItemIndex());
 

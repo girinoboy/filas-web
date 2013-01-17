@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+
 /**
  *
  * @author Marcleonio
@@ -26,13 +28,14 @@ public class Questao  implements Serializable {
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+	@Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
 	@JoinColumn(name = "questionario_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
 	private Questionario questionario;
 	private String pergunta;
 	private String textoDeAjuda;
 	@OneToMany(mappedBy = "questao", targetEntity = Opcao.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(name="opcoes_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = true)
+	@JoinColumn(name="opcoes_id", referencedColumnName = "id", insertable = false, updatable = false, nullable = true)
 	private List<Opcao> opcoes;
 	private Integer tipoDeQuestao;
 	private Boolean editavel;
