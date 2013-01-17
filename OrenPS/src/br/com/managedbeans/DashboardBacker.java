@@ -11,12 +11,15 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.component.behavior.ajax.AjaxBehavior;
 import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
 import org.primefaces.component.commandlink.CommandLink;
 import org.primefaces.component.dashboard.Dashboard;
 import org.primefaces.component.panel.Panel;
+import org.primefaces.component.selectbooleanbutton.SelectBooleanButton;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.DashboardReorderEvent;
 import org.primefaces.model.DashboardColumn;
@@ -40,7 +43,7 @@ public class DashboardBacker {
 	private Questionario questionario =  new Questionario();
 	private QuestionarioDAO questionarioDAO = new QuestionarioDAO();
 	private MenuDAO menuDAO = new MenuDAO();
-
+	
 	public DashboardBacker() {
 		try{
 			dashboard = new Dashboard();
@@ -72,6 +75,7 @@ public class DashboardBacker {
 				//model.transferWidget(arg0, arg1, arg2, arg3);
 
 				panel.getChildren().add(criaLink(questionario,i));
+				panel.getChildren().add(criaBooleanButton(questionario,i));
 
 				i++;
 			}
@@ -80,6 +84,68 @@ public class DashboardBacker {
 			e.printStackTrace();
 			addMessage(e.getMessage());
 		}
+	}
+	
+	public void ativaInativaQuestionario(){
+		
+		String summary = "";
+		
+		summary+=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id");
+		
+		addMessage(summary);
+		
+	}
+	
+
+	private UIComponent criaBooleanButton(Questionario questionario, int i) {
+		SelectBooleanButton booleanButton = new SelectBooleanButton(); 
+		
+		booleanButton.setId("sbb_" + i);
+		//booleanButton.setValue("#{dashboardBacker.questionario.ativoInativo}");
+		booleanButton.setOnLabel("Ativo");
+		booleanButton.setOffLabel("Inativo");
+		booleanButton.setOnIcon("ui-icon-check");
+		booleanButton.setOffIcon("ui-icon-close");
+		booleanButton.setSelected(questionario.getAtivoInativo());
+
+		ExpressionFactory factory = FacesContext.getCurrentInstance().getApplication().getExpressionFactory();
+		ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+		MethodExpression methodExpression = factory.createMethodExpression(elContext,"#{dashboardBacker.ativaInativaQuestionario}", void.class, new Class[] {});
+
+		//para Behavior  <p:ajax update="growl" listener="#{dashboardBacker.ativaInativaQuestionario}"/>
+		AjaxBehavior ajaxBehavior = new AjaxBehavior();
+		ajaxBehavior.addAjaxBehaviorListener( new AjaxBehaviorListenerImpl( methodExpression ) );
+		ajaxBehavior.setUpdate("growl");
+		//ajaxBehavior.setListener(methodExpression);
+		booleanButton.addClientBehavior( "valueChange", ajaxBehavior);//[blur, focus, click, dblclick, keydown, keypress, keyup, mousedown, mousemove, mouseout, mouseover, mouseup, change, select, valueChange]
+		//booleanButton.setActionExpression(methodExpression);
+		//booleanButton.setProcess("@none");
+
+		UIParameter param = new UIParameter();/*
+		param = new UIParameter();
+		param.setName("idMenu");
+		param.setValue("");
+		booleanButton.getChildren().add(param);
+
+		param = new UIParameter();
+		param.setName("pagina");
+		param.setValue("questionario.xhtml");
+		booleanButton.getChildren().add(param);
+
+		param = new UIParameter();
+		param.setName("questionario.titulo");
+		param.setValue(questionario.getTitulo());
+		booleanButton.getChildren().add(param);
+*/
+		param = new UIParameter();
+		param.setName("questionario.id");
+		param.setValue(questionario.getId());
+		booleanButton.getChildren().add(param);
+
+		//booleanButton.setUpdate(":corpoMenuDinamico");
+		//booleanButton.setUpdate("dynamic_dashboard");
+		
+		return booleanButton;
 	}
 
 	private Panel criaPanel(Questionario questionario) throws Exception {
@@ -168,8 +234,13 @@ public class DashboardBacker {
 	public void handleClose(CloseEvent event) {
 		try {
 			
+			//TODO apagar logicamento usando o novo atributo ativoInativo dos questionarios.
+			
+			
+			
 			questionario.setId(Integer.valueOf(event.getComponent().getId().substring(2,event.getComponent().getId().indexOf("_m_"))));
 			questionarioDAO.delete(questionario);
+			
 			
 			questionario.getMenu().setId(Integer.valueOf(event.getComponent().getId().substring(event.getComponent().getId().indexOf("_m_")+3,event.getComponent().getId().length())));
 			Integer idMenu = questionario.getMenu().getId();
