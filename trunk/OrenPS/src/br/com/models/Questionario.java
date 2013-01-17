@@ -35,8 +35,10 @@ public class Questionario {
 	private Integer dashboardColumn = 0;//default 0
 	@Column(name="item_index")
 	private Integer itemIndex = 0;
-	@OneToOne(fetch = FetchType.EAGER, cascade={CascadeType.REMOVE, CascadeType.PERSIST})
-	@Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+	@OneToOne(mappedBy = "questionario")/* serve para indicar um relacionamento bidirecional, 
+	 * informando que questionario é o final do relacionamento 
+	 * entre Menu-Questionario e que é mapeado em Menu pelo atributo questionairo.
+	 * Ou seja, a tabela Menu terá a chave estrangeira para Questionario*/
 	@JoinColumn(name = "menus_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = true)
 	private Menu menu;
 
