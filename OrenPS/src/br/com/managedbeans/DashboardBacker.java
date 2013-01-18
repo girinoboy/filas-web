@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
+import org.hibernate.HibernateException;
 import org.primefaces.component.behavior.ajax.AjaxBehavior;
 import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
 import org.primefaces.component.commandlink.CommandLink;
@@ -43,7 +44,7 @@ public class DashboardBacker {
 	private Questionario questionario =  new Questionario();
 	private QuestionarioDAO questionarioDAO = new QuestionarioDAO();
 	private MenuDAO menuDAO = new MenuDAO();
-	
+
 	public DashboardBacker() {
 		try{
 			dashboard = new Dashboard();
@@ -85,23 +86,37 @@ public class DashboardBacker {
 			addMessage(e.getMessage());
 		}
 	}
-	
+
 	public void ativaInativaQuestionario(){
-		
-		String summary = "";
-		
-		summary+=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id");
-		
-		addMessage(summary);
-		
+
+		try {
+			
+			Integer id = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id"));
+			questionario.setId(id);
+			Boolean ativoInativo = Boolean.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.ativoInativo"));
+			questionario.setAtivoInativo(!ativoInativo);//troca o valor que vem da request
+			
+			questionarioDAO.ativaInativaQuestionario(questionario);
+			
+			String summary = questionario.getAtivoInativo() ? "Questionario Ativado":"Questionario Desativado";
+			addMessage(summary);
+			
+		} catch (HibernateException e) {
+			addMessage(e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e) {
+			addMessage(e.getMessage());
+			e.printStackTrace();
+		}
+
 	}
-	
+
 
 	private UIComponent criaBooleanButton(Questionario questionario, int i) {
 		SelectBooleanButton booleanButton = new SelectBooleanButton(); 
-		
+
 		booleanButton.setId("sbb_" + i);
-		//booleanButton.setValue("#{dashboardBacker.questionario.ativoInativo}");
+		booleanButton.setValue(questionario.getAtivoInativo());
 		booleanButton.setOnLabel("Ativo");
 		booleanButton.setOffLabel("Inativo");
 		booleanButton.setOnIcon("ui-icon-check");
@@ -136,15 +151,22 @@ public class DashboardBacker {
 		param.setName("questionario.titulo");
 		param.setValue(questionario.getTitulo());
 		booleanButton.getChildren().add(param);
-*/
+		 */
 		param = new UIParameter();
 		param.setName("questionario.id");
 		param.setValue(questionario.getId());
 		booleanButton.getChildren().add(param);
+		
+		param = new UIParameter();
+		param.setName("questionario.ativoInativo");
+		param.setValue(questionario.getAtivoInativo());
+		booleanButton.getChildren().add(param);
+		
+		
 
 		//booleanButton.setUpdate(":corpoMenuDinamico");
 		//booleanButton.setUpdate("dynamic_dashboard");
-		
+
 		return booleanButton;
 	}
 
@@ -186,7 +208,7 @@ public class DashboardBacker {
 			questionario.setDashboardColumn(0);
 			questionario.setItemIndex(0);
 			questionario = questionarioDAO.save(questionario);
-			
+
 			Menu menu = new Menu();
 			menu.setDescricao(questionario.getTitulo());
 			menu.setPagina("responderQuestionario.xhtml");
@@ -195,7 +217,7 @@ public class DashboardBacker {
 			sub.setId(8);
 			menu.setSub(sub);
 			menuDAO.save(menu);//cria link no meu dinamico
- 
+
 			Panel panel = criaPanel(questionario);
 
 			getDashboard().getChildren().add(panel);
@@ -233,19 +255,19 @@ public class DashboardBacker {
 
 	public void handleClose(CloseEvent event) {
 		try {
-			
+
 			//TODO apagar logicamento usando o novo atributo ativoInativo dos questionarios.
-			
-			
-			
+
+
+
 			questionario.setId(Integer.valueOf(event.getComponent().getId().substring(2,event.getComponent().getId().indexOf("_m_"))));
 			questionarioDAO.delete(questionario);
-			
-			
+
+
 			questionario.getMenu().setId(Integer.valueOf(event.getComponent().getId().substring(event.getComponent().getId().indexOf("_m_")+3,event.getComponent().getId().length())));
 			Integer idMenu = questionario.getMenu().getId();
 			menuDAO.delete(new Menu(idMenu));
-			
+
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Questionario apagado", "Questionario excluido com sucesso.");  
 
 			addMessage(message);

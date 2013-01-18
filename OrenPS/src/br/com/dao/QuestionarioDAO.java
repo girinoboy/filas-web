@@ -59,4 +59,22 @@ public class QuestionarioDAO extends GenericoDAO<Questionario, Serializable>{
         }
     }
 
+
+	public Questionario ativaInativaQuestionario(Questionario questionario) throws HibernateException, Exception {
+		
+		//HibernateUtility.getSession().update("", questionario);  
+		
+		//Nome da classe e atributo
+ 		String updateQuery = "UPDATE Questionario obj SET ativo_inativo = :valor WHERE obj.id = :idQuestionario";  
+ 		HibernateUtility.getSession().createQuery(updateQuery)
+ 		.setBoolean("valor", questionario.getAtivoInativo())
+ 		.setLong("idQuestionario",questionario.getId())
+ 		.executeUpdate();
+ 		
+ 		HibernateUtility.commitTransaction();
+		
+		return questionario;
+		
+	}
+
 }

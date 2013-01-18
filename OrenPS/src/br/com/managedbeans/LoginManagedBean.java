@@ -87,9 +87,10 @@ public class LoginManagedBean {
 
 			session = (HttpSession) ctx.getExternalContext().getSession(false);
 
-			session.setAttribute("usuarioAutenticado", null);
-			session.setAttribute("usuarioSession", null);
-			session.setAttribute("indexController", null);
+			session.removeAttribute("usuarioAutenticado");
+			//session.setAttribute("usuarioAutenticado", null);
+			//session.setAttribute("usuarioSession", null);
+			//session.setAttribute("indexController", null);
 
 			ctx.getExternalContext().redirect(ctx.getExternalContext().getRequestContextPath() + "/" + Constantes.PAGINA_INDEX);
 
