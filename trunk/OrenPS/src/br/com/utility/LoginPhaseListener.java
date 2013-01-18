@@ -51,11 +51,12 @@ public class LoginPhaseListener implements PhaseListener {
 			//			menusPermitidos.add(permissao.getMenu());
 			//		}
 			if(usuario != null){
+				/*
 				for (UsuarioPerfil usuarioPerfil : usuario.getUsuarioPeril()) {
 					for (PermissaoMenu permissaoMenu : usuarioPerfil.getPerfil().getPermissaoMenu()) {
 						menusPermitidos.add(permissaoMenu.getMenu());
 					}
-				}
+				}*/
 				IndexController indexcontroller = (IndexController)session.getAttribute("indexController");
 
 				if(indexcontroller != null && !pagina.equals("/index.xhtml")  && !pagina.equals("/acessoNegado.xhtml") && !pagina.equals("/login.xhtml")){
