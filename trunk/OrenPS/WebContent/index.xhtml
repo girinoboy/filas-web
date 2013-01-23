@@ -3,6 +3,7 @@
  xmlns:h="http://java.sun.com/jsf/html"
  xmlns:ui="http://java.sun.com/jsf/facelets"
  xmlns:f="http://java.sun.com/jsf/core">
+ <f:view locale="#{localeController.currentLocale}"> 
 <h:head>
 	<title>Menu Dinamico</title>
 </h:head>
@@ -28,28 +29,26 @@
  
 	</p:confirmDialog>
 	
-	
 		<center>
-		<p:panel header="Oren Sistema" style="text-align: left;width: 80%; height:99%; vertical-align: middle;">
-			<h:panelGrid columns="1">
-				<h:column>
-					<h:form>
-						<p:menubar model="#{indexController.menuModel}"/>
-					</h:form>
-				</h:column>
-				<h:column>
-					
-						<p:panel id="corpoMenuDinamico" style="height:78%; vertical-align: top;">
-							<div id="conteudo">
-						        <ui:include src="#{indexController.menu.pagina}" cache="false"/>
-						    </div>
-						</p:panel>
-					
-				</h:column>
-			</h:panelGrid>
-		</p:panel>
+			<p:panel header="#{msgs.systemName}" style="text-align: left;width: 80%; height:99%; vertical-align: middle;">
+				<h:panelGrid columns="1">
+					<h:column>
+						<h:form>
+							<p:menubar model="#{indexController.menuModel}"/>
+						</h:form>
+					</h:column>
+					<h:column>
+						
+							<p:panel id="corpoMenuDinamico" style="height:78%; vertical-align: top;">
+								<div id="conteudo">
+							        <ui:include src="#{indexController.menu.pagina}" cache="false"/>
+							    </div>
+							</p:panel>
+						
+					</h:column>
+				</h:panelGrid>
+			</p:panel>
 		</center>
-		
-		
 	</h:body>
+</f:view>
 </html>
