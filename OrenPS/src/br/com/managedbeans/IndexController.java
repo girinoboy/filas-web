@@ -2,6 +2,7 @@ package br.com.managedbeans;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -45,9 +46,12 @@ public class IndexController {
 	private MenuDAO menuDAO = new MenuDAO();
 	private Menu menu = new Menu();
 	private List<Menu>  menusPermitidos = new ArrayList<Menu>();
+	private ResourceBundle rb;
 
 	public IndexController(){
 		try{
+			FacesContext fc = FacesContext.getCurrentInstance();
+			rb = ResourceBundle.getBundle("br.com.messages.messages",fc.getViewRoot().getLocale());
 			geraMenu();
 			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 			Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
@@ -79,11 +83,17 @@ public class IndexController {
 				if(StringUtils.isBlank(menu.getUrl()) && StringUtils.isBlank(menu.getPagina()) ){
 					Submenu submenu = new Submenu();
 					submenu.setLabel(menu.getDescricao());
+					
+					if(StringUtils.isNotBlank(menu.getIconeNativo())){
+						submenu.setIcon(menu.getIconeNativo());
+					}else if(StringUtils.isNotBlank(menu.getIcone())){
+						submenu.setIcon("img/" + menu.getIcone());
+					}
 					geraMenu(menu,submenu);
 					menuModel.addSubmenu(submenu);
 				}else{
 					MenuItem mi = new MenuItem();
-					mi.setValue(menu.getDescricao());
+					mi.setValue(rb.getString(menu.getDescricao()));
 					if(StringUtils.isNotBlank(menu.getIconeNativo())){
 						mi.setIcon(menu.getIconeNativo());
 					}else if(StringUtils.isNotBlank(menu.getIcone())){
@@ -142,6 +152,11 @@ public class IndexController {
 
 				Submenu sm = new Submenu();
 				sm.setLabel(m.getDescricao());
+				if(StringUtils.isNotBlank(menu.getIconeNativo())){
+					submenu.setIcon(menu.getIconeNativo());
+				}else if(StringUtils.isNotBlank(menu.getIcone())){
+					submenu.setIcon("img/" + menu.getIcone());
+				}
 				sm = geraMenu(m,sm);
 				submenu.getChildren().add(sm);
 

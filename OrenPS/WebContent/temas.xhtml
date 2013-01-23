@@ -7,6 +7,7 @@
 
 	<h:form>
 	    <p:panel id="panelTema" header="Controle de Temas" style="margin-top: 10px; width: 500px;">
+	    <h:outputText value="#{msgs.themes}"/>
 		    <p:themeSwitcher value="#{themeSwitcherBean.theme}" style="width:155px" effect="fade">
 		        <f:selectItem itemLabel="Choose Theme" itemValue="" />
 		        <f:selectItems value="#{themeSwitcherBean.themes}" />

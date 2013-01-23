@@ -3,7 +3,12 @@
  */
 package br.com.utility;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,7 +19,6 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.ImageHtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
 
 import br.com.managedbeans.IndexController;
@@ -30,22 +34,51 @@ public class EmailUtils {
 	private static final String USERNAME = "oren.software@gmail.com";
 	private static final String PASSWORD = "OrenSoft";
 	private static final String EMAILORIGEM = "user@gmail.com";
-	private static final Integer PORTA = 465;//578
+	private static final Integer PORT = 465;//578
 
 	private static EmailBean emailBean = new EmailBean();
 
 	/**
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	public EmailUtils() {
-		// TODO Auto-generated constructor stub
+	    // o arquivo encontra-se no mesmo diretório //da aplicação
+	    File file = new File("mail.properties");  
+	    Properties props = new Properties();
+	    FileInputStream fis = null;
+	    try {
+	        fis = new FileInputStream(file);  
+	        //lê os dados que estão no arquivo  
+	        props.load(fis);
+	        fis.close();
+	        
+	        Properties prop = new Properties();
+	        //load a properties file
+    		prop.load(new FileInputStream("mail.properties"));
+    		
+    		//get the property value and print it out
+            System.out.println(prop.getProperty("mail.user"));
+	        
+	        String user = props.getProperty("mail.user");
+	        String from = props.getProperty("mail.from");
+	        String smtp = props.getProperty("mail.smtp.host");
+	        String pop3 = props.getProperty("mail.pop3.host");
+	        String protocol = props.getProperty("mail.store.protocol");
+	        String debug = props.getProperty("mail.debug");
+	        
+	    }
+	    catch (IOException ex) {
+	        System.out.println(ex.getMessage());
+	        ex.printStackTrace();
+	    }
 	}
 
 	private static Email conectaEmailSimples() throws Exception,EmailException{
 
 		Email email = new SimpleEmail();
 		email.setHostName(HOSTNAME);
-		email.setSmtpPort(PORTA);
+		email.setSmtpPort(PORT);
 		email.setAuthenticator(new DefaultAuthenticator(USERNAME, PASSWORD));
 		email.setSSLOnConnect(true);
 		email.setFrom(EMAILORIGEM);
@@ -59,7 +92,7 @@ public class EmailUtils {
 
 		HtmlEmail email = new HtmlEmail();
 		email.setHostName(HOSTNAME);
-		email.setSmtpPort(PORTA);
+		email.setSmtpPort(PORT);
 		email.setAuthenticator(new DefaultAuthenticator(USERNAME, PASSWORD));
 		email.setSSLOnConnect(true);
 		email.setFrom(EMAILORIGEM);
@@ -90,7 +123,7 @@ public class EmailUtils {
 		email.addTo(emailBean.getTo());
 
 		// embed the image and get the content id
-		URL url = new URL("http://admargarida.com.br/wp/wp-content/uploads/2013/01/arvore-frutifera.jpg");
+		URL url = new URL("img/email_modelo.png");
 		String cid = email.embed(url, "Oren logo");
 
 		// load your HTML email template
