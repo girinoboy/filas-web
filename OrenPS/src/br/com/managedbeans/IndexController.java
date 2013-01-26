@@ -82,8 +82,11 @@ public class IndexController {
 
 				if(StringUtils.isBlank(menu.getUrl()) && StringUtils.isBlank(menu.getPagina()) ){
 					Submenu submenu = new Submenu();
-					submenu.setLabel(menu.getDescricao());
-					
+					if(rb.containsKey(menu.getDescricao())){
+						submenu.setLabel(rb.getString(menu.getDescricao()));
+					}else{
+						submenu.setLabel(menu.getDescricao());
+					}
 					if(StringUtils.isNotBlank(menu.getIconeNativo())){
 						submenu.setIcon(menu.getIconeNativo());
 					}else if(StringUtils.isNotBlank(menu.getIcone())){
@@ -93,7 +96,11 @@ public class IndexController {
 					menuModel.addSubmenu(submenu);
 				}else{
 					MenuItem mi = new MenuItem();
-					mi.setValue(rb.getString(menu.getDescricao()));
+					if(rb.containsKey(menu.getDescricao())){
+						mi.setValue(rb.getString(menu.getDescricao()));
+					}else{
+						mi.setValue(menu.getDescricao());
+					}
 					if(StringUtils.isNotBlank(menu.getIconeNativo())){
 						mi.setIcon(menu.getIconeNativo());
 					}else if(StringUtils.isNotBlank(menu.getIcone())){
@@ -117,12 +124,12 @@ public class IndexController {
 						param.setName("idMenu");
 						param.setValue(menu.getId());
 						mi.getChildren().add(param);
-						
+
 						param = new UIParameter();
 						param.setName("questionario.id");
 						param.setValue(menu.getQuestionario().getId());
 						mi.getChildren().add(param);
-						
+
 						param = new UIParameter();
 						param.setName("questionario.titulo");
 						param.setValue(menu.getQuestionario().getTitulo());
@@ -151,7 +158,12 @@ public class IndexController {
 			if(StringUtils.isBlank(m.getUrl()) && StringUtils.isBlank(m.getPagina()) ){
 
 				Submenu sm = new Submenu();
-				sm.setLabel(m.getDescricao());
+				if(rb.containsKey(m.getDescricao())){
+					sm.setLabel(rb.getString(m.getDescricao()));
+				}else{
+					sm.setLabel(m.getDescricao());
+				}
+				
 				if(StringUtils.isNotBlank(menu.getIconeNativo())){
 					submenu.setIcon(menu.getIconeNativo());
 				}else if(StringUtils.isNotBlank(menu.getIcone())){
@@ -162,7 +174,11 @@ public class IndexController {
 
 			}else{
 				MenuItem mi = new MenuItem();
-				mi.setValue(m.getDescricao());
+				if(rb.containsKey(m.getDescricao())){
+					mi.setValue(rb.getString(m.getDescricao()));
+				}else{
+					mi.setValue(m.getDescricao());
+				}
 				if(StringUtils.isNotBlank(m.getIconeNativo())){
 					mi.setIcon(m.getIconeNativo());
 				}else if(StringUtils.isNotBlank(m.getIcone())){
@@ -176,7 +192,7 @@ public class IndexController {
 					MethodExpression methodExpression = factory.createMethodExpression(elContext,"#{indexController.target}", void.class, new Class[] {});
 					//mi.addActionListener(new MethodExpressionActionListener(methodExpression));
 					mi.setActionExpression(methodExpression);
-					
+
 					UIParameter param = new UIParameter();
 					param.setName("pagina");
 					param.setValue(m.getPagina());
@@ -186,12 +202,12 @@ public class IndexController {
 					param.setName("idMenu");
 					param.setValue(m.getId());
 					mi.getChildren().add(param);
-					
+
 					param = new UIParameter();
 					param.setName("questionario.id");
 					param.setValue(m.getQuestionario().getId());
 					mi.getChildren().add(param);
-					
+
 					param = new UIParameter();
 					param.setName("questionario.titulo");
 					param.setValue(m.getQuestionario().getTitulo());
