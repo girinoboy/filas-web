@@ -1,6 +1,10 @@
 package br.com.dao;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.factory.HibernateUtility;
@@ -62,8 +66,8 @@ public class UsuarioDAO extends GenericoDAO<Usuario, Long>{
 		}catch(Exception e){
 			throw e;
 		}
-			return usuario;
-		
+		return usuario;
+
 	}
 
 	public void saveTheme(String theme, Usuario usuario) throws HibernateException, Exception {
@@ -76,6 +80,27 @@ public class UsuarioDAO extends GenericoDAO<Usuario, Long>{
 		
 		HibernateUtility.commitTransaction();
 		
+	}
+	
+	public List<Usuario> listaControleEmail()  throws HibernateException, Exception {
+		List<Usuario> list = null;
+		try{
+			Criteria criteriaTable1 = HibernateUtility.getSession().createCriteria(Usuario.class);
+			Criteria criteriaTable2 = criteriaTable1.createCriteria("usuarioQuestionario", CriteriaSpecification.LEFT_JOIN);
+			//Criteria criteriaTable3 = criteriaTable1.createCriteria("questionario",CriteriaSpecification.LEFT_JOIN);
+			
+			//criteriaTable1.setFetchMode("usuario", FetchMode.JOIN); 
+			
+			list = criteriaTable1.list();
+			
+			//System.out.println(list);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			throw e;
+		}
+		return list;
+
 	}
 }
 

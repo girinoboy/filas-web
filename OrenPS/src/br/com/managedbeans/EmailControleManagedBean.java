@@ -11,11 +11,14 @@ import java.util.UUID;
   
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
 import javax.servlet.ServletContext;  
   
 import org.primefaces.model.LazyDataModel;
 
+import br.com.dao.UsuarioDAO;
 import br.com.dao.UsuarioQuestionarioDAO;
+import br.com.models.Usuario;
 import br.com.models.UsuarioQuestionario;
 /**
  * @author marcleonio.medeiros
@@ -27,9 +30,15 @@ public class EmailControleManagedBean {
 
 	
 	
-	private LazyDataModel<UsuarioQuestionario> lazyModel;  
+	private LazyDataModel<UsuarioQuestionario> lazyModel;
+	
+	private LazyDataModel<Usuario> lazyModelCE;
+	
+	private List<Usuario> filteredCars;
 	  
-    private UsuarioQuestionario selectedCar;  
+    private UsuarioQuestionario selectedCar;
+    
+    private Usuario selectedEC;
   
     private List<UsuarioQuestionario> usuarioQuestionario;
 
@@ -38,6 +47,10 @@ public class EmailControleManagedBean {
 	private static String[] manufacturers;  
 	
 	private UsuarioQuestionarioDAO usuarioQuestionarioDAO = new UsuarioQuestionarioDAO();
+	
+	private UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+	private List<Usuario> listControleEmail;
   
     static {  
         colors = new String[10];  
@@ -73,12 +86,27 @@ public class EmailControleManagedBean {
 	        
 	        try {
 	        	usuarioQuestionario = usuarioQuestionarioDAO.list();
-	        	lazyModel = new LazyUsuarioQuestionarioDataModel(usuarioQuestionario);  
+	        	usuarioQuestionario = usuarioQuestionarioDAO.a();
+	        	listControleEmail =  usuarioDAO.list();
+	        	//lazyModel = new LazyUsuarioQuestionarioDataModel(usuarioQuestionario); 
+	        	lazyModelCE = new LazyControleEmail(listControleEmail);
+	        	
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	} 
+	
+	private SelectItem[] createFilterOptions(String[] data)  {    
+        SelectItem[] options = new SelectItem[data.length + 1];    
+    
+        options[0] = new SelectItem("", "Select");    
+        for(int i = 0; i < data.length; i++) {    
+            options[i + 1] = new SelectItem(data[i], data[i]);    
+        }    
+    
+        return options;    
+    }
   
     public UsuarioQuestionario getSelectedCar() {  
         return selectedCar;  
@@ -118,4 +146,36 @@ public class EmailControleManagedBean {
     public void onRowSelect(){
     	
     }
+
+	public List<Usuario> getListControleEmail() {
+		return listControleEmail;
+	}
+
+	public void setListControleEmail(List<Usuario> listControleEmail) {
+		this.listControleEmail = listControleEmail;
+	}
+
+	public LazyDataModel<Usuario> getLazyModelCE() {
+		return lazyModelCE;
+	}
+
+	public void setLazyModelCE(LazyDataModel<Usuario> lazyModelCE) {
+		this.lazyModelCE = lazyModelCE;
+	}
+
+	public Usuario getSelectedEC() {
+		return selectedEC;
+	}
+
+	public void setSelectedEC(Usuario selectedEC) {
+		this.selectedEC = selectedEC;
+	}
+
+	public List<Usuario> getFilteredCars() {
+		return filteredCars;
+	}
+
+	public void setFilteredCars(List<Usuario> filteredCars) {
+		this.filteredCars = filteredCars;
+	}
 }

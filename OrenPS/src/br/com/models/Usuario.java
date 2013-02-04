@@ -1,6 +1,7 @@
 package br.com.models;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,7 +34,12 @@ public class Usuario {
     private String email;
     @OneToMany(mappedBy = "usuario", targetEntity = Resposta.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Resposta> resposta;
+    @OneToMany(mappedBy = "usuario", targetEntity = UsuarioQuestionario.class, fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<UsuarioQuestionario> usuarioQuestionario = new ArrayList<UsuarioQuestionario>();
 
+    public Usuario(Integer id){
+    	this.id = id;
+    }
     /*
     @Override
     public boolean equals(Object obj) {
@@ -57,7 +63,14 @@ public class Usuario {
         return hash;
     }*/
     
-    public Integer getId() {
+    public Usuario() {}
+
+	public Usuario(String nome, Integer id) {
+		this.nome = nome;
+		this.id = id;
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
@@ -134,6 +147,25 @@ public class Usuario {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Resposta> getResposta() {
+		return resposta;
+	}
+
+	public void setResposta(List<Resposta> resposta) {
+		this.resposta = resposta;
+	}
+
+	public List<UsuarioQuestionario> getUsuarioQuestionario() {
+		if(usuarioQuestionario==null){
+			usuarioQuestionario = new ArrayList<UsuarioQuestionario>();
+		}
+		return usuarioQuestionario;
+	}
+
+	public void setUsuarioQuestionario(List<UsuarioQuestionario> usuarioQuestionario) {
+		this.usuarioQuestionario = usuarioQuestionario;
 	}
 
 }

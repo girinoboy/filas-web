@@ -10,27 +10,56 @@
     </h:head>
 	<h:form id="form">  
 	  
-	    <p:dataTable var="car" value="#{emailControleManagedBean.lazyModel}" paginator="true" rows="10"  
+	    <p:dataTable var="car" value="#{emailControleManagedBean.listControleEmail}" paginator="true" rows="10"  
 	                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"  
-	                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{emailControleManagedBean.selectedCar}" id="carTable" lazy="true">  
+	                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{emailControleManagedBean.selectedEC}" id="carTable" lazy="true" widgetVar="carsTable"
+	                 filteredValue="#{emailControleManagedBean.filteredCars}" emptyMessage="No cars found with given criteria">  
 	  
 	        <p:ajax event="rowSelect" listener="#{emailControleManagedBean.onRowSelect}" update=":form:display" oncomplete="carDialog.show()" />  
+	  		
+	  		<f:facet name="header">  
+	            <p:outputPanel>  
+	                <h:outputText value="Search all fields:" />  
+	                <p:inputText id="globalFilter" onkeyup="carsTable.filter()" style="width:150px" />  
+	                <p:watermark for="globalFilter" value="Search with a keyword" />
+	            </p:outputPanel>  
+	        </f:facet>
+	        
+		  	<p:columnGroup type="header">  
+	            <p:row>  
+	                <p:column rowspan="2" headerText="Nome" sortBy="#{car.nome}" />  
+	                <p:column colspan="2" headerText="Status" />  
+	            </p:row>  
 	  
-	        <p:column headerText="Nome" sortBy="#{car.usuario.nome}" filterBy="#{car.usuario.nome}">  
-	            <h:outputText value="#{car.usuario.nome}" />  
-	        </p:column>  
+	            <p:row>  
+	                <p:column headerText="Email enviado"  />  
+	                <p:column headerText="Respondido" />  
+	            </p:row>  
+	        </p:columnGroup>
 	  
-	        <p:column headerText="Questionario" sortBy="#{car.questionario.titulo}" filterBy="#{car.questionario.titulo}">  
-	            <h:outputText value="#{car.questionario.titulo}" />  
-	        </p:column>  
+	  		<p:subTable var="stats" value="#{car.usuarioQuestionario}" > 
+	  		 
+	            <f:facet name="header" >  
+	            <p:column  filterMatchMode="startsWith"> 
+	              <h:outputText value="#{car.nome}"/>
+	              </p:column>   
+	            </f:facet>  
 	  
-	        <p:column headerText="Email Enviado" sortBy="#{car.emailEnviado}" filterBy="#{car.emailEnviado}">  
-	            <h:outputText value="#{car.emailEnviado}" />  
-	        </p:column>  
+	            <p:column  >  
+	                #{stats.questionario.titulo}  
+	            </p:column>  
 	  
-	        <p:column headerText="Respondido" sortBy="#{car.questionarioRespondido}" filterBy="#{car.questionarioRespondido}">  
-	            <h:outputText value="#{car.questionarioRespondido}" />  
-	        </p:column>  
+	            <p:column id="emailEnviadoColumn" filterBy="#{stats.emailEnviado}" footerText="contains" filterMatchMode="contains">  
+	                <h:outputText value="#{stats.emailEnviado}"/>  
+	            </p:column>  
+	  
+	            <p:column>  
+	                #{stats.questionarioRespondido}  
+	            </p:column>
+            
+            </p:subTable>
+	          
+	   
 	    </p:dataTable>  
 	  
 	    <p:dialog header="Car Detail" widgetVar="carDialog" resizable="false"  
@@ -43,16 +72,9 @@
 	            </f:facet>  
 	  
 	            <h:outputText value="Nome:" />  
-	            <h:outputText value="#{car.usuario.nome}" style="font-weight:bold"/>  
+	            <h:outputText value="#{car.nome}" style="font-weight:bold"/>  
 	  
-	            <h:outputText value="Questionario:" />  
-	            <h:outputText value="#{car.questionario.titulo}" style="font-weight:bold"/>  
-	  
-	            <h:outputText value="Enviado:" />  
-	            <h:outputText value="#{car.emailEnviado}" style="font-weight:bold"/>  
-	  
-	            <h:outputText value="Respondido:" />  
-	            <h:outputText value="#{car.questionarioRespondido}" style="font-weight:bold"/>  
+	            
 	        </h:panelGrid>  
 	    </p:dialog>  
 	  
