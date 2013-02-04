@@ -121,7 +121,7 @@ public class HibernateUtility {
 			.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider")
 			.setProperty("hibernate.current_session_context_class", "thread")
 			//.setProperty("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory")
-			.setProperty("hibernate.default_schema", "dbo")
+			//.setProperty("hibernate.default_schema", "dbo")
 
 			.setProperty("hibernate.validator.apply_to_ddl", "false")
 			.setProperty("hibernate.validator.autoregister_listeners", "false")
