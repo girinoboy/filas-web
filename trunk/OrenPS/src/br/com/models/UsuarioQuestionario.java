@@ -49,6 +49,13 @@ public class UsuarioQuestionario {
 	}
 
 
+	public UsuarioQuestionario(String titulo, boolean emailEnviado, boolean respondido) {
+		this.getQuestionario().setTitulo(titulo);
+		this.emailEnviado = emailEnviado;
+		this.questionarioRespondido = respondido;
+	}
+
+
 	/**
 	 * @return the id
 	 */
@@ -85,6 +92,9 @@ public class UsuarioQuestionario {
 	 * @return the questionario
 	 */
 	public Questionario getQuestionario() {
+		if(questionario == null){
+			questionario = new Questionario();
+		}
 		return questionario;
 	}
 
