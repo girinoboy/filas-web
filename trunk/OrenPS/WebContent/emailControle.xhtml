@@ -9,10 +9,49 @@
         <title>Controle de emails</title>
     </h:head>
 	<h:form id="form">  
+	
+		<p:selectManyMenu id="scroll" value="#{autoCompleteBean.selectedPlayers}" converter="player" style="width:150px;height:200px" var="p" showCheckbox="true">  
+            <f:selectItems value="#{autoCompleteBean.players}" var="player" itemLabel="#{player.name}" itemValue="#{player}" />  
+  
+            <p:column>  
+                <p:graphicImage value="/images/barca/#{p.photo}" width="40"/>  
+            </p:column>  
+  
+            <p:column>  
+                #{p.name} - #{p.number}  
+            </p:column>  
+        </p:selectManyMenu>
+	
+		<p:dataTable var="usuario" value="#{emailControleManagedBean.listControleEmail}" rowKey="#{usuario.id}" paginator="true" rows="10"  
+                selection="#{emailControleManagedBean.selectedEC}" selectionMode="single" filteredValue="#{emailControleManagedBean.filteredCars}" id="usersTable">  
+  
+	        <p:ajax event="rowSelect" update=":form:display" oncomplete="carDialog.show()" />  
+	  
+	        <f:facet name="header">  
+	            List of User  
+	        </f:facet>  
+	  
+	        <p:column headerText="Nome" sortBy="#{usuario.nome}" filterBy="#{usuario.nome}" id="nome">  
+	            #{usuario.nome}
+	        </p:column>  
+	  
+	        <p:column headerText="Tema" sortBy="#{usuario.tema}" filterBy="#{usuario.tema}" id="tema">  
+	            #{usuario.tema}
+	        </p:column>  
+	  
+	        <p:column headerText="Loign" sortBy="#{usuario.login}" filterBy="#{usuario.login}" id="login">  
+	            #{usuario.login} 
+	        </p:column>  
+	  
+	        <p:column headerText="Email" sortBy="#{usuario.email}" filterBy="#{usuario.email}" id="email">  
+	            #{usuario.email}  
+	        </p:column>  
+	  
+	    </p:dataTable>  
 	  
 	    <p:dataTable var="car" value="#{emailControleManagedBean.listControleEmail}" paginator="true" rows="10"  
 	                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"  
-	                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{emailControleManagedBean.selectedEC}" id="carTable" lazy="true" widgetVar="carsTable"
+	                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{emailControleManagedBean.selectedEC}" id="carsTable" lazy="true" widgetVar="carsTable"
 	                 filteredValue="#{emailControleManagedBean.filteredCars}" emptyMessage="No cars found with given criteria">  
 	  
 	        <p:ajax event="rowSelect" listener="#{emailControleManagedBean.onRowSelect}" update=":form:display" oncomplete="carDialog.show()" />  
@@ -46,15 +85,15 @@
 	            </f:facet>  
 	  
 	            <p:column  >  
-	                #{stats.questionario.titulo}  
+	                <h:outputText value="#{stats.questionario.titulo}"/>
 	            </p:column>  
 	  
 	            <p:column id="emailEnviadoColumn" filterBy="#{stats.emailEnviado}" footerText="contains" filterMatchMode="contains">  
-	                <h:outputText value="#{stats.emailEnviado}"/>  
+	                <h:outputText value="#{stats.emailEnviado?'Sim':'Não'}"/>
 	            </p:column>  
 	  
 	            <p:column>  
-	                #{stats.questionarioRespondido}  
+	               <h:outputText value="#{stats.questionarioRespondido?'Sim':'Não'}"/>
 	            </p:column>
             
             </p:subTable>
