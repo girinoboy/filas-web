@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
 
+import br.com.models.Anexo;
 import br.com.models.Menu;
 import br.com.models.Opcao;
 import br.com.models.Perfil;
@@ -144,6 +145,7 @@ public class HibernateUtility {
 					.addAnnotatedClass(Opcao.class)
 					.addAnnotatedClass(Resposta.class)
 					.addAnnotatedClass(UsuarioQuestionario.class)
+					.addAnnotatedClass(Anexo.class)
 					//MOVIMENTOS
 					//.configure()
 					.buildSessionFactory();

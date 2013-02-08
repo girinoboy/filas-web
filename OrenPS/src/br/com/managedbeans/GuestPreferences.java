@@ -1,4 +1,4 @@
-package br.com.models;
+package br.com.managedbeans;
 
 import java.io.Serializable;
 import java.util.Map;

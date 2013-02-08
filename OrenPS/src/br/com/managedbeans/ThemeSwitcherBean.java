@@ -1,59 +1,35 @@
-package br.com.models;
+package br.com.managedbeans;
 
-import java.util.ArrayList;  
-import java.util.List;  
-import java.util.Map;  
-import java.util.TreeMap;  
-import javax.annotation.PostConstruct;  
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 import org.hibernate.HibernateException;
 
 import br.com.dao.UsuarioDAO;
+import br.com.models.Usuario;
 
 @ManagedBean
 @RequestScoped
-public class ThemeSwitcherBean {  
+public class ThemeSwitcherBean extends GenericoMB{
           
-    private Map<String, String> themes;  
-      
-    private List<Theme> advancedThemes;  
+    private Map<String, String> themes;
     
-    UsuarioDAO usuarioDAO =  new UsuarioDAO();
+    private UsuarioDAO usuarioDAO =  new UsuarioDAO();
       
-    private String theme;  
+    private String theme;
+    
     @ManagedProperty(value = "#{guestPreferences}")
-    private GuestPreferences gp;  
+    private GuestPreferences gp;
   
-    public void setGp(GuestPreferences gp) {  
-        this.gp = gp;  
-    }  
-      
-    public Map<String, String> getThemes() {  
-        return themes;  
-    }  
-  
-    public String getTheme() {  
-        return theme;  
-    }  
-  
-    public void setTheme(String theme) {  
-        this.theme = theme;  
-    }  
-  
-    @PostConstruct  
-    public void init() {  
-        theme = gp.getTheme();  
-          
-        advancedThemes = new ArrayList<Theme>();  
-        advancedThemes.add(new Theme("aristo", "aristo.png"));  
-        advancedThemes.add(new Theme("cupertino", "cupertino.png"));  
-        advancedThemes.add(new Theme("trontastic", "trontastic.png"));  
-          
+    @PostConstruct
+    public void init() {
+        theme = gp.getTheme();
+        //TODO mudar para pegar valores do banco de dados.  
         themes = new TreeMap<String, String>();  
         themes.put("Aristo", "aristo");  
         themes.put("Black-Tie", "black-tie");  
@@ -86,19 +62,31 @@ public class ThemeSwitcherBean {
         themes.put("UI-Darkness", "ui-darkness");  
         themes.put("UI-Lightness", "ui-lightness");  
         themes.put("Vader", "vader");  
-    }  
+    }
       
-    public void saveTheme() throws HibernateException, Exception {  
-    	HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-    	Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
+    public void saveTheme() throws HibernateException, Exception {
+    	
+    	Usuario usuario = getUserSession();
     	if(theme !=null){
     		usuario.setTema(theme);
     	}
     	usuarioDAO.saveTheme(theme,usuario);
-        gp.setTheme(theme);  
-    }  
+        gp.setTheme(theme);
+    }
+    
+    public void setGp(GuestPreferences gp) {
+        this.gp = gp;
+    }
+      
+    public Map<String, String> getThemes() {
+        return themes;
+    }
   
-    public List<Theme> getAdvancedThemes() {  
-        return advancedThemes;  
-    }  
+    public String getTheme() {
+        return theme;
+    }
+  
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
 }  

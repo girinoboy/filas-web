@@ -13,7 +13,6 @@ import org.hibernate.HibernateException;
 import org.primefaces.context.RequestContext;
 
 import br.com.dao.UsuarioDAO;
-import br.com.models.GuestPreferences;
 import br.com.models.Usuario;
 import br.com.models.UsuarioPerfil;
 import br.com.utility.Constantes;

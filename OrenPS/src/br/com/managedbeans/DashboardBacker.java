@@ -216,6 +216,7 @@ public class DashboardBacker {
 			Menu sub = new Menu();
 			sub.setId(8);
 			menu.setSub(sub);
+			menu.setIconeNativo("ui-icon-document");
 			menuDAO.save(menu);//cria link no meu dinamico
 
 			Panel panel = criaPanel(questionario);
