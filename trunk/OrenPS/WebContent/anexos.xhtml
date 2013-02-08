@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Anexos</title>
+    </h:head>
+    
+    <h:body>
+    
+        <h:form enctype="multipart/form-data">  
+  
+		    <p:fileUpload fileUploadListener="#{anexoMB.handleFileUpload}"
+		            mode="advanced"  
+		            update="messages,tableAnexo"   
+		            multiple="true"  
+		            sizeLimit="65535"   
+		            allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+		  
+		    <p:growl id="messages" showDetail="true"/>  		
+			<br/>
+			<p:dataTable id="tableAnexo" var="anexo" value="#{anexoMB.listAnexos}" emptyMessage="Nenhum anexo encontrado.">
+		        <p:column headerText="Nome">
+		            <h:outputText value="#{anexo.nome}" />
+		        </p:column>
+		  
+		        <p:column headerText="Content Type">
+		            <h:outputText value="#{anexo.contentType}" />
+		        </p:column>
+		  
+		        <p:column headerText="Tamanho">
+		            <h:outputText value="#{anexo.tamanho}" />
+		        </p:column>
+		        
+		    </p:dataTable>
+	    
+	    </h:form> 
+        
+    </h:body>
+</html>
