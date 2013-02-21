@@ -11,14 +11,14 @@
 	<h:form id="form">  
 	
 		<p:selectManyMenu id="scroll" value="#{autoCompleteBean.selectedPlayers}" converter="player" style="width:150px;height:200px" var="p" showCheckbox="true">  
-            <f:selectItems value="#{autoCompleteBean.players}" var="player" itemLabel="#{player.name}" itemValue="#{player}" />  
+            <f:selectItems value="#{autoCompleteBean.players}" var="player" itemLabel="#{player.nome}" itemValue="#{player}" />  
   
             <p:column>  
-                <p:graphicImage value="/images/barca/#{p.photo}" width="40"/>  
+                <p:graphicImage value="/img/ajax_load.gif" width="40"/>  
             </p:column>  
   
             <p:column>  
-                #{p.name} - #{p.number}  
+                #{p.nome} - #{p.id}  
             </p:column>  
         </p:selectManyMenu>
 	
@@ -48,7 +48,7 @@
 	        </p:column>  
 	  
 	    </p:dataTable>  
-	  
+	  <br/>
 	    <p:dataTable var="car" value="#{emailControleManagedBean.listControleEmail}" paginator="true" rows="10"  
 	                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"  
 	                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{emailControleManagedBean.selectedEC}" id="carsTable" lazy="true" widgetVar="carsTable"

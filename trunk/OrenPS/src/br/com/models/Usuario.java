@@ -70,6 +70,14 @@ public class Usuario {
 		this.id = id;
 	}
 
+	public Usuario(String nome, int id, String tema, String email) {
+		this.nome = nome;
+		this.id = id;
+		this.tema = tema;
+		this.email = email;
+		
+	}
+
 	public Integer getId() {
 		return id;
 	}
