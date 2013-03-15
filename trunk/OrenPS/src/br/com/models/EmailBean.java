@@ -13,6 +13,9 @@ public class EmailBean {
 	private String subject;
 	private String msg;
 	private String to;
+	private String urlArte;
+	private String urlArquivoTemplate;
+	private String urlQuestionario;
 
 	/**
 	 * 
@@ -61,6 +64,48 @@ public class EmailBean {
 	 */
 	public void setTo(String to) {
 		this.to = to;
+	}
+
+	/**
+	 * @return the urlArte
+	 */
+	public String getUrlArte() {
+		return urlArte;
+	}
+
+	/**
+	 * @param urlArte the urlArte to set
+	 */
+	public void setUrlArte(String urlArte) {
+		this.urlArte = urlArte;
+	}
+
+	/**
+	 * @return the urlArquivoTemplate
+	 */
+	public String getUrlArquivoTemplate() {
+		return urlArquivoTemplate;
+	}
+
+	/**
+	 * @param urlArquivoTemplate the urlArquivoTemplate to set
+	 */
+	public void setUrlArquivoTemplate(String urlArquivoTemplate) {
+		this.urlArquivoTemplate = urlArquivoTemplate;
+	}
+
+	/**
+	 * @return the urlQuestionario
+	 */
+	public String getUrlQuestionario() {
+		return urlQuestionario;
+	}
+
+	/**
+	 * @param urlQuestionario the urlQuestionario to set
+	 */
+	public void setUrlQuestionario(String urlQuestionario) {
+		this.urlQuestionario = urlQuestionario;
 	}
 
 

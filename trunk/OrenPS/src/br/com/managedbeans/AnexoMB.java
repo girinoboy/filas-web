@@ -62,6 +62,7 @@ public class AnexoMB {
         
         try {
 			anexoDAO.save(anexo);
+			listAnexos = anexoDAO.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

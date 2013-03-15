@@ -9,7 +9,7 @@
         <title>Controle de emails</title>
     </h:head>
 	<h:form id="form">  
-	
+		<p:growl id="growl" showDetail="true" autoUpdate="true"/>
 		<p:selectManyMenu id="scroll" value="#{autoCompleteBean.selectedPlayers}" converter="player" style="width:150px;height:200px" var="p" showCheckbox="true">  
             <f:selectItems value="#{autoCompleteBean.players}" var="player" itemLabel="#{player.nome}" itemValue="#{player}" />  
   
@@ -20,8 +20,8 @@
             <p:column>  
                 #{p.nome} - #{p.id}  
             </p:column>  
-        </p:selectManyMenu>
-	
+        </p:selectManyMenu>	
+	<p:commandButton value="Enviar" action="#{emailControleManagedBean.enviarEmail}" update="growl"/>
 		<p:dataTable var="usuario" value="#{emailControleManagedBean.listControleEmail}" rowKey="#{usuario.id}" paginator="true" rows="10"  
                 selection="#{emailControleManagedBean.selectedEC}" selectionMode="single" filteredValue="#{emailControleManagedBean.filteredCars}" id="usersTable">  
   
