@@ -5,6 +5,7 @@ package br.com.utility;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -14,6 +15,7 @@ import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -43,10 +45,16 @@ public class EmailUtils {
 	 */
 	@SuppressWarnings("unused")
 	public EmailUtils() {
-	    // o arquivo encontra-se no mesmo diretório //da aplicação
+	    // o arquivo encontra-se no mesmo diretório //da aplicação //jboss_home/bin
 	    File file = new File("mail.properties");  
 	    Properties props = new Properties();
 	    FileInputStream fis = null;
+	    
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext scontext = (ServletContext) facesContext.getExternalContext().getContext();
+		String arquivoSalvo = scontext.getRealPath("/");
+		
+		
 	    try {
 	        fis = new FileInputStream(file);  
 	        //lê os dados que estão no arquivo  
@@ -114,7 +122,7 @@ public class EmailUtils {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "E-mail enviado com sucesso para: " + emailBean.getTo(), "Informação"));
 	}
 
-	public static void enviaEmailHtml(EmailBean emailBean) throws Exception{
+	public void enviaEmailHtml(EmailBean emailBean) throws Exception{
 		// Create the email message
 		HtmlEmail email = new HtmlEmail();
 		email = conectaEmailHtml();
@@ -123,12 +131,15 @@ public class EmailUtils {
 		email.addTo(emailBean.getTo());
 
 		// embed the image and get the content id
-		URL url = new URL("img/email_modelo.png");
-		String cid = email.embed(url, "Oren logo");
+		URL url = new URL(emailBean.getUrlArte());
+		String img = email.embed(url, "Oren logo");
 
 		// load your HTML email template
-		String htmlEmailTemplate = "<html>The Oren logo - <img src=\"cid:"+cid+"\"></html>";
-
+		String htmlEmailTemplate = //"<html>The Oren logo - <img src=\"cid:"+cid+"\"></html>";
+		Util.lerArquivoURL(new URL(emailBean.getUrlArquivoTemplate()));
+		htmlEmailTemplate = htmlEmailTemplate.replace("${urlArte}", img);
+		htmlEmailTemplate = htmlEmailTemplate.replace("${urlQuestionario}", emailBean.getUrlQuestionario());
+		
 		// set the html message
 		email.setHtmlMsg(htmlEmailTemplate);
 
@@ -150,8 +161,11 @@ public class EmailUtils {
 			emailBean.setSubject("TestMail");
 			emailBean.setMsg("This is a test mail ... :-)");
 			emailBean.setTo("girinoboy@gmail.com");
+			emailBean.setUrlArquivoTemplate("/layout/templateEmail.html");
+			emailBean.setUrlArte("img/email_modelo.png");
+			EmailUtils emailUtils = new EmailUtils();
 			//enviaEmail(emailBean);
-			enviaEmailHtml(emailBean);
+			emailUtils.enviaEmailHtml(emailBean);
 		} catch (EmailException e) {
 			Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, e);
 			e.printStackTrace();
