@@ -10,18 +10,19 @@
     </h:head>
 	<h:form id="form">  
 		<p:growl id="growl" showDetail="true" autoUpdate="true"/>
-		<p:selectManyMenu id="scroll" value="#{autoCompleteBean.selectedPlayers}" converter="player" style="width:150px;height:200px" var="p" showCheckbox="true">  
-            <f:selectItems value="#{autoCompleteBean.players}" var="player" itemLabel="#{player.nome}" itemValue="#{player}" />  
-  
-            <p:column>  
-                <p:graphicImage value="/img/ajax_load.gif" width="40"/>  
-            </p:column>  
-  
-            <p:column>  
-                #{p.nome} - #{p.id}  
-            </p:column>  
-        </p:selectManyMenu>	
-	<p:commandButton value="Enviar" action="#{emailControleManagedBean.enviarEmail}" update="growl"/>
+		<h3>Questionarios</h3>   
+		<p:selectManyMenu id="qsmm" value="#{emailControleManagedBean.questionariosSelecionados}" converter="questionario" style="width:80%;height:51px">  
+            <f:selectItems value="#{questionarioMB.listQuestionario}" var="quest" itemLabel="#{quest.titulo}" itemValue="#{quest}" />   
+        </p:selectManyMenu>
+        
+        <h3>Enviar para</h3>  
+    	<p:autoComplete id="usuarios" value="#{emailControleManagedBean.usuariosSelecionados}" completeMethod="#{autoCompleteBean.completePlayer}" multiple="true"
+    		var="u" itemLabel="#{u.nome}" itemValue="#{u}" converter="usuario" forceSelection="true" required="true"/>    
+     	
+     	<p:separator style="margin-top:20px"/>  
+		<p:commandButton value="Enviar" action="#{emailControleManagedBean.enviarEmail}" update="growl"/>
+		<p:separator style="margin-top:20px"/> 
+		
 		<p:dataTable var="usuario" value="#{emailControleManagedBean.listControleEmail}" rowKey="#{usuario.id}" paginator="true" rows="10"  
                 selection="#{emailControleManagedBean.selectedEC}" selectionMode="single" filteredValue="#{emailControleManagedBean.filteredCars}" id="usersTable">  
   
