@@ -23,6 +23,7 @@ import br.com.dao.UsuarioDAO;
 import br.com.dao.UsuarioQuestionarioDAO;
 import br.com.models.Anexo;
 import br.com.models.EmailBean;
+import br.com.models.Questionario;
 import br.com.models.Usuario;
 import br.com.models.UsuarioQuestionario;
 import br.com.utility.EmailUtils;
@@ -61,6 +62,10 @@ public class EmailControleManagedBean {
 	private static EmailBean emailBean = new EmailBean();
 
 	private AnexoDAO anexoDAO = new AnexoDAO();
+	
+	private List<Questionario> questionariosSelecionados;
+	
+	private List<Usuario> usuariosSelecionados;
 
 	static {  
 		colors = new String[10];  
@@ -108,9 +113,12 @@ public class EmailControleManagedBean {
 	} 
 
 	public void enviarEmail(){
+		Object a = questionariosSelecionados;
+		
+		a = usuariosSelecionados;
 		emailBean.setSubject("Pesquisa de satisfação");
 		emailBean.setMsg("This is a test mail ... :-)");
-		emailBean.setTo("otto.ottoni@gmail.com");
+		emailBean.setTo("girinoboy@gmail.com");
 		
 		//enviaEmail(emailBean);
 		EmailUtils emailUtils = new EmailUtils();
@@ -242,5 +250,55 @@ public class EmailControleManagedBean {
 
 	public void setFilteredCars(List<Usuario> filteredCars) {
 		this.filteredCars = filteredCars;
+	}
+
+	/**
+	 * @return the questionariosSelecionados
+	 */
+	public List<Questionario> getQuestionariosSelecionados() {
+		return questionariosSelecionados;
+	}
+
+	/**
+	 * @param questionariosSelecionados the questionariosSelecionados to set
+	 */
+	public void setQuestionariosSelecionados(
+			List<Questionario> questionariosSelecionados) {
+		this.questionariosSelecionados = questionariosSelecionados;
+	}
+
+	/**
+	 * @return the usuarioQuestionario
+	 */
+	public List<UsuarioQuestionario> getUsuarioQuestionario() {
+		return usuarioQuestionario;
+	}
+
+	/**
+	 * @param usuarioQuestionario the usuarioQuestionario to set
+	 */
+	public void setUsuarioQuestionario(List<UsuarioQuestionario> usuarioQuestionario) {
+		this.usuarioQuestionario = usuarioQuestionario;
+	}
+
+	/**
+	 * @return the usuariosSelecionados
+	 */
+	public List<Usuario> getUsuariosSelecionados() {
+		return usuariosSelecionados;
+	}
+
+	/**
+	 * @param usuariosSelecionados the usuariosSelecionados to set
+	 */
+	public void setUsuariosSelecionados(List<Usuario> usuariosSelecionados) {
+		this.usuariosSelecionados = usuariosSelecionados;
+	}
+
+	/**
+	 * @param lazyModel the lazyModel to set
+	 */
+	public void setLazyModel(LazyDataModel<UsuarioQuestionario> lazyModel) {
+		this.lazyModel = lazyModel;
 	}
 }

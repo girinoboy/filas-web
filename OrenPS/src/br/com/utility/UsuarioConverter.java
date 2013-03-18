@@ -1,6 +1,5 @@
 package br.com.utility;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -16,10 +15,9 @@ import br.com.models.Usuario;
 @FacesConverter(value="usuario")
 public class UsuarioConverter implements Converter {  
   
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
     public static List<Usuario> usuarioBD;  
-    
-    static UsuarioDAO usuarioDAO = new UsuarioDAO();
-  
+  /*
     static {  
         usuarioBD = new ArrayList<Usuario>();  
         try {
@@ -28,8 +26,15 @@ public class UsuarioConverter implements Converter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }  
-  
+    }  */
+    public UsuarioConverter (){
+    	try {
+			usuarioBD = usuarioDAO.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {  
         if (submittedValue.trim().equals("")) {  
             return null;  
@@ -50,7 +55,7 @@ public class UsuarioConverter implements Converter {
   
         return null;  
     }  
-  
+    @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  
         if (value == null || value.equals("")) {  
             return "";  

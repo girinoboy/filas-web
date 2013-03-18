@@ -11,6 +11,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 
 import br.com.models.Usuario;
+import br.com.utility.UsuarioConverter;
 
 @ManagedBean
 public class AutoCompleteBean {
@@ -40,7 +41,7 @@ public class AutoCompleteBean {
     private List<String> selectedTexts;
 	
 	public AutoCompleteBean() {
-		players = PlayerConverter.playerDB;
+		players = UsuarioConverter.usuarioBD;
         selectedTexts = new ArrayList<String>();
 	}
 
@@ -74,7 +75,7 @@ public class AutoCompleteBean {
 		List<Usuario> suggestions = new ArrayList<Usuario>();
 		
 		for(Usuario p : players) {
-			if(p.getNome().startsWith(query))
+			if(p.getNome().toLowerCase().startsWith(query.toLowerCase()))
 				suggestions.add(p);
 		}
 		
