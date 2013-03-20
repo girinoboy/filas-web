@@ -11,14 +11,13 @@
 	<h:form id="form">  
 		<p:growl id="growl" showDetail="true" autoUpdate="true"/>
 		<h3>Questionarios</h3>   
-		<p:selectManyMenu id="qsmm" value="#{emailControleManagedBean.questionariosSelecionados}" converter="questionario" style="width:80%;height:51px">  
+		<p:selectManyMenu id="qsmm" value="#{emailControleManagedBean.questionariosSelecionados}" converter="questionario" style="width:80%;height:51px" required="true">  
             <f:selectItems value="#{questionarioMB.listQuestionario}" var="quest" itemLabel="#{quest.titulo}" itemValue="#{quest}" />   
         </p:selectManyMenu>
         
         <h3>Enviar para</h3>  
     	<p:autoComplete id="usuarios" value="#{emailControleManagedBean.usuariosSelecionados}" completeMethod="#{autoCompleteBean.completePlayer}" multiple="true"
-    		var="u" itemLabel="#{u.nome}" itemValue="#{u}" converter="usuario" forceSelection="true" required="true"/>    
-     	
+    		var="u" itemLabel="#{u.nome}" itemValue="#{u}" converter="usuario" required="true" />         	
      	<p:separator style="margin-top:20px"/>  
 		<p:commandButton value="Enviar" action="#{emailControleManagedBean.enviarEmail}" update="growl"/>
 		<p:separator style="margin-top:20px"/> 
@@ -109,7 +108,7 @@
 	   
 	    </p:dataTable>  
 	  
-	    <p:dialog header="Car Detail" widgetVar="carDialog" resizable="false"  
+	    <p:dialog header="User Detail" widgetVar="carDialog" resizable="false"  
 	              showEffect="explode" hideEffect="explode">  
 	  
 	        <h:panelGrid id="display" columns="2" cellpadding="4">  
@@ -125,7 +124,7 @@
 	        </h:panelGrid>  
 	    </p:dialog>  
 	    
-	    <p:dialog id="multiDialog" header="Car Detail" widgetVar="multiCarDialog"  
+	    <p:dialog id="multiDialog" header="User Detail" widgetVar="multiCarDialog"  
                       height="300" showEffect="fade" hideEffect="explode">  
 
             <p:dataList id="displayMulti"  
