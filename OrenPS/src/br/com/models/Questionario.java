@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -41,7 +42,10 @@ public class Questionario {
 	private Menu menu;
 	@Column(name="ativo_inativo", nullable = false)
 	private Boolean ativoInativo = false;
-
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "anexos_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = true)
+	private Anexo anexo;
+	
 	public Questionario() {}
 
 	/**
@@ -149,5 +153,22 @@ public class Questionario {
 	 */
 	public void setAtivoInativo(Boolean ativoInativo) {
 		this.ativoInativo = ativoInativo;
+	}
+
+	/**
+	 * @return the anexo
+	 */
+	public Anexo getAnexo() {
+		if(anexo == null){
+			anexo = new Anexo();
+		}
+		return anexo;
+	}
+
+	/**
+	 * @param anexo the anexo to set
+	 */
+	public void setAnexo(Anexo anexo) {
+		this.anexo = anexo;
 	}
 }

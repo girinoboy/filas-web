@@ -27,7 +27,7 @@ public class Questao  implements Serializable {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "questionario_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
+	@JoinColumn(name = "questionarios_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
 	private Questionario questionario;
 	private String pergunta;
 	private String textoDeAjuda;

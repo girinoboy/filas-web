@@ -92,8 +92,8 @@ public class DashboardBacker {
 		try {
 			
 			Integer id = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.id"));
-			questionario.setId(id);
-			Boolean ativoInativo = Boolean.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.ativoInativo"));
+			questionario = questionarioDAO.getById(id);
+			Boolean ativoInativo = questionario.getAtivoInativo();//Boolean.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("questionario.ativoInativo"));
 			questionario.setAtivoInativo(!ativoInativo);//troca o valor que vem da request
 			
 			questionarioDAO.ativaInativaQuestionario(questionario);
