@@ -18,7 +18,7 @@
     </h:head>
             
 	<h:form id="usuarioPerfilForm">  
-  
+  		<p:growl autoUpdate="true" showDetail="true" id="growl"/>
 	    <p:fieldset legend="Perfis Disponiveis">  
 	        <p:dataTable id="availablePerfil" var="perfil" value="#{associarPerfilManagedBean.perfisSmall}">  
 	            <p:column style="width:20px">  
@@ -44,22 +44,22 @@
 	                    rendered="#{empty associarPerfilManagedBean.droppedPerfis}"  
 	                    style="font-size:24px;" />  
 	  
-	            <p:dataTable var="perfil" value="#{associarPerfilManagedBean.droppedPerfis}"   
+	            <p:dataTable var="usuarioPerfil" value="#{associarPerfilManagedBean.droppedPerfis}"   
 	                    rendered="#{not empty associarPerfilManagedBean.droppedPerfis}">  
 	  
 	                <p:column headerText="Descrição">  
-		                <h:outputText value="#{perfil.descricao}" />  
+		                <h:outputText value="#{usuarioPerfil.perfil.descricao}" />  
 		            </p:column>  
 		  
 		            <p:column headerText="Observação">  
-		                <h:outputText value="#{perfil.observacao}" />  
+		                <h:outputText value="#{usuarioPerfil.perfil.observacao}" />  
 		            </p:column>  
 	  
 	                <p:column style="width:32px">  
 	                    <p:commandButton update=":usuarioPerfilForm:dropArea,:usuarioPerfilForm:availablePerfil"  
-	                             
-	                            icon="ui-icon-close" actionListener="#{associarPerfilManagedBean.removerPerfil}">  
-	                        <f:setPropertyActionListener value="#{perfil}"  
+
+	                            icon="ui-icon-close" actionListener="#{associarPerfilManagedBean.removerPerfil}" >  
+	                        <f:setPropertyActionListener value="#{usuarioPerfil}"  
 	                            target="#{associarPerfilManagedBean.selectedPerfil}" />  
 	                    </p:commandButton>  
 	                </p:column>  
@@ -81,10 +81,10 @@
 	            </f:facet>  
 	  
 	            <h:outputText value="Descrição:" />  
-	            <h:outputText value="#{associarPerfilManagedBean.selectedPerfil.descricao}"/>  
+	            <h:outputText value="#{associarPerfilManagedBean.selectedPerfil.perfil.descricao}"/>  
 	  
 	            <h:outputText value="Observação:" />  
-	            <h:outputText value="#{associarPerfilManagedBean.selectedPerfil.observacao}"/>  
+	            <h:outputText value="#{associarPerfilManagedBean.selectedPerfil.perfil.observacao}"/>  
 	  
 	        </h:panelGrid>  
 	    </p:dialog>  
