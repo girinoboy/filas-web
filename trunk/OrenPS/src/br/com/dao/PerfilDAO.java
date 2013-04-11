@@ -28,6 +28,7 @@ public class PerfilDAO extends GenericoDAO<Perfil, Serializable>{
 			 List<UsuarioPerfil> list2 = usuarioPerfilDAO.listPorUsuario(usuario.getId());
 			 
 			 List<Integer> ids = new ArrayList<Integer>();  
+			 ids.add(0);
 			 for (UsuarioPerfil usuarioPerfil : list2) {
 				ids.add(usuarioPerfil.getPerfil().getId());
 			}

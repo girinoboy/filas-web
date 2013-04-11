@@ -26,7 +26,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.myfaces.application.ActionListenerImpl;
 
 import br.com.dao.MenuDAO;
+import br.com.dao.PerfilDAO;
+import br.com.dao.PermissaoMenuDAO;
+import br.com.dao.UsuarioPerfilDAO;
 import br.com.models.Menu;
+import br.com.models.Perfil;
 import br.com.models.PermissaoMenu;
 import br.com.models.Usuario;
 import br.com.models.UsuarioPerfil;
@@ -46,6 +50,8 @@ public class IndexController {
 	private MenuDAO menuDAO = new MenuDAO();
 	private Menu menu = new Menu();
 	private List<Menu>  menusPermitidos = new ArrayList<Menu>();
+	private UsuarioPerfilDAO usuarioPerfilDAO = new UsuarioPerfilDAO();
+	private PermissaoMenuDAO permissaoMenuDAO = new PermissaoMenuDAO();
 	private ResourceBundle rb;
 
 	public IndexController(){
@@ -55,10 +61,12 @@ public class IndexController {
 			geraMenu();
 			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 			Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
-			for (UsuarioPerfil usuarioPerfil : usuario.getUsuarioPeril()) {
-				for (PermissaoMenu permissaoMenu : usuarioPerfil.getPerfil().getPermissaoMenu()) {
-					menusPermitidos.add(permissaoMenu.getMenu());
-				}
+			//determina paginas que podem ser acessadas
+			for (UsuarioPerfil usuarioPerfil : usuarioPerfilDAO.listPerfisUsuario(usuario)) {
+					List<PermissaoMenu> list = permissaoMenuDAO.listByIdPerfil(usuarioPerfil.getPerfil().getId());
+					for (PermissaoMenu permissaoMenu : list) {
+						menusPermitidos.add(permissaoMenu.getMenu());
+					}
 			}
 
 			if(menu != null && menu.getPagina() == null){

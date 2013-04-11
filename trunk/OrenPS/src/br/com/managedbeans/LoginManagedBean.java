@@ -59,6 +59,8 @@ public class LoginManagedBean {
 			msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Erro no banco");  
 			FacesContext.getCurrentInstance().addMessage(null, msg); 
 		}
+		String retornoA = null;
+		String retornoV = null;
 		for(UsuarioPerfil a : usuario.getUsuarioPeril()){
 			if(a.getPerfil().getDescricao().equals("Visitante")){
 				FacesContext.getCurrentInstance()
@@ -71,8 +73,13 @@ public class LoginManagedBean {
 				.getSessionMap()
 				.put("questionario.titulo","teste");
 				
-				retorno = "visitante";
+				retornoV = "visitante";
+			}else if(a.getPerfil().getDescricao().equals("Adminitrador")){
+				retornoA = "ok";
 			}
+		}
+		if(retornoA == null && retornoV !=null){
+			retorno = retornoV;
 		}
 		context.addCallbackParam("perfil", retorno);
 		return retorno;  

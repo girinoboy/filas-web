@@ -11,14 +11,18 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
 import org.hibernate.HibernateException;
+import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.component.behavior.ajax.AjaxBehavior;
 import org.primefaces.component.behavior.ajax.AjaxBehaviorListenerImpl;
 import org.primefaces.component.commandlink.CommandLink;
 import org.primefaces.component.dashboard.Dashboard;
+import org.primefaces.component.inplace.Inplace;
+import org.primefaces.component.inputtext.InputText;
 import org.primefaces.component.panel.Panel;
 import org.primefaces.component.selectbooleanbutton.SelectBooleanButton;
 import org.primefaces.event.CloseEvent;
@@ -32,6 +36,8 @@ import br.com.dao.MenuDAO;
 import br.com.dao.QuestionarioDAO;
 import br.com.models.Menu;
 import br.com.models.Questionario;
+import br.com.models.Usuario;
+import br.com.utility.UsuarioConverter;
 
 @ManagedBean
 @RequestScoped
@@ -77,6 +83,7 @@ public class DashboardBacker {
 
 				panel.getChildren().add(criaLink(questionario,i));
 				panel.getChildren().add(criaBooleanButton(questionario,i));
+				panel.getChildren().add(criaInplace(questionario,i));
 
 				i++;
 			}
@@ -110,7 +117,39 @@ public class DashboardBacker {
 		}
 
 	}
+	private UIComponent criaInplace(Questionario questionario, int i) {
+		Inplace inplace = new Inplace();
+		inplace.setEditor(true);
+		inplace.setId("inplace_"+i);
+		
+		InputText inputText = new InputText();
+		inputText.setId("txt_"+i);
+		inputText.setRequired(true);
+		inputText.setValue("#{inplaceBean.text}");
+		inputText.setLabel("value");
+		
+		AutoComplete autoComplete = new AutoComplete();
+		
+		ExpressionFactory factory = FacesContext.getCurrentInstance().getApplication().getExpressionFactory();
+		ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+		MethodExpression methodExpression = factory.createMethodExpression(elContext,"#{autoCompleteBean.completePlayer}", Object.class, new Class[] {String.class});
 
+		autoComplete.setCompleteMethod(methodExpression);
+		autoComplete.setConverter(new UsuarioConverter());
+		autoComplete.setVar("u");
+		AutoCompleteBean autoCompleteBean = new AutoCompleteBean();
+		autoComplete.setItemValue(autoCompleteBean.completePlayer("m").get(0));
+		autoComplete.setItemLabel("Marc");
+		
+		autoComplete.setId("ac"+i);
+		autoComplete.setRequired(true);
+		autoComplete.setLabel("label");
+		autoComplete.setValue(new Usuario());
+		
+		inplace.getChildren().add(autoComplete);
+		return inplace;
+		
+	}
 
 	private UIComponent criaBooleanButton(Questionario questionario, int i) {
 		SelectBooleanButton booleanButton = new SelectBooleanButton(); 

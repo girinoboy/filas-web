@@ -33,9 +33,9 @@ public class AssociarPerfilManagedBean {
 
 	private List<Perfil> perfisSmall; 
 
-	private List<Perfil> droppedPerfis;
+	private List<UsuarioPerfil> droppedPerfis;
 
-	private Perfil selectedPerfil = new Perfil();
+	private UsuarioPerfil selectedPerfil = new UsuarioPerfil();
 	
 	private UsuarioPerfilDAO usuarioPerfilDAO = new UsuarioPerfilDAO();
 
@@ -45,19 +45,23 @@ public class AssociarPerfilManagedBean {
 	public AssociarPerfilManagedBean() {
 		try {
 			perfisSmall = new ArrayList<Perfil>();  
-			droppedPerfis = new ArrayList<Perfil>();  
-			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-			Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
-
-			perfisSmall = perfilDAO.listPerfisRestantes(usuario);
-			
-			droppedPerfis = perfilDAO.listPerfisUsuario(usuario);
+			droppedPerfis = new ArrayList<UsuarioPerfil>();  
+			atualizaPerfis();
 		} catch (Exception e) {
 			addMessage(e.getMessage());
 			e.printStackTrace();
 		}
 		//		populatePerfis(perfisSmall, 9);  
 
+	}
+
+	private void atualizaPerfis() throws Exception {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
+
+		perfisSmall = perfilDAO.listPerfisRestantes(usuario);
+		
+		droppedPerfis = usuarioPerfilDAO.listPerfisUsuario(usuario);
 	}
 
 	/*
@@ -80,8 +84,9 @@ public class AssociarPerfilManagedBean {
 			
 			usuarioPerfilDAO.save(usuarioPerfil);
 			
-			droppedPerfis.add(perfil);
-			perfisSmall.remove(perfil);
+			atualizaPerfis();
+			//droppedPerfis.add(perfil);
+			//perfisSmall.remove(perfil);
 		} catch (Exception e) {
 			addMessage(e.getMessage());
 			e.printStackTrace();
@@ -96,20 +101,24 @@ public class AssociarPerfilManagedBean {
 	public void removerPerfil(ActionEvent event){
 		
 		try {
+			if(selectedPerfil==null){
+				addMessage("");
+			}
 			
 			
+//			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+//			Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
 			
-			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-			Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
-			
-			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
-			usuarioPerfil.setUsuario(usuario);
-			usuarioPerfil.setPerfil(selectedPerfil);
-			usuarioPerfilDAO.delete(usuarioPerfil);//precisa do id ¬¬
-			
-			droppedPerfis.remove(selectedPerfil);
-			perfisSmall.add(selectedPerfil);
-			
+//			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
+//			usuarioPerfil.setUsuario(usuario);
+//			usuarioPerfil.setPerfil(selectedPerfil);
+			usuarioPerfilDAO.delete(selectedPerfil);//precisa do id ¬¬
+			//usuarioPerfilDAO.deleteItem(selectedPerfil);
+			atualizaPerfis();
+//			if(selectedPerfil.getId() !=null){
+//				droppedPerfis.remove(selectedPerfil);
+//				perfisSmall.add(selectedPerfil);
+//			}
 		} catch (Exception e) {
 			addMessage(e.getMessage());
 			e.printStackTrace();
@@ -133,28 +142,28 @@ public class AssociarPerfilManagedBean {
 	/**
 	 * @return the droppedPerfis
 	 */
-	public List<Perfil> getDroppedPerfis() {
+	public List<UsuarioPerfil> getDroppedPerfis() {
 		return droppedPerfis;
 	}
 
 	/**
 	 * @param droppedPerfis the droppedPerfis to set
 	 */
-	public void setDroppedPerfis(List<Perfil> droppedPerfis) {
+	public void setDroppedPerfis(List<UsuarioPerfil> droppedPerfis) {
 		this.droppedPerfis = droppedPerfis;
 	}
 
 	/**
 	 * @return the selectedPerfil
 	 */
-	public Perfil getSelectedPerfil() {
+	public UsuarioPerfil getSelectedPerfil() {
 		return selectedPerfil;
 	}
 
 	/**
 	 * @param selectedPerfil the selectedPerfil to set
 	 */
-	public void setSelectedPerfil(Perfil selectedPerfil) {
+	public void setSelectedPerfil(UsuarioPerfil selectedPerfil) {
 		this.selectedPerfil = selectedPerfil;
 	} 
 
