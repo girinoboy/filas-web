@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:p="http://primefaces.org/ui"
+ xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:ui="http://java.sun.com/jsf/facelets"
+ xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Pagina inicial</title>
+</h:head>
+	<h:body>
+	
+	<p:growl id="msg" showDetail="true" sticky="true" />
+	<center>
+		<h1>Bem Vindo</h1>
+	
+		<p:separator id="separator"/>  
+		<h:form>
+			<p:commandLink onclick="javascript:document.location.href = 'marcarConsulta.xhtml'"  action="/marcarConsulta.xhtml?faces-redirect=true" ajax="false" immediate="true">
+				<p:graphicImage url="img/primefaces-wp-2.png"/>  
+			</p:commandLink>
+		</h:form>
+	</center>
+	</h:body>
+</html>

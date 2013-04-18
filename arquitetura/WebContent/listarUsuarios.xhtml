@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:p="http://primefaces.org/ui"
+ xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:ui="http://java.sun.com/jsf/facelets"
+ xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Lista de Usuarios</title>
+	<script type="text/javascript">  
+			function handleLoginRequest(xhr, status, args) {
+		        alert(args.salvo);
+		        alert(args.validationFailed);
+		        if(args.validationFailed || args.salvo) {
+		            jQuery('#dialogN').effect("shake", { times:3 }, 100);  
+		           // alert("preencha todos os campos.");
+		        } else {
+		        	userDialogN.hide();
+		            jQuery('#loginLink').fadeOut();
+		            if(args.salvo == true)
+		            	jQuery('#dialogN').fadeOut();// jQuery(window.document.location).attr('href','index.xhtml');
+		            else
+		            	jQuery('#dialogN').show();//jQuery(window.document.location).attr('href','responderQuestionario.xhtml');    
+		        }
+		    }
+	    </script>
+</h:head>
+	<h:body>
+	
+	<p:growl id="msg" showDetail="true" sticky="true" />
+	<center>
+		<h1>Lista de Usuarios</h1>
+	
+		<p:separator id="separator"/>  
+		<h:form id="form">
+			<p:dataTable var="user" value="#{usuarioMB.listUsuario}" rowKey="#{user.id}" paginator="true" rows="10"  
+		                selection="#{usuarioMB.usuarioSelecionado}" selectionMode="single" filteredValue="#{usuarioMB.filteredUsuarios}" id="usuarioTable">  
+		  
+		        <p:ajax event="rowSelect" update=":form:displayE"  listener="#{usuarioMB.editUser}"/>  
+		  
+		        <f:facet name="header">  
+		            Lista de usuarios 
+		        </f:facet>  
+		  
+		        <p:column headerText="Nome" sortBy="#{user.nome}" filterBy="#{user.nome}" id="nome">  
+		            #{user.nome}  
+		        </p:column>  
+		  
+		        <p:column headerText="Login" sortBy="#{user.login}" filterBy="#{user.login}" id="login">  
+		            #{user.login}  
+		        </p:column>  
+		  
+		        <p:column headerText="Data de Nascimento" sortBy="#{user.dataNascimento}" filterBy="#{user.dataNascimento}" id="dataNascimento">  
+		            #{user.dataNascimento}  
+		        </p:column>  
+		  
+		        <p:column headerText="CPF" sortBy="#{user.cpf}" filterBy="#{user.cpf}" id="cpf">  
+		            #{user.cpf}"  
+		        </p:column>  
+		  
+		    </p:dataTable>  
+		    <div align="left">
+		    	<p:commandButton value="Novo Usuario" onclick="javascript:document.location.href = 'incluirUsuario.xhtml'" />
+		    </div>
+		    <p:dialog header="Editar Usuario" widgetVar="userDialogE" resizable="false"  
+	              width="250" showEffect="explode" hideEffect="explode">  
+	  
+	        	<h:panelGrid id="displayE" columns="2" cellpadding="4">  
+	  
+		            <h:outputText value="Nome:" />  
+		            <h:outputText value="#{usuarioMB.usuarioSelecionado.nome}" id="nomeE"/>  
+		  
+		            <h:outputText value="Login:" />  
+		            <h:outputText value="#{usuarioMB.usuarioSelecionado.login}" id="loginE"/>  
+		  
+		            <h:outputText value="Data de Nascimento:" />  
+		            <h:outputText value="#{usuarioMB.usuarioSelecionado.dataNascimento}" id="dataNascimentoE"/>  
+		  
+		            <h:outputText value="cpf:" />  
+		            <h:outputText value="#{usuarioMB.usuarioSelecionado.cpf}" id="cpfE"/>  
+		        </h:panelGrid>  
+		    </p:dialog>
+		    
+		
+		 
+		<p:dialog id="dialogN" header="Incluir Usuario" widgetVar="userDialogN" resizable="false"  
+	              width="300" showEffect="explode" hideEffect="explode">  
+				
+	  
+	        	<h:panelGrid id="displayN" columns="4" cellpadding="4">  
+		            <h:outputText for="nomeN" value="Nome:" />  
+		            <p:inputText value="#{usuarioMB.usuarioSelecionado.nome}" required="true" id="nomeN"/>  
+		  			<p:watermark for="nomeN" value="Nome Completo" />
+		            <p:message for="nomeN" />
+		  
+		            <h:outputText for="loginN" value="Login:" />  
+		            <p:inputText value="#{usuarioMB.usuarioSelecionado.login}" required="true" id="loginN"/>  
+		            <p:watermark for="loginN" value="Login" />
+		            <p:message for="loginN" />
+		  
+		            <h:outputText for="dataNascimentoN" value="Data de Nascimento:" />  
+		            <p:inputText value="#{usuarioMB.usuarioSelecionado.dataNascimento}" required="true" id="dataNascimentoN"/>  
+		            <p:watermark for="dataNascimentoN" value="Nascimento" />
+		            <p:message for="dataNascimentoN" />
+		  
+		            <h:outputText for="cpfN" value="cpf:" />  
+		            <p:inputText value="#{usuarioMB.usuarioSelecionado.cpf}" required="true" id="cpfN"/>  
+		            <p:watermark for="cpfN" value="CPF" />
+		            <p:message for="cpfN" />
+		            
+		            <h:outputLabel for="emailN" value="Email: *" />
+		            <p:inputText id="emailN"
+		                value="#{usuarioMB.usuarioDTO.email}" required="true" label="Email">
+		                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+		            </p:inputText>
+		            <p:watermark for="emailN" value="Endereço de email *" />
+		            <p:message for="emailN" />
+		            <f:facet name="footer">
+		            <p:commandButton value="Salvar" actionListener="#{usuarioMB.addUser}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg" process="@form"/>
+		            </f:facet>
+		        </h:panelGrid> 
+		           
+		        
+		    </p:dialog> 
+		   </h:form>
+	</center>
+	</h:body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/afterdark-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/afternoon-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/afterwork-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/all-themes-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/aristo-1.0.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/black-tie-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/blitzer-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/bluesky-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/bootstrap-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/casablanca-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/cruze-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/cupertino-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/dark-hive-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/dot-luv-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/eggplant-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/excite-bike-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/flick-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/glass-x-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/home-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/hot-sneaks-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/humanity-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/le-frog-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/midnight-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/mint-choc-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/overcast-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/pepper-grinder-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/redmond-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/rocket-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/sam-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/smoothness-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/south-street-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/start-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/sunny-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/swanky-purse-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/trontastic-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/ui-darkness-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/ui-lightness-1.0.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/temas/vader-1.0.9.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget/JBoss 4.2 Runtime">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.jsf;jst.web"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre6">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

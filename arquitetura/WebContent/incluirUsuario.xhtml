@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Cadastro de usuario</title>
+    </h:head>    
+    
+    <h:form id="form">
+  
+    <p:panel id="panel" header="Novo Usuario" style="margin-bottom:10px;">
+        <p:messages id="messages" autoUpdate="true"/>
+        <h:panelGrid columns="4">
+            <h:outputText for="nomeN" value="Nome:" />  
+		            <p:inputText value="#{usuarioMB.usuarioDTO.nome}" required="true" id="nomeN"/>  
+		  			<p:watermark for="nomeN" value="Nome Completo" />
+		            <p:message for="nomeN" />
+		  
+		            <h:outputText for="loginN" value="Login:" />  
+		            <p:inputText value="#{usuarioMB.usuarioDTO.login}" required="true" id="loginN"/>  
+		            <p:watermark for="loginN" value="Login" />
+		            <p:message for="loginN" />
+		  
+		            <h:outputText for="dataNascimentoN" value="Data de Nascimento:" />  
+		            <p:calendar value="#{usuarioMB.usuarioDTO.dataNascimento}" required="true" id="dataNascimentoN" />   
+		            <p:watermark for="dataNascimentoN" value="Nascimento" />
+		            <p:message for="dataNascimentoN" />
+		  
+		            <h:outputText for="cpfN" value="cpf:" />  
+		            <p:inputText value="#{usuarioMB.usuarioDTO.cpf}" required="true" id="cpfN"/>  
+		            <p:watermark for="cpfN" value="CPF" />
+		            <p:message for="cpfN" />
+		            
+		            <h:outputLabel for="emailN" value="Email: *" />
+		            <p:inputText id="emailN"
+		                value="#{usuarioMB.usuarioDTO.email}" required="true" label="Email">
+		                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+		            </p:inputText>
+		            <p:watermark for="emailN" value="Endereço de email *" />
+		            <p:message for="emailN" />
+		            
+        </h:panelGrid>
+    </p:panel>
+    
+    <p:commandButton value="Salvar" actionListener="#{usuarioMB.addUser}" id="withIcon"   
+            update="panel,messages" icon="ui-icon-disk" />
+            
+    <p:commandButton value="Limpar" update="panel" process="@this" actionListener="#{usuarioMB.reset}" />  
+    <p:commandButton value="Voltar" onclick="javascript:document.location.href = 'listarUsuarios.xhtml'" />
+  
+    </h:form>
+    
+</html>
