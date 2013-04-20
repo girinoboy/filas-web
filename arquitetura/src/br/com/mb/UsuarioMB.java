@@ -47,6 +47,8 @@ public class UsuarioMB {
 		context.addCallbackParam("salvo", false);
 		usuarioDAO.save(usuarioDTO);
 		context.addCallbackParam("salvo", true);
+		addMessage("Salvo.");
+		usuarioDTO = new UsuarioDTO();
 	}
 	
 	public String editUser(ActionEvent actionEvent) throws Exception {
