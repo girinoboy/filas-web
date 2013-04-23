@@ -43,7 +43,9 @@
 		        </p:column>
 		  
 		        <p:column headerText="Data de Nascimento" sortBy="#{user.dataNascimento}" filterBy="#{user.dataNascimento}" id="dataNascimento">
-		            #{user.dataNascimento}
+		           <h:outputText value="#{user.dataNascimento}">
+					    <f:convertDateTime pattern="MM/dd/yyyy" />
+					</h:outputText> 
 		        </p:column>
 		  
 		        <p:column headerText="CPF" sortBy="#{user.cpf}" filterBy="#{user.cpf}" id="cpf">
