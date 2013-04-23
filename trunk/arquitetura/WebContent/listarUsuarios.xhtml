@@ -21,14 +21,15 @@
 	
 	<p:growl id="msg" showDetail="true" sticky="true" />
 	<center>
+	<h:form id="form1">
 		<h1>Lista de Usuarios</h1>
 	
 		<p:separator id="separator"/>
-		<h:form id="form">
+		
 			<p:dataTable var="user" value="#{usuarioMB.listUsuario}" rowKey="#{user.id}" paginator="true" rows="10"
 		                selection="#{usuarioMB.usuarioSelecionado}" selectionMode="single" filteredValue="#{usuarioMB.filteredUsuarios}" id="usuarioTable">
 		  
-		        <p:ajax event="rowSelect" update=":form:displayE"  listener="#{usuarioMB.editUser}" oncomplete="userDialogE.show()"/>
+		        <p:ajax event="rowSelect" update=":form1:displayE"  listener="#{usuarioMB.editUser}" oncomplete="userDialogE.show()"/>
 		  
 		        <f:facet name="header">
 		            Lista de usuarios
@@ -38,29 +39,31 @@
 		            #{user.nome}
 		        </p:column>
 		  
-		        <p:column headerText="Login" sortBy="#{user.login}" filterBy="#{user.login}" id="login">
+		        <p:column headerText="Login" sortBy="#{user.login}" filterBy="#{user.login}" id="login" filterMatchMode="contains">
 		            #{user.login}
 		        </p:column>
 		  
 		        <p:column headerText="Data de Nascimento" sortBy="#{user.dataNascimento}" filterBy="#{user.dataNascimento}" id="dataNascimento">
 		           <h:outputText value="#{user.dataNascimento}">
 					    <f:convertDateTime pattern="MM/dd/yyyy" />
-					</h:outputText> 
+					</h:outputText>
 		        </p:column>
 		  
 		        <p:column headerText="CPF" sortBy="#{user.cpf}" filterBy="#{user.cpf}" id="cpf">
 		            #{user.cpf}
 		        </p:column>
-		  
+		        
 		    </p:dataTable>
 		    <div align="left">
 		    	<p:commandButton value="Novo Usuario" onclick="javascript:document.location.href = 'incluirUsuario.xhtml'" />
 		    </div>
+		 
+		    
 		    <p:dialog id="dialogE" header="Editar Usuario" widgetVar="userDialogE" resizable="false"
 	              width="300" showEffect="explode" hideEffect="explode">
 	  
 	        	<h:panelGrid id="displayE" columns="2" cellpadding="4">
-	  
+	   
 		            <h:outputText for="nomeE" value="Nome:" />
 		            <p:inputText value="#{usuarioMB.usuarioSelecionado.nome}" required="true" id="nomeE"/>
 		  			<p:watermark for="nomeE" value="Nome Completo" />
@@ -92,13 +95,18 @@
 		            <p:message for="emailE" />
 		            <f:facet name="footer">
 		            	<p:commandButton value="Salvar" actionListener="#{usuarioMB.addUser}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg,usuarioTable" />
+		            	<p:commandButton value="Excluir" update="usuarioTable,:msg,:form1"  icon="ui-icon-close" actionListener="#{usuarioMB.delUser}" />                 
+		            	<p:commandButton value="Cancelar" update="usuarioTable,:msg,:form1"  oncomplete="userDialogE.hide()"/>                 
 		            </f:facet>
+		          
 		        </h:panelGrid>  
+		        
+		     
 		    </p:dialog>
 		    
 		
-		 
-		   </h:form>
+		 </h:form>
+		  
 	</center>
 	</h:body>
 </html>

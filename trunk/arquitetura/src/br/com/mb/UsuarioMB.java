@@ -3,11 +3,11 @@
  */
 package br.com.mb;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -23,12 +23,12 @@ import br.com.dto.UsuarioDTO;
  *
  */
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class UsuarioMB {
 	
 	private List<UsuarioDTO> listUsuario;
 	private List<UsuarioDTO> filteredUsuarios;
-	private UsuarioDTO usuarioSelecionado;
+	private UsuarioDTO usuarioSelecionado = new UsuarioDTO();
 	private UsuarioDAO usuarioDAO = new UsuarioDAO();
 	private UsuarioDTO usuarioDTO = new UsuarioDTO();
 	
@@ -69,13 +69,26 @@ public class UsuarioMB {
 		return "editar";
 	}
 	
+	public void delUser(ActionEvent actionEvent){
+		try {
+			if(usuarioSelecionado !=null && usuarioSelecionado.getId() !=null){
+			usuarioDAO.delete(usuarioSelecionado);
+			listUsuario = usuarioDAO.list();
+			addMessage("Apagado.");
+		}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void reset() {  
         RequestContext.getCurrentInstance().reset("form:panel");  
     } 
 	//metodo generico que envia mesagens para a tela
-	private void addMessage(FacesMessage message) {
-		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
+//	private void addMessage(FacesMessage message) {
+//		FacesContext.getCurrentInstance().addMessage(null, message);
+//	}
 	public void addMessage(String summary) {  
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);  
 		FacesContext.getCurrentInstance().addMessage(null, message);  
