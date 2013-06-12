@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:p="http://primefaces.org/ui"
+ xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:ui="http://java.sun.com/jsf/facelets"
+ xmlns:f="http://java.sun.com/jsf/core">
+ 
+<h:head>
+	<title>Marcação de consulta</title>
+	<script type="text/javascript">
+		PrimeFaces.locales['pt'] = {
+		                closeText: 'Fechar',
+		                prevText: 'Anterior',
+		                nextText: 'Próximo',
+		                currentText: 'Começo',
+		                monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		                monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun', 'Jul','Ago','Set','Out','Nov','Des'],
+		                dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+		                dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+		                dayNamesMin: ['D','S','T','Q','Q','S','S'],
+		                weekHeader: 'Semana',
+		                firstDay: 1,
+		                isRTL: false,
+		                showMonthAfterYear: false,
+		                yearSuffix: '',
+		                timeOnlyTitle: 'Só Horas',
+		                timeText: 'Tempo',
+		                hourText: 'Hora',
+		                minuteText: 'Minuto',
+		                secondText: 'Segundo',
+		                currentText: 'Data Atual',
+		                ampm: false,
+		                month: 'Mês',
+		                week: 'Semana',
+		                day: 'Dia',
+		                allDayText : 'Todo Dia'
+		            };
+		</script>
+</h:head>
+	<h:body>
+		<h:form> 
+	
+			<p:panel header="Marcar consulta">
+				 <p:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				 
+					<h:outputLabel id="us" value="Unidade de Saúde: " />
+				 	<h:outputLabel value="SEDE" id="usi"/>
+		
+				 	<p:outputLabel value="Paciente:" for="basicPojo"/>
+				 	<p:autoComplete value="#{autoCompleteMB.usuarioSelecionado1}" id="basicPojo" completeMethod="#{autoCompleteMB.completarUsuario}"  
+		                        var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="usuario" forceSelection="true"/> 
+				 	
+					<p:outputLabel for="tc" value="Tipo da consulta: " />
+					<p:selectOneMenu value="#{marcarConsultaMB.consultaDTO.tipoConsulta}" id="tc" effect="fade" converter="tipoConsulta">  
+			            <f:selectItem itemLabel="Select One" itemValue="" />  
+			            <f:selectItems value="#{marcarConsultaMB.listTipoConsulta}" var="tipoConsulta" itemLabel="#{tipoConsulta.nome}" itemValue="#{tipoConsulta}"/>  
+			        </p:selectOneMenu>
+			        
+					<p:outputLabel for="espec" value="Especialidade: " />
+					<p:selectOneMenu value="#{marcarConsultaMB.consultaDTO.especialidadeDTO}" id="espec" effect="fade" converter="especialidade">  
+			            <f:selectItem itemLabel="Select One" itemValue="" />  
+			            <f:selectItems value="#{marcarConsultaMB.listEspecialidade}" var="especialiade" itemLabel="#{especialiade.especialidade}" itemValue="#{especialidade}"/>  
+			        </p:selectOneMenu>
+			        
+					<p:outputLabel for="pd" value="Profissionais disponíveis: " />
+					<p:selectOneMenu value="#{marcarConsultaMB.consultaDTO.profissionaDTO}" id="pd" effect="fade" converter="usuario">  
+			            <f:selectItem itemLabel="Select One" itemValue="" />  
+			            <f:selectItems value="#{marcarConsultaMB.listProfissional}" var="profissional" itemLabel="#{profissional.nome}" itemValue="#{profissional}"/>  
+			        </p:selectOneMenu>
+			        
+			        <p:outputLabel for="hd" value="Horários disponíveis: " />
+					<p:selectOneMenu value="#{marcarConsultaMB.consultaDTO.profissionaDTO}" id="hd" effect="fade" converter="horarioAtendimento">  
+			            <f:selectItem itemLabel="Select One" itemValue="" />  
+			            <f:selectItems value="#{marcarConsultaMB.listHorarioAtendimento}" var="horarioAtendimento" itemLabel="#{horarioAtendimento.nome}" itemValue="#{horarioAtendimento}"/>  
+			        </p:selectOneMenu> 
+			        
+				 </p:panelGrid>
+			</p:panel>
+			<br/>
+		</h:form>
+	<h:form>
+		<p:growl id="messages" showDetail="true" sticky="true" autoUpdate="true"/>
+		<p:schedule value="#{marcarConsultaMB.lazyEventModel}" widgetVar="myschedule" locale="pt"> 
+     
+            <p:ajax event="dateSelect" listener="#{marcarConsultaMB.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" /> 
+            <p:ajax event="eventSelect" listener="#{marcarConsultaMB.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" /> 
+            <p:ajax event="eventMove" listener="#{marcarConsultaMB.onEventMove}" update="messages" /> 
+            <p:ajax event="eventResize" listener="#{marcarConsultaMB.onEventResize}" update="messages" /> 
+     
+        </p:schedule> 
+     
+        <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip"> 
+            <h:panelGrid id="eventDetails" columns="2"> 
+                <h:outputLabel for="title" value="Title:" /> 
+                <p:inputText id="title" value="#{marcarConsultaMB.event.title}" required="true"/> 
+     
+                <h:outputLabel for="from" value="From:" /> 
+                <p:inputMask id="from" value="#{marcarConsultaMB.event.startDate}" mask="99/99/9999"> 
+                    <f:convertDateTime pattern="dd/MM/yyyy" /> 
+                </p:inputMask> 
+     
+                <h:outputLabel for="to" value="To:" /> 
+                <p:inputMask id="to" value="#{marcarConsultaMB.event.endDate}" mask="99/99/9999"> 
+                    <f:convertDateTime pattern="dd/MM/yyyy" /> 
+                </p:inputMask> 
+     
+                <h:outputLabel for="allDay" value="All Day:" /> 
+                <h:selectBooleanCheckbox id="allDay" value="#{marcarConsultaMB.event.allDay}" /> 
+     
+                <p:commandButton type="reset" value="Reset" /> 
+                <p:commandButton value="Save" actionListener="#{marcarConsultaMB.addEvent}" oncomplete="myschedule.update();eventDialog.hide();"/> 
+            </h:panelGrid> 
+        </p:dialog> 
+     
+    </h:form>
+	</h:body>
+
+</html>
