@@ -11,6 +11,7 @@ import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
+import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.factory.HibernateUtility;
@@ -23,9 +24,15 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final Class<T> oClass;
+	public Session session ;
 
     public GenericoDAO() {
         this.oClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        try {
+			session = HibernateUtility.getSession();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
     public Class<T> getObjectClass() {
