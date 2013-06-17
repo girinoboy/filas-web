@@ -17,6 +17,8 @@ import org.primefaces.model.chart.LineChartSeries;
 import org.primefaces.model.chart.PieChartModel;
 //import org.primefaces.model.chart.BarChartSeries;
 
+import br.com.dao.ChartDAO;
+
   
 @ManagedBean(name="chartBean")
 public class ChartMB implements Serializable {  
@@ -56,15 +58,16 @@ public class ChartMB implements Serializable {
     private void createLinearModel() {  
     	
         linearModel = new CartesianChartModel();  
+        ChartDAO chartDAO = new ChartDAO();
   
         LineChartSeries series1 = new LineChartSeries();  
         series1.setLabel("Previsão");  
   
-        series1.set(1, 1);  
-        series1.set(2, 6);  
-        series1.set(3, 2);  
-        series1.set(4, (int)(Math.random() * 9));  
-        series1.set(5, (int)(Math.random() * 9));  
+        series1.set(1, 1);
+        series1.set(2, 6);
+        series1.set(3, 2);
+        series1.set(4, chartDAO.minerar(2.0));
+        series1.set(5, chartDAO.minerar(3.0));
   
         LineChartSeries series2 = new LineChartSeries();  
         series2.setLabel("Real");  
