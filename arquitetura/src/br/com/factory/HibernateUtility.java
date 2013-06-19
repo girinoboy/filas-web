@@ -14,6 +14,7 @@ import br.com.dto.ConsultaDTO;
 import br.com.dto.EspecialidadeDTO;
 import br.com.dto.HorarioAtendimentoSubUnidadeDTO;
 import br.com.dto.InstituicaoDTO;
+import br.com.dto.NewView;
 import br.com.dto.UnidadeSaudeDTO;
 import br.com.dto.UsuarioDTO;
 
@@ -87,6 +88,7 @@ public class HibernateUtility {
 				/*for(Class<?> clazz : getClasses("br.com.dto")){
 					configuration.addAnnotatedClass(clazz);
 				}*/
+				configuration.addAnnotatedClass(NewView.class);
 				sessionFactory =
 				((AnnotationConfiguration) configuration //configura as propiedades
 
