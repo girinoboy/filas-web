@@ -33,6 +33,7 @@ public class UsuarioDTO {
 	private Date dataNascimento;
 	private String cpf;
 	private String email;
+	private String tema;
 	
 	/**
 	 * 
@@ -87,6 +88,20 @@ public class UsuarioDTO {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	/**
+	 * @return the tema
+	 */
+	public String getTema() {
+		return tema;
+	}
+
+	/**
+	 * @param tema the tema to set
+	 */
+	public void setTema(String tema) {
+		this.tema = tema;
 	} 
 
 }

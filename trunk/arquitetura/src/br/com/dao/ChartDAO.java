@@ -4,32 +4,27 @@
 package br.com.dao;
 
 import java.io.Serializable;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 
-import br.com.dto.UsuarioDTO;
+import br.com.dto.NewView;
 
 /**
  * @author Marcleônio
  *
  */
-public class ChartDAO extends GenericoDAO<UsuarioDTO, Serializable>{
+public class ChartDAO extends GenericoDAO<NewView, Serializable>{
 	
 	
-	public Integer minerar(Double previsao){
+	public Integer minerar(String tabela,String colunaX, String colunaY,Double previsao){
 		Integer dadoMinerado = 0;
 		Query query = session.createSQLQuery(
 				"CALL ST_REG_LIN(:tabela,:colunax,:colunay,:previsao)")
 				//.addScalar("VAL_PREVISTO", Hibernate.DOUBLE)
 				//.addEntity(UsuarioDTO.class)
-				.setParameter("tabela", "permissoes_menus")
-				.setParameter("colunax", "perfis_id")
-				.setParameter("colunay", "menus_id")
+				.setParameter("tabela", tabela)
+				.setParameter("colunax", colunaX)
+				.setParameter("colunay", colunaY)
 				.setParameter("previsao", previsao);
 		 query.uniqueResult();
 		
@@ -42,7 +37,7 @@ public class ChartDAO extends GenericoDAO<UsuarioDTO, Serializable>{
 		dadoMinerado = dadoMinerado1.intValue();
 		/*
 			List result = query.list();
-			for(int i=0; i<result.size(); i++){
+			for(int i=0; i<res ult.size(); i++){
 				UsuarioDTO stock = (UsuarioDTO)result.get(i);
 				System.out.println(stock.getId());
 				dadoMinerado = stock.getId();

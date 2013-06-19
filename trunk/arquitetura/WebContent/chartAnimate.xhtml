@@ -19,9 +19,10 @@
 <!-- 			<p:poll interval="15" update="votes" />   -->
 			<h:panelGrid columns="1">
 			    <p:lineChart id="votes" value="#{chartBean.linearModel}" legendPosition="e" zoom="true" animate="true"  
-			                title="Gráfico de Tendência " minY="0" maxY="10" style="width:800px;" widgetVar="chart" seriesColors="66cc66,cc6666"/>  
+			                title="Gráfico de Tendência " minY="0" maxY="100" style="width:1000px;" widgetVar="chart" seriesColors="66cc66,cc6666"/>  
 			  
 			</h:panelGrid> 
+			<p:outputLabel  for="previsao" value="Previsão:" /> <p:inputText value="#{chartBean.previsao}" required="true" id="previsao"/>
 			<p:commandButton value="Atualizar Procedure de Mineração" update="votes" id="ajax"  
              actionListener="#{chartBean.atualizaGrafico}" /> 
 		</h:form>
