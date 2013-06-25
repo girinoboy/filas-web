@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+    version="1.2">
+    
+    <application>
+		<resource-bundle>
+			<base-name>br.com.messages.messages</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+			<supported-locale>en_US</supported-locale>
+		</locale-config>
+		<message-bundle>  
+      		br.com.messages.messages
+ 		</message-bundle>
+	</application>
+	
+	<navigation-rule>
+		<description>Editar</description>
+		<from-view-id>/listarUsuarios.xhtml</from-view-id>
+        <navigation-case>
+        	<from-action>#{usuarioMB.editUser}</from-action>
+            <from-outcome>edit</from-outcome>
+            <to-view-id>/editarUsuario.xhtml</to-view-id>
+        </navigation-case>
+       
+        
+    </navigation-rule>
+
+</faces-config>
