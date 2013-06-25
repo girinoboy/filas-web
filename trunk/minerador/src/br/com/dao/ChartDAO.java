@@ -16,8 +16,8 @@ import br.com.dto.NewView;
 public class ChartDAO extends GenericoDAO<NewView, Serializable>{
 	
 	
-	public Integer minerar(String tabela,String colunaX, String colunaY,Double previsao){
-		Integer dadoMinerado = 0;
+	public Double minerar(String tabela,String colunaX, String colunaY,Double previsao){
+		Integer dadoMineradoI = 0;
 		Query query = session.createSQLQuery(
 				"CALL ST_REG_LIN(:tabela,:colunax,:colunay,:previsao)")
 				//.addScalar("VAL_PREVISTO", Hibernate.DOUBLE)
@@ -31,10 +31,10 @@ public class ChartDAO extends GenericoDAO<NewView, Serializable>{
 		query = session.createSQLQuery("select * from TB_RESPOSTA")
 				.addScalar("VAL_PREVISTO", Hibernate.DOUBLE);
 		
-		Double dadoMinerado1 = (Double) query.uniqueResult();
+		Double dadoMinerado = (Double) query.uniqueResult();
 		
 		
-		dadoMinerado = dadoMinerado1.intValue();
+		//dadoMinerado = dadoMinerado1.intValue();
 		/*
 			List result = query.list();
 			for(int i=0; i<res ult.size(); i++){

@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 import org.primefaces.model.chart.CartesianChartModel;  
 import org.primefaces.model.chart.ChartSeries;  
@@ -23,6 +25,7 @@ import br.com.dto.NewView;
 
 
 @ManagedBean(name="chartBean")
+@RequestScoped
 public class ChartMB implements Serializable {  
 
 	/**
@@ -38,7 +41,7 @@ public class ChartMB implements Serializable {
 
 	private CartesianChartModel combinedModel; 
 	
-	private Double previsao = 0.0;
+	private Double previsao = 22D;
 
 	public ChartMB(){  
 		createLinearModel();  
@@ -64,8 +67,8 @@ public class ChartMB implements Serializable {
 		linearModel = new CartesianChartModel();  
 		ChartDAO chartDAO = new ChartDAO();
 		String tabela = "new_view";
-		String colunaX = "custo";
-		String colunaY = "quantidade";
+		String colunaX = "dia";
+		String colunaY = "venda";
 		//Double previsao = null;
 
 		List<NewView> a = null;
@@ -79,7 +82,7 @@ public class ChartMB implements Serializable {
 		series1.setLabel("Real");  
 		series1.setMarkerStyle("diamond");
 		for (NewView newView : a) {
-			series1.set(newView.getCusto().intValue(), newView.getQuantidade());
+			series1.set(newView.getDia().intValue(), newView.getVenda());
 		}
 
 		LineChartSeries series2 = new LineChartSeries();
