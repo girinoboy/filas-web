@@ -1,0 +1,91 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:h="http://java.sun.com/jsf/html"  
+    xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"> 
+    
+    <h:head> 
+    	<title>index</title>
+    
+    </h:head>  
+      
+    <h:body> 
+    	
+		<h:form id="form1">  
+			<p:growl id="growl" showDetail="true" life="3000" /> 
+			<p:messages id="messages" autoUpdate="true"/>
+			<h:inputHidden id="idUsuario" value="#{usuarioMB.usuarioDTO.id}" />
+		    <h:panelGrid columns="3">  
+		        <p:photoCam widgetVar="pc" listener="#{usuarioMB.oncapture}" update="photos,idUsuario" value="teste"/>
+		  
+		        <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()"  />
+		  
+		        <p:imageSwitch effect="zoom" id="photos">
+		            <ui:repeat value="#{usuarioMB.photos}" var="photo">
+		                <p:graphicImage value="/photocam/#{photo}.png" />
+		            </ui:repeat>
+		        </p:imageSwitch>
+		    </h:panelGrid>  
+	 
+  			
+		    <p:panel id="panel" header="Dados Pessoais">
+		    	
+		        <h:panelGrid id="pg" columns="4" cellpadding="5">  
+		        	<h:outputLabel for="nome" value="Nome: *" />
+		            <p:inputText id="nome" size="80"
+		                value="#{usuarioMB.usuarioDTO.nome}" required="true" label="Nome">
+		                <f:validateLength minimum="2" />
+		            </p:inputText>
+		            <p:watermark for="nome" value=" " />
+		            <p:message for="nome" />
+		            
+		            <h:outputText id="dataNascimento" value="Data de Nascimento: " />  
+		            <p:inputMask value="#{usuarioMB.usuarioDTO.dataNascimento}" mask="99/99/9999" > 
+		            	<f:convertDateTime pattern="dd/MM/yyyy" />
+		            </p:inputMask>
+		            <p:watermark for="dataNascimento" value=" " /> 
+		            <p:message for="dataNascimento" />
+		              
+		            <h:outputText id="telefone" value="Telefone: *" />  
+		            <p:inputMask value="#{usuarioMB.usuarioDTO.telefone}" mask="(999) 9999-9999" required="true"/>
+		            <p:watermark for="telefone" value=" " />  
+		            <p:message for="telefone" />
+		            
+		            <h:outputLabel for="dataPagamento" value="Data do Pagamento: *" required="true"/>
+		            <p:calendar value="#{usuarioMB.usuarioDTO.dataPagamento}" id="dataPagamento" required="true"/>
+		            <p:watermark for="dataPagamento" value=" " />
+		            <p:message for="dataPagamento" />
+		            
+		            <h:outputLabel for="valor" value="Valor: *" />
+		            <pe:inputNumber id="valor" value="#{usuarioMB.usuarioDTO.valor}" symbol="R$ " required="true"/>  
+		            <p:watermark for="valor" value=" " />
+		            <p:message for="valor" />
+		            
+		            <h:outputLabel for="endereco" value="Endereco: *" />
+		            <p:inputText id="endereco" size="150"
+		                value="#{usuarioMB.usuarioDTO.endereco}" required="false" label="Endereço">
+		            </p:inputText>
+		            <p:watermark for="endereco" value="Endereço completo" />
+		            <p:message for="endereco" />
+		            
+		            <h:outputLabel for="obs" value="Observação: *" />
+		            <p:inputTextarea id="obs" rows="5" cols="30" counter="counter" maxlength="200"       
+				    	value="#{usuarioMB.usuarioDTO.observacao}" 
+				    	counterTemplate="{0} characters remaining." autoResize="false"/>  
+				  	<p:watermark for="obs" value=" " />
+				  	<p:message for="obs" />
+					<h:outputText id="counter" /> 
+				  	
+		          	<f:facet name="footer">
+			          	<p:commandButton value="Salvar" actionListener="#{usuarioMB.saveUsuario}" id="withIcon"   
+			            update="panel,messages,growl" icon="ui-icon-disk" />
+			            <p:commandButton value="Reset" type="reset" /> 
+			            <p:commandButton value="Voltar" onclick="javascript:document.location.href = 'index.xhtml'" /> 
+		  			</f:facet>
+		        </h:panelGrid>  
+		    </p:panel>  
+      
+    	</h:form> 
+	</h:body>  
+</html>  
