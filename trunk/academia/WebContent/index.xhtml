@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:p="http://primefaces.org/ui"
+ xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:ui="http://java.sun.com/jsf/facelets"
+ xmlns:f="http://java.sun.com/jsf/core"
+ xmlns:pe="http://primefaces.org/ui/extensions"> 
+<h:head>
+	<title>Lista de Usuarios</title>
+	<script type="text/javascript">
+			function handleLoginRequest(xhr, status, args) {
+		        if(args.validationFailed || !args.salvo) {
+		            jQuery('#dialogE').effect("shake", { times:3 }, 100);
+		        } else {
+		        	userDialogE.hide();
+		        }
+		    }
+	    </script>
+	    <style type="text/css">
+	    .old{
+    background-color:yellow;
+    padding-top:25px;
+    padding-bottom:25px;
+    padding-right:50px;
+    padding-left:50px;
+}
+.highlightTableRow {
+   background: none repeat scroll 0 0 #E0EEEE;
+      font-weight: bold;
+}
+tr.inactive {
+   background-image: none;
+   background-color: #D9D9D9;
+   color: #3D3D3D;
+      
+}
+.highlightTableRow2 {
+   background-color: #E0EEEE !important;
+      font-weight: bold;
+}
+	    </style>
+</h:head>
+	<h:body>
+	
+	<p:growl id="msg" showDetail="true" sticky="true" />
+	<center>
+	<h:form id="form1">
+		<h1>Lista de Usuarios</h1>
+	
+		<p:separator id="separator"/>
+		
+			<p:dataTable var="user" value="#{usuarioMB.listUsuario}" rowKey="#{user.id}" paginator="true" rows="10" rowStyleClass="#{user.pagamentoVencendo eq 1 ? 'inactive' : null}"
+		                selection="#{usuarioMB.usuarioDTO}" selectionMode="single" filteredValue="#{usuarioMB.filteredUsuarios}" id="usuarioTable" >
+		  
+		        <p:ajax event="rowSelect" update=":form1:displayE"  listener="#{usuarioMB.editUser}" oncomplete="userDialogE.show()"/>
+		  
+		        <f:facet name="header">
+		            Lista de usuarios
+		        </f:facet>
+				<p:column headerText="Foto" id="foto">
+					<p:graphicImage value="#{usuarioMB.dynamicImage}" style="width:60px;height:60px">
+						<f:param name="image_id" value="#{user.anexoDTO.id}"/>
+					</p:graphicImage>
+				</p:column>
+				
+		        <p:column headerText="Nome" sortBy="nome" filterBy="nome" id="nome" filterMatchMode="contains">
+		           #{user.nome}
+		        </p:column>
+		  
+		        <p:column headerText="Telefone" sortBy="#{user.telefone}" filterBy="telefone" id="telefone" filterMatchMode="contains">
+		            #{user.telefone}
+		        </p:column>
+		  
+		        <p:column headerText="Idade" sortBy="idade" id="idade">
+		           <h:outputText value="#{user.idade}"/>
+		        </p:column>
+		  
+		        <p:column headerText="Data Pagamento" sortBy="dataPagamento" filterBy="#{user.dataPagamento}" id="dataPagamento">
+		            <h:outputText value="#{user.dataPagamento}">
+					    <f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+		        </p:column>
+		        
+		        <p:column headerText="Frequencia da Semana"  id="contadorSemana">
+		           <h:outputText value="#{user.contadorSemana}"/>
+		        </p:column>
+		        
+		    </p:dataTable>
+		    <div align="left">
+		    	<p:commandButton value="Novo Usuario" onclick="javascript:document.location.href = 'incluirUsuario.xhtml'" />
+		    </div>
+		 
+		    
+		    <p:dialog id="dialogE" header="Editar Usuario"  widgetVar="userDialogE" resizable="false"
+	              width="400" showEffect="explode" hideEffect="explode">
+	        	<h:panelGrid id="displayE" columns="2" cellpadding="4">
+			   		<f:facet name="header">  
+			            <p:graphicImage value="#{usuarioMB.dynamicImage}" style="width:60px;height:60px">
+					        <f:attribute name="image_id" value="#{usuarioMB.usuarioDTO.anexoDTO.id}"/>
+							<f:param name="image_id" value="#{usuarioMB.usuarioDTO.anexoDTO.id}"/>
+						</p:graphicImage>  
+		            </f:facet>  
+		            <h:outputText for="nomeE" value="Nome: *" />
+		            <p:inputText id="nomeE" value="#{usuarioMB.usuarioDTO.nome}" required="true" />
+		  			<p:watermark for="nomeE" value="Nome Completo" />
+		            <p:message for="nomeE" />
+		  
+		            <h:outputText for="telefoneE" value="Telefone: *" />
+		            <p:inputMask id="telefoneE" value="#{usuarioMB.usuarioDTO.telefone}" required="true" mask="(999) 9999-9999" />
+		            <p:watermark for="telefoneE" value="Telefone" />
+		            <p:message for="telefoneE" />
+		  
+		            <h:outputText for="dataNascimentoE" value="Data de Nascimento:" />
+		            <p:calendar id="dataNascimentoE" value="#{usuarioMB.usuarioDTO.dataNascimento}" required="false"/>
+		            <p:watermark for="dataNascimentoE" value="Nascimento" />
+		            <p:message for="dataNascimentoE" />
+		  	            
+		            <h:outputLabel for="emailE" value="Email: " />
+		            <p:inputText id="emailE" value="#{usuarioMB.usuarioDTO.email}" required="false" label="Email">
+		                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+		            </p:inputText>
+		            <p:watermark for="emailE" value="Endereço de email *" />
+		            <p:message for="emailE" />
+		            
+		            <h:outputText for="dataPagamentoE" value="Data de Pagamento: *" />
+		            <p:calendar value="#{usuarioMB.usuarioDTO.dataPagamento}" required="true" id="dataPagamentoE" requiredMessage="data do ultimo pagamento" title="Data do pagamento."/>
+		            <p:watermark for="dataPagamentoE" value="Pagamento" />
+		            <p:message for="dataPagamentoE" />
+		            
+		            <h:outputLabel for="valorE" value="Valor: *" required="true"/>
+		            <pe:inputNumber id="valorE" value="#{usuarioMB.usuarioDTO.valor}" symbol="R$ " />  
+		            <p:watermark for="valorE" value=" " />
+		            <p:message for="valorE" />
+		            
+		            <h:outputLabel for="obsE" value="Observação: " />
+		            <p:inputTextarea id="obsE" rows="5" cols="30" counter="counter" maxlength="200"       
+				    	value="#{usuarioMB.usuarioDTO.observacao}" 
+				    	counterTemplate="{0} characters remaining." autoResize="false"/>  
+				  	<p:watermark for="obsE" value=" " />
+				  	<p:message for="obsE" />
+					<h:outputText id="counter" />
+		            
+					<p:commandButton value="Marcar presença" actionListener="#{usuarioMB.addFrequecia}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg,usuarioTable" />		              
+		            <f:facet name="footer">
+		            	<p:commandButton value="Salvar" actionListener="#{usuarioMB.addUser}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg,usuarioTable" />
+		            	<p:commandButton value="Excluir" update="usuarioTable,:msg,:form1"  icon="ui-icon-close" actionListener="#{usuarioMB.delUser}" />                 
+		            	<p:commandButton value="Cancelar" update="usuarioTable,:msg,:form1"  oncomplete="userDialogE.hide()"/>                 
+		            </f:facet>
+		          
+		        </h:panelGrid>  
+		        
+		     
+		    </p:dialog>
+		    
+		
+		 </h:form>
+		  
+	</center>
+	</h:body>
+</html>
