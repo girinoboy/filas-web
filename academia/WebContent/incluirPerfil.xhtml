@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:h="http://java.sun.com/jsf/html"  
+    xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"> 
+    
+    <h:head> 
+    	<title>Perfil</title>
+    
+    </h:head>  
+      
+    <h:body> 
+    	
+		<h:form id="form1">
+			<p:growl id="growl" showDetail="true" life="3000" /> 
+			<p:messages id="messages" autoUpdate="true"/>
+			<p:panel id="panel" header="Perfis do sistema">
+		
+				<h:panelGrid id="pg" columns="4" cellpadding="5">  
+		        	<h:outputLabel for="nome" value="Nome: *" />
+		            <p:inputText id="nome" size="80"
+		                value="#{perfilMB.perfilDTO.nome}" required="true" label="Nome">
+		                <f:validateLength minimum="2" />
+		            </p:inputText>
+		            <p:watermark for="nome" value=" " />
+		            <p:message for="nome" />
+		            
+		            <h:outputLabel for="descricao" value="Descricao: " />
+		            <p:inputText id="descricao" size="80"
+		                value="#{perfilMB.perfilDTO.descricao}" required="false" label="Descricao">
+		                <f:validateLength minimum="2" />
+		            </p:inputText>
+		            <p:watermark for="descricao" value=" " />
+		            <p:message for="descricao" />
+		            
+		            <h:outputLabel for="observacao" value="Observacao: " />
+		            <p:inputText id="observacao" size="80"
+		                value="#{perfilMB.perfilDTO.observacao}" required="false" label="Observacao">
+		                <f:validateLength minimum="2" />
+		            </p:inputText>
+		            <p:watermark for="observacao" value=" " />
+		            <p:message for="observacao" />
+		            
+		            <f:facet name="footer">
+			          	<p:commandButton value="Salvar" actionListener="#{perfilMB.addPerfil}" id="withIcon"   
+			            update="panel,messages,growl" icon="ui-icon-disk" />
+			            <p:commandButton value="Reset" type="reset" /> 
+			            <p:commandButton value="Voltar" onclick="javascript:document.location.href = 'index.xhtml'" /> 
+		  			</f:facet>
+				</h:panelGrid>
+			</p:panel>
+		
+		</h:form> 
+	</h:body>  
+</html>  

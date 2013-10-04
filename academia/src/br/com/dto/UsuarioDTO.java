@@ -41,6 +41,7 @@ public class UsuarioDTO {
 	private String cpf;
 	private String observacao;
 	private Double valor;
+	private String sexo;
 	@Column(name ="data_nascimento")
 	private Date dataNascimento;
 	@Column(name ="data_pagamento")
@@ -52,6 +53,9 @@ public class UsuarioDTO {
 	private List<FrequenciaDTO> listAnexoDTO;
 	@OneToMany(targetEntity=FrequenciaDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<FrequenciaDTO> listFrequenciaDTO;
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "perfil_id", insertable = true, updatable = true, nullable = true)
+	private PerfilDTO perfilDTO;
 
 	/**
 	 * 
@@ -271,6 +275,39 @@ public class UsuarioDTO {
 
 	public void setListFrequenciaDTO(List<FrequenciaDTO> listFrequenciaDTO) {
 		this.listFrequenciaDTO = listFrequenciaDTO;
+	}
+
+
+	public String getSexo() {
+		return sexo;
+	}
+
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
+
+	public List<FrequenciaDTO> getListAnexoDTO() {
+		return listAnexoDTO;
+	}
+
+
+	public void setListAnexoDTO(List<FrequenciaDTO> listAnexoDTO) {
+		this.listAnexoDTO = listAnexoDTO;
+	}
+
+
+	public PerfilDTO getPerfilDTO() {
+		if(perfilDTO == null){
+			perfilDTO = new PerfilDTO();
+		}
+		return perfilDTO;
+	}
+
+
+	public void setPerfilDTO(PerfilDTO perfilDTO) {
+		this.perfilDTO = perfilDTO;
 	}
 
 }

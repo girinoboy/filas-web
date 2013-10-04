@@ -46,7 +46,6 @@ public class UsuarioMB extends GenericoMB{
 	private List<UsuarioDTO> listUsuario;
 	private List<UsuarioDTO> filteredUsuarios;
 	private List<String> photos = new ArrayList<String>(); 
-
 	private AnexoDAO anexoDAO = new AnexoDAO();
 	private AnexoDTO anexoDTO = new AnexoDTO();
 	private FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
@@ -127,19 +126,23 @@ public class UsuarioMB extends GenericoMB{
 			usuarioDTO.getAnexoDTO().setTamanho(file.length());
 			usuarioDTO.getAnexoDTO().setContentType("png");
 			usuarioDTO = usuarioDAO.save(usuarioDTO);
-			usuarioDTO.setNome("teste");
+			//usuarioDTO.setNome("teste");
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			throw new FacesException("Error in writing captured image.");  
 		}
 	}
-
+	public void saveUsuario(){
+		System.out.println(1);
+	}
 	public void saveUsuario(ActionEvent event){
 		try {
 
 			usuarioDAO = new UsuarioDAO();
-			usuarioDTO.setAnexoDTO(usuarioDAO.getById(usuarioDTO.getId()).getAnexoDTO());
+			if(usuarioDTO.getId() !=null){
+				usuarioDTO.setAnexoDTO(usuarioDAO.getById(usuarioDTO.getId()).getAnexoDTO());
+			}
 			usuarioDTO = usuarioDAO.save(usuarioDTO);
 			//			usuarioPerfilDAO = new UsuarioPerfilDAO();
 

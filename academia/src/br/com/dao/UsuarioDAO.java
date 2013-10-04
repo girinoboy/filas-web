@@ -4,7 +4,9 @@
 package br.com.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
 
@@ -52,6 +54,33 @@ public class UsuarioDAO extends GenericoDAO<UsuarioDTO, Serializable>{
 		.executeUpdate();
 		
 		HibernateUtility.commitTransaction();
+		
+	}
+
+
+	public void create(List<UsuarioDTO> listUser) throws HibernateException, Exception {
+
+		for (UsuarioDTO usuario : listUser) { 
+			HibernateUtility.getSession().save(usuario);
+		}
+	}
+
+
+	public List frequenciaMes() throws HibernateException, Exception {
+		
+		//Criteria crit = HibernateUtility.getSession().createCriteria(UsuarioDTO.class) ;
+		/*Criteria crit = HibernateUtility.getSession().createCriteria(UsuarioDTO.class);
+		crit.createCriteria(UsuarioDTO.class).add;
+		
+        cri.add(Restrictions.eq("codcliente",codcliente));  
+        cri.add(Restrictions.between("dataemissao", new java.sql.Date(calendar.getTimeInMillis()),   new java.sql.Date(calendar2.getTimeInMillis())));  
+                          
+            return cri.list();  
+		
+		 return HibernateUtility.getSession().createQuery("from UsuarioDTO where month(data) = :mes and year(data) = :ano")
+				 .setString("valor", theme)
+		 .list();*/
+		return null;
 		
 	}
 
