@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:h="http://java.sun.com/jsf/html"  
+    xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"> 
+    
+    <h:head> 
+    	<title>Frequencia</title>
+    
+    </h:head>  
+      
+    <h:body> 
+    	
+		<h:form id="form1">
+			<p:lineChart id="linear" value="#{relatorioMB.categoryModel}" legendPosition="e"  
+   				title="Frequencia no mês" minY="0" maxY="200" style="height:500px"/> 
+			<div align="left">
+				<p:commandButton value="Voltar" onclick="javascript:document.location.href = 'index.xhtml'" />
+			</div>
+		</h:form> 
+	</h:body>  
+</html>  

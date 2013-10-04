@@ -40,17 +40,32 @@
 		            <p:watermark for="nome" value=" " />
 		            <p:message for="nome" />
 		            
-		            <h:outputText id="dataNascimento" value="Data de Nascimento: " />  
-		            <p:inputMask value="#{usuarioMB.usuarioDTO.dataNascimento}" mask="99/99/9999" > 
+		            <h:outputLabel for="sexo" value="Sexo: *" />
+		            <p:selectOneRadio id="sexo" value="#{usuarioMB.usuarioDTO.sexo}" required="true">  
+			            <f:selectItem itemLabel="Feminino" itemValue="0" />
+			            <f:selectItem itemLabel="Masculino" itemValue="1" />
+			        </p:selectOneRadio>
+		            <p:watermark for="sexo" value=" " />
+		            <p:message for="sexo" />
+		            
+		            <h:outputLabel for="dataNascimento" value="Data de Nascimento: " />  
+		            <p:inputMask id="dataNascimento" value="#{usuarioMB.usuarioDTO.dataNascimento}" mask="99/99/9999" > 
 		            	<f:convertDateTime pattern="dd/MM/yyyy" />
 		            </p:inputMask>
 		            <p:watermark for="dataNascimento" value=" " /> 
 		            <p:message for="dataNascimento" />
 		              
-		            <h:outputText id="telefone" value="Telefone: *" />  
-		            <p:inputMask value="#{usuarioMB.usuarioDTO.telefone}" mask="(999) 9999-9999" required="true"/>
+		            <h:outputLabel for="telefone" value="Telefone: *" />  
+		            <p:inputMask id="telefone" value="#{usuarioMB.usuarioDTO.telefone}" mask="(999) 9999-9999" required="true"/>
 		            <p:watermark for="telefone" value=" " />  
 		            <p:message for="telefone" />
+		            
+		            <h:outputLabel for="endereco" value="Endereco: *" />
+		            <p:inputText id="endereco" size="150"
+		                value="#{usuarioMB.usuarioDTO.endereco}" required="false" label="Endereço">
+		            </p:inputText>
+		            <p:watermark for="endereco" value="Endereço completo" />
+		            <p:message for="endereco" />
 		            
 		            <h:outputLabel for="dataPagamento" value="Data do Pagamento: *" required="true"/>
 		            <p:calendar value="#{usuarioMB.usuarioDTO.dataPagamento}" id="dataPagamento" required="true"/>
@@ -62,12 +77,13 @@
 		            <p:watermark for="valor" value=" " />
 		            <p:message for="valor" />
 		            
-		            <h:outputLabel for="endereco" value="Endereco: *" />
-		            <p:inputText id="endereco" size="150"
-		                value="#{usuarioMB.usuarioDTO.endereco}" required="false" label="Endereço">
-		            </p:inputText>
-		            <p:watermark for="endereco" value="Endereço completo" />
-		            <p:message for="endereco" />
+		            <h:outputLabel for="perfil" value="Perfil: *" />
+			        <p:selectOneMenu id="perfil" value="#{usuarioMB.usuarioDTO.perfilDTO}" effect="fade" converter="perfil" required="true">  
+			            <f:selectItem itemLabel="Selecione" itemValue="" />  
+			            <f:selectItems value="#{perfilMB.listPerfil}" var="perfil" itemLabel="#{perfil.nome}" itemValue="#{perfil}"/>  
+			        </p:selectOneMenu>  
+		            <p:watermark for="perfil" value=" " />
+		            <p:message for="perfil" />
 		            
 		            <h:outputLabel for="obs" value="Observação: *" />
 		            <p:inputTextarea id="obs" rows="5" cols="30" counter="counter" maxlength="200"       
