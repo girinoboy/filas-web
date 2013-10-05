@@ -29,6 +29,8 @@ public class FrequenciaDTO {
 	private Integer id;
 	@Column(name ="data_entrada")
 	private Date dataEntrada;
+	@Column(name ="data_completa")
+	private Date dataCompleta;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "usuario_id", insertable = true, updatable = true, nullable = true)
 	private UsuarioDTO usuarioDTO;
@@ -62,6 +64,14 @@ public class FrequenciaDTO {
 
 	public void setUsuarioDTO(UsuarioDTO usuarioDTO) {
 		this.usuarioDTO = usuarioDTO;
+	}
+
+	public Date getDataCompleta() {
+		return dataCompleta;
+	}
+
+	public void setDataCompleta(Date dataCompleta) {
+		this.dataCompleta = dataCompleta;
 	}
 	
 
