@@ -44,13 +44,19 @@ tr.inactive {
 	<h:body>
 	
 	<p:growl id="msg" showDetail="true" sticky="true" />
-	<center>
-	<h:form id="form1">
-		<h1>Lista de Usuarios</h1>
 	
+	<h:form id="form1">
+	<center>
+		<h1>Lista de Usuarios</h1>
+	</center>
 		<p:separator id="separator"/>
-			<div align="left">
+			<div >
 		    	<p:commandButton title="Config" icon="ui-icon-gear" onclick="javascript:document.location.href = 'incluirPerfil.xhtml'" />
+		    	<p:themeSwitcher value="#{themeSwitcherBean.theme}" style="width:155px; top:10px" effect="fade">
+			        <f:selectItem itemLabel="Choose Theme" itemValue="" />
+			        <f:selectItems value="#{themeSwitcherBean.themes}" />
+			        <p:ajax event="change" listener="#{themeSwitcherBean.saveTheme}" update="form1"/>
+			    </p:themeSwitcher>
 		    </div>
 			<p:dataTable var="user" value="#{usuarioMB.listUsuario}" rowKey="#{user.id}" paginator="true" rows="10" rowStyleClass="#{user.pagamentoVencendo eq 1 ? 'inactive' : null}"
 		                selection="#{usuarioMB.usuarioDTO}" selectionMode="single" filteredValue="#{usuarioMB.filteredUsuarios}" id="usuarioTable" >
@@ -131,8 +137,8 @@ tr.inactive {
 		            <p:watermark for="dataPagamentoE" value="Pagamento" />
 		            <p:message for="dataPagamentoE" />
 		            
-		            <h:outputLabel for="valorE" value="Valor: *" required="true"/>
-		            <pe:inputNumber id="valorE" value="#{usuarioMB.usuarioDTO.valor}" symbol="R$ " />  
+		            <h:outputLabel for="valorE" value="Valor: *" />
+		            <pe:inputNumber id="valorE" value="#{usuarioMB.usuarioDTO.valor}" symbol="R$ " required="true"/>  
 		            <p:watermark for="valorE" value=" " />
 		            <p:message for="valorE" />
 		            
@@ -159,6 +165,6 @@ tr.inactive {
 		
 		 </h:form>
 		  
-	</center>
+	
 	</h:body>
 </html>
