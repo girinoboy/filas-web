@@ -22,7 +22,7 @@ public class GuestPreferences implements Serializable {
 		String pagina = FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath();
 		if(pagina.equals("/login.xhtml")){
 			theme = "aristo"; //default para pagina inicial
-		}else{
+		}else if(theme==null) {
 			theme = "hot-sneaks";
 		}
 
