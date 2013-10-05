@@ -1,23 +1,32 @@
-<html xmlns="http://www.w3.org/1999/xhtml"  
-    xmlns:h="http://java.sun.com/jsf/html"  
-    xmlns:f="http://java.sun.com/jsf/core"  
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:pe="http://primefaces.org/ui/extensions"> 
-    
-    <h:head> 
-    	<title>Frequencia</title>
-    
-    </h:head>  
-      
-    <h:body> 
-    	
-		<h:form id="form1">
-			<p:lineChart id="linear" value="#{relatorioMB.categoryModel}" legendPosition="e"  
-   				title="Frequencia no mês" minY="0" maxY="200" style="height:500px"/> 
-			<div align="left">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:p="http://primefaces.org/ui"
+ xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:ui="http://java.sun.com/jsf/facelets"
+ xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Pagina inicial</title>
+</h:head>
+	<h:body>
+	
+	<p:growl id="msg" showDetail="true" sticky="true" />
+	<center>
+		<h1 class="title ui-widget-header ui-corner-all">Relatorio</h1>
+	
+		<p:separator id="separator"/>  
+		<h:form>
+<!-- 			<p:poll interval="15" update="votes" />   -->
+			<h:panelGrid columns="1">
+   				<p:barChart id="linear" value="#{relatorioMB.categoryModel}" legendPosition="e"  
+   				title="Frequencia no mês" minY="0" maxY="200" style="height:500px; width:1000px" stacked="true"/>
+			</h:panelGrid> 
+		
+             
+             <div align="left">
 				<p:commandButton value="Voltar" onclick="javascript:document.location.href = 'index.xhtml'" />
 			</div>
-		</h:form> 
-	</h:body>  
-</html>  
+		</h:form>
+	</center>
+	</h:body>
+</html>
