@@ -113,7 +113,7 @@ public class RelatorioMB implements Serializable {
         boys.setLabel("Masculino");
   
         for (int i = 1; i < 31; i++) {
-        	 boys.set(i, (int)(Math.random() * 200));
+        	 boys.set(i, (int)(Math.random() * 150));
 		}
         /*boys.set("2004", 120);  
         boys.set("2005", 100);  
@@ -125,7 +125,7 @@ public class RelatorioMB implements Serializable {
         girls.setLabel("Feminino");
   
         for (int i = 1; i < 31; i++) {
-        	girls.set(i, (int)(Math.random() * 200));
+        	girls.set(i, (int)(Math.random() * 150));
 		}
         /*girls.set("2004", 52);  
         girls.set("2005", 60);  
