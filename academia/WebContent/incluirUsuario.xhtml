@@ -22,10 +22,10 @@
 		        <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()"  />
 		  
 		        <p:imageSwitch effect="zoom" id="photos">
-		            <ui:repeat value="#{usuarioMB.photos}" var="photo">
-		                <p:graphicImage value="/photocam/#{photo}.png" />
-		            </ui:repeat>
-		        </p:imageSwitch>
+			        <p:graphicImage id="a" value="#{usuarioMB.dynamicImage}" >
+						<f:param name="image_id" value="#{usuarioMB.usuarioDTO.anexoDTO.id}"/>
+					</p:graphicImage>
+				</p:imageSwitch>
 		    </h:panelGrid>  
 	 
   			
