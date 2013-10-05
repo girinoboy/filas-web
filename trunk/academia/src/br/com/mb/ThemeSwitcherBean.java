@@ -69,10 +69,10 @@ public class ThemeSwitcherBean extends GenericoMB{
     	
     	UsuarioDTO usuario = getUserSession();
     	if(theme !=null){
+    		gp.setTheme(theme);
     		usuario.setTema(theme);
     	}
     	usuarioDAO.saveTheme(theme,usuario);
-        gp.setTheme(theme);
     }
     
     public void setGp(GuestPreferences gp) {
