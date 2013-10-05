@@ -114,7 +114,7 @@ tr.inactive {
 		            <p:inputText id="nomeE" value="#{usuarioMB.usuarioDTO.nome}" required="true" />
 		  			<p:watermark for="nomeE" value="Nome Completo" />
 		            <p:message for="nomeE" />
-		  
+		            
 		            <h:outputText for="telefoneE" value="Telefone: *" />
 		            <p:inputMask id="telefoneE" value="#{usuarioMB.usuarioDTO.telefone}" required="true" mask="(999) 9999-9999" />
 		            <p:watermark for="telefoneE" value="Telefone" />
@@ -132,28 +132,18 @@ tr.inactive {
 		            <p:watermark for="emailE" value="Endereço de email *" />
 		            <p:message for="emailE" />
 		            
-		            <h:outputText for="dataPagamentoE" value="Data de Pagamento: *" />
-		            <p:calendar value="#{usuarioMB.usuarioDTO.dataPagamento}" required="true" id="dataPagamentoE" requiredMessage="data do ultimo pagamento" title="Data do pagamento."/>
-		            <p:watermark for="dataPagamentoE" value="Pagamento" />
-		            <p:message for="dataPagamentoE" />
-		            
-		            <h:outputLabel for="valorE" value="Valor: *" />
-		            <pe:inputNumber id="valorE" value="#{usuarioMB.usuarioDTO.valor}" symbol="R$ " required="true"/>  
-		            <p:watermark for="valorE" value=" " />
-		            <p:message for="valorE" />
-		            
 		            <h:outputLabel for="obsE" value="Observação: " />
-		            <p:inputTextarea id="obsE" rows="5" cols="30" counter="counter" maxlength="200"       
+		            <p:inputTextarea id="obsE" rows="5" cols="20" counter="counter" maxlength="200"       
 				    	value="#{usuarioMB.usuarioDTO.observacao}" 
 				    	counterTemplate="{0} characters remaining." autoResize="false"/>  
 				  	<p:watermark for="obsE" value=" " />
 				  	<p:message for="obsE" />
 					<h:outputText id="counter" />
 		            
-					<p:commandButton value="Marcar presença" actionListener="#{usuarioMB.addFrequecia}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg,usuarioTable" />		              
+					<p:commandButton value="Marcar presença" actionListener="#{usuarioMB.addFrequecia}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg,usuarioTable" />
 		            <f:facet name="footer">
 		            	<p:commandButton value="Salvar" actionListener="#{usuarioMB.addUser}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg,usuarioTable" />
-		            	<p:commandButton value="Excluir" update="usuarioTable,:msg,:form1"  icon="ui-icon-close" actionListener="#{usuarioMB.delUser}" />                 
+		            	<p:commandButton value="Detalhar" update="usuarioTable,:msg,:form1"  icon="ui-icon-zoomin" actionListener="#{usuarioMB.detalharUser}" />                 
 		            	<p:commandButton value="Cancelar" update="usuarioTable,:msg,:form1"  oncomplete="userDialogE.hide()"/>                 
 		            </f:facet>
 		          

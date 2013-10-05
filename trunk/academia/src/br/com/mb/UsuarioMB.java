@@ -5,6 +5,7 @@ package br.com.mb;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Map;
 import javax.faces.FacesException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.imageio.stream.FileImageOutputStream;
@@ -38,7 +40,7 @@ import br.com.dto.UsuarioDTO;
  *
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class UsuarioMB extends GenericoMB{
 
 	private UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -197,6 +199,15 @@ public class UsuarioMB extends GenericoMB{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void detalharUser(){
+	    try {
+	    	usuarioDTO = usuarioDAO.getById(usuarioDTO.getId());
+			FacesContext.getCurrentInstance().getExternalContext().redirect("incluirUsuario.xhtml");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}  
 	}
 
 	public void addFrequecia(ActionEvent actionEvent){
