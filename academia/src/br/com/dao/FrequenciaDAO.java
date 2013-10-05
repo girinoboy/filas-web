@@ -4,8 +4,18 @@
 package br.com.dao;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 import br.com.dto.FrequenciaDTO;
+import br.com.factory.HibernateUtility;
 
 /**
  * @author Marcleônio
@@ -24,6 +34,44 @@ public class FrequenciaDAO extends GenericoDAO<FrequenciaDTO, Serializable>{
 	 */
 	public FrequenciaDAO() {
 		// TODO Auto-generated constructor stub
+	}
+
+	@SuppressWarnings({ "rawtypes" })
+	public List frequenciaMesPorSexo(String sexo) throws HibernateException, Exception{
+
+		Calendar dataMax = new GregorianCalendar();
+
+		Calendar dataMin = new GregorianCalendar();
+
+		int primeiro_dia_mes = dataMax.getActualMinimum(Calendar.DAY_OF_MONTH);  
+		dataMin.set(Calendar.DAY_OF_MONTH, primeiro_dia_mes);
+
+		int ultimo_dia_mes = dataMax.getActualMaximum(Calendar.DAY_OF_MONTH);  
+		dataMax.set(Calendar.DAY_OF_MONTH, ultimo_dia_mes);  
+
+
+		List result = HibernateUtility.getSession().createCriteria(FrequenciaDTO.class)  
+				.add(Restrictions.between("dataEntrada", dataMin.getTime(), dataMax.getTime()))
+				.setProjection(Projections.projectionList()
+						.add(Projections.groupProperty("dataEntrada"))
+						//.add(Projections.groupProperty("usuarioDTO.sexo"))
+						.add(Projections.count("id"))           
+						)
+				.addOrder(Order.asc("dataEntrada"))
+				.createCriteria("usuarioDTO")
+				.add(Restrictions.eq("sexo", sexo))
+										
+				.list();
+		
+		/*
+		String updateQuery = "UPDATE UsuarioDTO obj SET sexo = 1";  
+		HibernateUtility.getSession().createQuery(updateQuery)
+		//.setString("valor", theme)
+		//.setLong("idUsuario",usuario.getId())
+		.executeUpdate();
+		
+		HibernateUtility.commitTransaction();/*/
+		return result;
 	}
 
 }

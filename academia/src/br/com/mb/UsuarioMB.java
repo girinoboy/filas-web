@@ -213,6 +213,7 @@ public class UsuarioMB extends GenericoMB{
 			}else{
 				frequenciaDTO.setUsuarioDTO(usuarioDTO);
 				frequenciaDTO.setDataEntrada(toDateOnly(new Date()));
+				frequenciaDTO.setDataCompleta(new Date());
 				frequenciaDAO.save(frequenciaDTO);
 				context.addCallbackParam("salvo", true);
 				addMessage("Salvo.");
