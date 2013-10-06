@@ -35,6 +35,14 @@ tr.inactive {
    color: #3D3D3D;
       
 }
+.debito {
+   background: none repeat scroll 0 0 #FFF5EE;
+   font-weight: bold;
+      
+}
+.coluna-tabela-centralizada{
+    text-align: center !important;
+}
 .highlightTableRow2 {
    background-color: #E0EEEE !important;
       font-weight: bold;
@@ -46,11 +54,9 @@ tr.inactive {
 	<p:growl id="msg" showDetail="true" sticky="true" />
 	
 	<h:form id="form1">
-	<center>
-		<h1>Lista de Usuarios</h1>
-	</center>
-		<p:separator id="separator"/>
+		
 			<div >
+				<p:commandButton value="Novo Usuario" onclick="javascript:document.location.href = 'incluirUsuario.xhtml'" />
 		    	<p:commandButton title="Config" icon="ui-icon-gear" onclick="javascript:document.location.href = 'incluirPerfil.xhtml'" />
 		    	<p:themeSwitcher value="#{themeSwitcherBean.theme}" style="width:155px; top:10px" effect="fade">
 			        <f:selectItem itemLabel="Choose Theme" itemValue="" />
@@ -58,7 +64,8 @@ tr.inactive {
 			        <p:ajax event="change" listener="#{themeSwitcherBean.saveTheme}" update="form1"/>
 			    </p:themeSwitcher>
 		    </div>
-			<p:dataTable var="user" value="#{usuarioMB.listUsuario}" rowKey="#{user.id}" paginator="true" rows="10" rowStyleClass="#{user.pagamentoVencendo eq 1 ? 'inactive' : null}"
+		    <p:separator id="separator"/>
+			<p:dataTable var="user" value="#{usuarioMB.listUsuario}" rowKey="#{user.id}" paginator="true" rows="10" rowStyleClass="#{user.pagamentoVencendo eq 1 ? 'debito' : null}"
 		                selection="#{usuarioMB.usuarioDTO}" selectionMode="single" filteredValue="#{usuarioMB.filteredUsuarios}" id="usuarioTable" >
 		  
 		        <p:ajax event="rowSelect" update=":form1:displayE"  listener="#{usuarioMB.editUser}" oncomplete="userDialogE.show()"/>
@@ -66,7 +73,7 @@ tr.inactive {
 		        <f:facet name="header">
 		            Lista de usuarios
 		        </f:facet>
-				<p:column headerText="Foto" id="foto">
+				<p:column headerText="Foto" id="foto" style="text-align: center;">
 					<p:graphicImage value="#{usuarioMB.dynamicImage}" style="width:60px;height:60px">
 						<f:param name="image_id" value="#{user.anexoDTO.id}"/>
 					</p:graphicImage>
@@ -84,8 +91,8 @@ tr.inactive {
 		           <h:outputText value="#{user.idade}"/>
 		        </p:column>
 		  
-		        <p:column headerText="Data Pagamento" sortBy="dataPagamento" filterBy="#{user.dataPagamento}" id="dataPagamento">
-		            <h:outputText value="#{user.dataPagamento}">
+		        <p:column headerText="Data Pagamento" sortBy="dataPagamento" filterBy="#{user.pagamentoDTO.dataPagamento}" id="dataPagamento">
+		            <h:outputText value="#{user.pagamentoDTO.dataPagamento}">
 					    <f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 		        </p:column>
@@ -96,8 +103,8 @@ tr.inactive {
 		        
 		    </p:dataTable>
 		    <div align="left">
-		    	<p:commandButton value="Novo Usuario" onclick="javascript:document.location.href = 'incluirUsuario.xhtml'" />
 		    	<p:commandButton value="Relatorio de Frequencia" onclick="javascript:document.location.href = 'relatorioFrequencia.xhtml'" />
+		    	<p:commandButton value="Relatorio de Lucro Anual" onclick="javascript:document.location.href = 'relatorioLucro.xhtml'" />
 		    </div>
 		 
 		    
@@ -120,11 +127,6 @@ tr.inactive {
 		            <p:watermark for="telefoneE" value="Telefone" />
 		            <p:message for="telefoneE" />
 		  
-		            <h:outputText for="dataNascimentoE" value="Data de Nascimento:" />
-		            <p:calendar id="dataNascimentoE" value="#{usuarioMB.usuarioDTO.dataNascimento}" required="false"/>
-		            <p:watermark for="dataNascimentoE" value="Nascimento" />
-		            <p:message for="dataNascimentoE" />
-		  	            
 		            <h:outputLabel for="emailE" value="Email: " />
 		            <p:inputText id="emailE" value="#{usuarioMB.usuarioDTO.email}" required="false" label="Email">
 		                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
@@ -143,8 +145,8 @@ tr.inactive {
 					<p:commandButton value="Marcar presença" actionListener="#{usuarioMB.addFrequecia}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg,usuarioTable" />
 		            <f:facet name="footer">
 		            	<p:commandButton value="Salvar" actionListener="#{usuarioMB.addUser}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg,usuarioTable" />
-		            	<p:commandButton value="Detalhar" update="usuarioTable,:msg,:form1"  icon="ui-icon-zoomin" actionListener="#{usuarioMB.detalharUser}" />                 
-		            	<p:commandButton value="Cancelar" update="usuarioTable,:msg,:form1"  oncomplete="userDialogE.hide()"/>                 
+		            	<p:commandButton value="Excluir" update="usuarioTable,:msg,:form1"  icon="ui-icon-close" actionListener="#{usuarioMB.delUser}" />                 
+		            	<p:commandButton value="Cancelar" oncomplete="userDialogE.hide()" immediate="true"/>                 
 		            </f:facet>
 		          
 		        </h:panelGrid>  

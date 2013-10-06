@@ -30,7 +30,8 @@ public class PerfilMB extends GenericoMB{
 	 */
 	public PerfilMB() {
 		try {
-			listPerfil = PerfilConverter.perfilDB;
+			listPerfil = //PerfilConverter.perfilDB;
+			perfilDAO.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -18,7 +18,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
 
 /**
  * @author Marcleônio
@@ -40,12 +43,13 @@ public class UsuarioDTO {
 	private String email;
 	private String cpf;
 	private String observacao;
-	private Double valor;
 	private String sexo;
 	@Column(name ="data_nascimento")
 	private Date dataNascimento;
-	@Column(name ="data_pagamento")
-	private Date dataPagamento;
+	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+	@Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+	@JoinColumn(name="pagamento_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = true)
+	private PagamentoDTO pagamentoDTO;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "anexos_id", insertable = true, updatable = true, nullable = true)
 	private AnexoDTO anexoDTO;
@@ -53,6 +57,8 @@ public class UsuarioDTO {
 	private List<FrequenciaDTO> listAnexoDTO;
 	@OneToMany(targetEntity=FrequenciaDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<FrequenciaDTO> listFrequenciaDTO;
+	@OneToMany(targetEntity=PagamentoDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+	private List<FrequenciaDTO> listPagamentoDTO;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "perfil_id", insertable = true, updatable = true, nullable = true)
 	private PerfilDTO perfilDTO;
@@ -63,6 +69,29 @@ public class UsuarioDTO {
 	public UsuarioDTO() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	/*
+	@Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final UsuarioDTO other = (UsuarioDTO) obj;
+        if (!this.id.equals(other.id)) {
+            return false;
+        }
+        return true;
+    }
+ 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + this.id;
+        return hash;
+    }*/
 
 
 	public Integer getId() {
@@ -129,17 +158,6 @@ public class UsuarioDTO {
 		this.dataNascimento = dataNascimento;
 	}
 
-
-	public Date getDataPagamento() {
-		return dataPagamento;
-	}
-
-
-	public void setDataPagamento(Date dataPagamento) {
-		this.dataPagamento = dataPagamento;
-	}
-
-
 	public String getNome() {
 		return nome;
 	}
@@ -194,9 +212,9 @@ public class UsuarioDTO {
 
 
 	public Integer getPagamentoVencendo() {
-		if(dataPagamento !=null){
+		if(pagamentoDTO !=null && pagamentoDTO.getDataPagamento() !=null){
 			Calendar c = new GregorianCalendar();
-			c.setTime(dataPagamento);
+			c.setTime(pagamentoDTO.getDataPagamento());
 			c.add(Calendar.MONTH, +1);
 
 			if(c.getTime().after(new Date())){
@@ -229,17 +247,6 @@ public class UsuarioDTO {
         return age;
         
     }
-
-
-	public Double getValor() {
-		return valor;
-	}
-
-
-	public void setValor(Double valor) {
-		this.valor = valor;
-	}
-
 
 	public Integer getContadorSemana(){
 		Integer cont = 0;
@@ -308,6 +315,19 @@ public class UsuarioDTO {
 
 	public void setPerfilDTO(PerfilDTO perfilDTO) {
 		this.perfilDTO = perfilDTO;
+	}
+
+
+	public PagamentoDTO getPagamentoDTO() {
+		if(pagamentoDTO==null){
+			pagamentoDTO = new PagamentoDTO();
+		}
+		return pagamentoDTO;
+	}
+
+
+	public void setPagamentoDTO(PagamentoDTO pagamentoDTO) {
+		this.pagamentoDTO = pagamentoDTO;
 	}
 
 }

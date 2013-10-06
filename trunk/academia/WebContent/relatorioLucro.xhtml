@@ -12,18 +12,17 @@
 	
 	<p:growl id="msg" showDetail="true" sticky="true" />
 	<center>
-		<h1 class="title ui-widget-header ui-corner-all">Relatorio</h1>
+		<h1 class="title ui-widget-header ui-corner-all">Lucro anual</h1>
 	
 		<p:separator id="separator"/>  
 		<h:form>
 <!-- 			<p:poll interval="15" update="votes" />   -->
 			<h:panelGrid columns="1">
-   				<p:barChart id="linear" value="#{relatorioMB.frequenciaMes}" legendPosition="e"  
-   				title="Frequencia no mês atual" minY="0" maxY="200" style="height:450px; width:1000px" stacked="true"/>
+			    <p:lineChart id="votes" value="#{relatorioMB.lucroAno}" legendPosition="e" zoom="true" animate="true"  
+			                title="Gráfico de média valor/mês" minX="1"  minY="-5" maxY="250" style="height:450px; width:1000px" widgetVar="chart" seriesColors="66cc66,cc6666"/>  
+			  
 			</h:panelGrid> 
-		
-             
-             <div align="left">
+			 <div align="left">
 				<p:commandButton value="Voltar" onclick="javascript:document.location.href = 'index.xhtml'" />
 			</div>
 		</h:form>

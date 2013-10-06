@@ -6,17 +6,17 @@
     xmlns:pe="http://primefaces.org/ui/extensions"> 
     
     <h:head> 
-    	<title>index</title>
+    	<title>Editar/Incluir Usuario</title>
     
     </h:head>  
       
     <h:body> 
     	
 		<h:form id="form1">  
-			<p:growl id="growl" showDetail="true" life="3000" /> 
+			<p:growl id="growl" showDetail="true" life="3000" autoUpdate="true" sticky="true"/> 
 			<p:messages id="messages" autoUpdate="true"/>
-			<h:inputHidden id="idUsuario" value="#{usuarioMB.usuarioDTO.id}" />
-		    <h:panelGrid columns="3">  
+			
+		    <h:panelGrid columns="4">  
 		        <p:photoCam widgetVar="pc" listener="#{usuarioMB.oncapture}" update="photos,idUsuario" value="teste"/>
 		  
 		        <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()"  />
@@ -26,11 +26,21 @@
 						<f:param name="image_id" value="#{usuarioMB.usuarioDTO.anexoDTO.id}"/>
 					</p:graphicImage>
 				</p:imageSwitch>
+				
 		    </h:panelGrid>  
 	 
+			<p:panel id="pesquisa" header="Pesquisa de usuários">  
+		    	<h:panelGrid columns="2" cellpadding="5">  
+		        	<h:outputLabel value="Nome: " for="basicPojo"/>  
+		            <p:autoComplete value="#{autoCompleteMB.usuarioDTO}" id="basicPojo" completeMethod="#{autoCompleteMB.completarUsuario}"  
+	                    var="u" itemLabel="#{u.nome}" itemValue="#{u}" converter="usuario" forceSelection="true" cache="false" >
+	                    <p:ajax event="itemSelect" listener="#{usuarioMB.handleSelect}" update="messages,photos,panel" />  
+		            </p:autoComplete>  
+		  		</h:panelGrid>
+		  	</p:panel>
   			
 		    <p:panel id="panel" header="Dados Pessoais">
-		    	
+		    	<h:inputHidden id="idUsuario" value="#{usuarioMB.usuarioDTO.id}" />
 		        <h:panelGrid id="pg" columns="4" cellpadding="5">  
 		        	<h:outputLabel for="nome" value="Nome: *" />
 		            <p:inputText id="nome" size="80"
@@ -68,19 +78,19 @@
 		            <p:message for="endereco" />
 		            
 		            <h:outputLabel for="dataPagamento" value="Data do Pagamento: *" required="true"/>
-		            <p:calendar value="#{usuarioMB.usuarioDTO.dataPagamento}" id="dataPagamento" required="true"/>
+		            <p:calendar value="#{usuarioMB.usuarioDTO.pagamentoDTO.dataPagamento}" id="dataPagamento" required="true"/>
 		            <p:watermark for="dataPagamento" value=" " />
 		            <p:message for="dataPagamento" />
 		            
 		            <h:outputLabel for="valor" value="Valor: *" />
-		            <pe:inputNumber id="valor" value="#{usuarioMB.usuarioDTO.valor}" symbol="R$ " required="true"/>  
+		            <pe:inputNumber id="valor" value="#{usuarioMB.usuarioDTO.pagamentoDTO.valor}" symbol="R$ " required="true"/>  
 		            <p:watermark for="valor" value=" " />
 		            <p:message for="valor" />
 		            
 		            <h:outputLabel for="perfil" value="Perfil: *" />
 			        <p:selectOneMenu id="perfil" value="#{usuarioMB.usuarioDTO.perfilDTO}" effect="fade" converter="perfil" required="true">  
 			            <f:selectItem itemLabel="Selecione" itemValue="" />  
-			            <f:selectItems value="#{perfilMB.listPerfil}" var="perfil" itemLabel="#{perfil.nome}" itemValue="#{perfil}"/>  
+			            <f:selectItems value="#{usuarioMB.listPerfil}" var="perfil" itemLabel="#{perfil.nome}" itemValue="#{perfil}"/>  
 			        </p:selectOneMenu>  
 		            <p:watermark for="perfil" value=" " />
 		            <p:message for="perfil" />
@@ -95,9 +105,9 @@
 				  	
 		          	<f:facet name="footer">
 			          	<p:commandButton value="Salvar" actionListener="#{usuarioMB.saveUsuario}" id="withIcon"   
-			            update="panel,messages,growl" icon="ui-icon-disk" />
+			            update="panel,basicPojo,messages,growl" icon="ui-icon-disk" />
 			            <p:commandButton value="Reset" type="reset" /> 
-			            <p:commandButton value="Voltar" onclick="javascript:document.location.href = 'index.xhtml'" /> 
+			            <p:commandButton value="Voltar" action="/index.xhtml?faces-redirect=true" immediate="true"/> 
 		  			</f:facet>
 		        </h:panelGrid>  
 		    </p:panel>  

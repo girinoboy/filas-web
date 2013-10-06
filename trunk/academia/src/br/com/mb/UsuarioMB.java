@@ -16,7 +16,6 @@ import java.util.Map;
 import javax.faces.FacesException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.imageio.stream.FileImageOutputStream;
@@ -30,9 +29,11 @@ import org.primefaces.model.StreamedContent;
 
 import br.com.dao.AnexoDAO;
 import br.com.dao.FrequenciaDAO;
+import br.com.dao.PerfilDAO;
 import br.com.dao.UsuarioDAO;
 import br.com.dto.AnexoDTO;
 import br.com.dto.FrequenciaDTO;
+import br.com.dto.PerfilDTO;
 import br.com.dto.UsuarioDTO;
 
 /**
@@ -40,7 +41,7 @@ import br.com.dto.UsuarioDTO;
  *
  */
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class UsuarioMB extends GenericoMB{
 
 	private UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -52,6 +53,8 @@ public class UsuarioMB extends GenericoMB{
 	private AnexoDTO anexoDTO = new AnexoDTO();
 	private FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
 	private FrequenciaDTO frequenciaDTO = new FrequenciaDTO();
+	private PerfilDAO perfilDAO = new PerfilDAO();
+	private List<PerfilDTO> listPerfil = new ArrayList<PerfilDTO>();
 
 	/**
 	 * 
@@ -59,6 +62,8 @@ public class UsuarioMB extends GenericoMB{
 	public UsuarioMB() {
 		try{
 			listUsuario = usuarioDAO.list();
+			listPerfil = //PerfilConverter.perfilDB;
+					perfilDAO.list();
 		} catch (Exception e) {
 			addMessage(e.getMessage());
 			e.printStackTrace();
@@ -117,18 +122,18 @@ public class UsuarioMB extends GenericoMB{
 
 			String idUsuario = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("form1:idUsuario");
 			if(!idUsuario.equals("")){
-				usuarioDTO.setId(Integer.valueOf(idUsuario));
+				usuarioDTO = usuarioDAO.getById(Integer.valueOf(idUsuario));
 			}
 			anexoDTO.setUsuarioDTO(usuarioDTO);
-			anexoDAO.save(anexoDTO);
-
+			anexoDTO.setNome(file.getName());
+			anexoDTO.setAnexo(data);
+			anexoDTO.setTamanho(file.length());
+			anexoDTO.setContentType("png");
+			
+			anexoDTO = anexoDAO.save(anexoDTO);
+			
+			usuarioDTO.setAnexoDTO(anexoDTO);
 			usuarioDTO = usuarioDAO.save(usuarioDTO);
-			usuarioDTO.getAnexoDTO().setNome(file.getName());
-			usuarioDTO.getAnexoDTO().setAnexo(data);
-			usuarioDTO.getAnexoDTO().setTamanho(file.length());
-			usuarioDTO.getAnexoDTO().setContentType("png");
-			usuarioDTO = usuarioDAO.save(usuarioDTO);
-			//usuarioDTO.setNome("teste");
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -138,12 +143,17 @@ public class UsuarioMB extends GenericoMB{
 	public void saveUsuario(){
 		System.out.println(1);
 	}
+	
 	public void saveUsuario(ActionEvent event){
 		try {
 
 			usuarioDAO = new UsuarioDAO();
 			if(usuarioDTO.getId() !=null){
 				usuarioDTO.setAnexoDTO(usuarioDAO.getById(usuarioDTO.getId()).getAnexoDTO());
+				usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
+				usuarioDTO.getPagamentoDTO().getDia();
+				usuarioDTO.getPagamentoDTO().getMes();
+				usuarioDTO.getPagamentoDTO().getAno();
 			}
 			usuarioDTO = usuarioDAO.save(usuarioDTO);
 			//			usuarioPerfilDAO = new UsuarioPerfilDAO();
@@ -155,6 +165,7 @@ public class UsuarioMB extends GenericoMB{
 			//			//atribui perfil padrão para o novo usuario.
 			//			usuarioPerfilDAO.save(usuarioPerfil);
 			addMessage("Salvo.");
+			usuarioDTO = new UsuarioDTO();
 		} catch (Exception e) {
 			addMessage(e.getMessage());
 			e.printStackTrace();
@@ -168,6 +179,7 @@ public class UsuarioMB extends GenericoMB{
 		usuarioDAO.save(usuarioDTO);
 		context.addCallbackParam("salvo", true);
 		addMessage("Salvo.");
+		listUsuario = usuarioDAO.list();
 		usuarioDTO = new UsuarioDTO();
 	}
 
@@ -227,7 +239,7 @@ public class UsuarioMB extends GenericoMB{
 				frequenciaDTO.setDataCompleta(new Date());
 				frequenciaDAO.save(frequenciaDTO);
 				context.addCallbackParam("salvo", true);
-				addMessage("Salvo.");
+				addMessage("Presença marcada.");
 			}
 			listUsuario = usuarioDAO.list();
 			//usuarioDTO = new UsuarioDTO();
@@ -248,6 +260,17 @@ public class UsuarioMB extends GenericoMB{
 
 		return calendar.getTime();
 	} 
+	
+	
+	public void handleSelect(SelectEvent event) {  
+		
+		try {
+			usuarioDTO = (UsuarioDTO)event.getObject();
+			addMessage("Selected:" + usuarioDTO.getId().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public UsuarioDTO getUsuarioDTO() {
 		return usuarioDTO;
@@ -271,6 +294,14 @@ public class UsuarioMB extends GenericoMB{
 
 	public void setPhotos(List<String> photos) {
 		this.photos = photos;
+	}
+
+	public List<PerfilDTO> getListPerfil() {
+		return listPerfil;
+	}
+
+	public void setListPerfil(List<PerfilDTO> listPerfil) {
+		this.listPerfil = listPerfil;
 	}
 
 }
