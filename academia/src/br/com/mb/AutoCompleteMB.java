@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
+
+import org.primefaces.event.SelectEvent;
 
 import br.com.dao.UsuarioDAO;
 import br.com.dto.UsuarioDTO;
@@ -20,15 +25,16 @@ import br.com.utility.UsuarioConverter;
  *
  */
 @ManagedBean
-public class AutoCompleteMB {
+@ViewScoped
+public class AutoCompleteMB extends GenericoMB{
 
-	private UsuarioDTO usuarioSelecionado1;  
+	private UsuarioDTO usuarioSelecionado1 = new UsuarioDTO();
 
-	private UsuarioDTO usuarioSelecionado2;
+	private UsuarioDTO usuarioSelecionado2 = new UsuarioDTO();
 	
-	private List<UsuarioDTO> listUsuario;
+	private List<UsuarioDTO> listUsuario = new ArrayList<UsuarioDTO>();
 	
-	private UsuarioDTO usuarioDTO;
+	private UsuarioDTO usuarioDTO = new UsuarioDTO();
 	
 	UsuarioDAO usuarioDAO = new UsuarioDAO();
 
@@ -38,8 +44,8 @@ public class AutoCompleteMB {
 	public AutoCompleteMB() {
 		
 		try {
-			//players = usuarioDAO.list();
-			listUsuario = UsuarioConverter.usuarioDB;
+			listUsuario = usuarioDAO.list();
+//			listUsuario = UsuarioConverter.usuarioDB;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}  
@@ -88,7 +94,7 @@ public class AutoCompleteMB {
 		return usuarioDTO;
 	}
 
-	public void setUsurioDTO(UsuarioDTO usuarioDTO) {
+	public void setUsuarioDTO(UsuarioDTO usuarioDTO) {
 		this.usuarioDTO = usuarioDTO;
 	}
 

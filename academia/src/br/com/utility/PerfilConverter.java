@@ -1,8 +1,5 @@
 package br.com.utility;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -12,23 +9,22 @@ import javax.faces.convert.FacesConverter;
 
 import br.com.dao.PerfilDAO;
 import br.com.dto.PerfilDTO;
-import br.com.dto.UsuarioDTO;
   
 @FacesConverter(value="perfil")
 public class PerfilConverter implements Converter {  
   
-    public static List<PerfilDTO> perfilDB;  
+	private PerfilDAO perfilDAO = new PerfilDAO();
     
-    static PerfilDAO perfilDAO = new PerfilDAO();
+//	public static List<PerfilDTO> perfilDB;  
   
-    static {
-        perfilDB = new ArrayList<PerfilDTO>();  
-        try {
-			perfilDB = perfilDAO.list();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-    }
+//    static {
+//        perfilDB = new ArrayList<PerfilDTO>();  
+//        try {
+//			perfilDB = perfilDAO.list();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//    }
   @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         if (submittedValue == null || submittedValue.trim().equals("")) {
@@ -36,12 +32,12 @@ public class PerfilConverter implements Converter {
         } else {
             try {
                 int number = Integer.parseInt(submittedValue);
-                
+                /*
                 for (PerfilDTO p : perfilDB) {
                     if (p.getId() == number) {
                         return p;
                     }
-                }
+                }*/
                 return perfilDAO.getById(number);
   
             } catch(NumberFormatException exception) {

@@ -14,11 +14,13 @@ import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 
+import org.hibernate.HibernateException;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartSeries;
 
 import br.com.dao.FrequenciaDAO;
+import br.com.dao.PagamentoDAO;
 import br.com.dao.UsuarioDAO;
 import br.com.dto.UsuarioDTO;
 
@@ -39,14 +41,16 @@ public class RelatorioMB implements Serializable {
 	private CartesianChartModel linearModel; 
 
 	private CartesianChartModel frequenciaMes; 
-	private UsuarioDAO usuarioDAO = new UsuarioDAO();
+	private CartesianChartModel lucroAno;
 
 	private FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
+	private PagamentoDAO pagamentoDAO = new PagamentoDAO();
 
 	public RelatorioMB() {  
 		createCategoryModel();  
 		createLinearModel();  
 		frequenciaMes();
+		lucroAno();
 	}  
 	//select * from usuario where frequencia.data = today
 	public CartesianChartModel getCategoryModel() {  
@@ -56,6 +60,40 @@ public class RelatorioMB implements Serializable {
 	public CartesianChartModel getLinearModel() {  
 		return linearModel;  
 	}  
+	@SuppressWarnings("rawtypes")
+	private void lucroAno(){
+		lucroAno = new CartesianChartModel(); 
+		
+		ChartSeries chartSeries = new ChartSeries();  
+		chartSeries.setLabel("Margem de Lucro");
+		
+		//popula o mes todos
+		for (int i = 1; i <= 12; i++) {
+			chartSeries.set(i,0);
+		}
+		try {
+			List l = pagamentoDAO.mediaLucroAno(null);
+			
+			
+			Iterator it = l.iterator();
+			while(it.hasNext())  
+			{  
+				Object[] c = (Object[]) it.next();  
+				System.out.println(c[0]);
+				System.out.println(c[1]);
+
+				//mes-avg(valor)
+				chartSeries.set((int)c[0]+1,(Double)c[1]); 
+
+			}
+			
+			lucroAno.addSeries(chartSeries);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	@SuppressWarnings("rawtypes")
 	private void frequenciaMes(){
 		frequenciaMes = new CartesianChartModel(); 
@@ -205,5 +243,11 @@ public class RelatorioMB implements Serializable {
 	}
 	public void setLinearModel(CartesianChartModel linearModel) {
 		this.linearModel = linearModel;
+	}
+	public CartesianChartModel getLucroAno() {
+		return lucroAno;
+	}
+	public void setLucroAno(CartesianChartModel lucroAno) {
+		this.lucroAno = lucroAno;
 	}  
 }  

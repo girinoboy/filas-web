@@ -15,7 +15,7 @@ public class GuestPreferences implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String theme = "aristo"; //default
+	private String theme = "flick"; //default
 
 	public String getTheme() {
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -23,7 +23,7 @@ public class GuestPreferences implements Serializable {
 		if(pagina.equals("/login.xhtml")){
 			theme = "aristo"; //default para pagina inicial
 		}else if(theme==null) {
-			theme = "hot-sneaks";
+			theme = "flick";
 		}
 
 		if(params.containsKey("theme")) {

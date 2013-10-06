@@ -13,9 +13,12 @@
 		<h1>404 Not Found</h1>
 	
 		<p:separator id="separator"/>  
-		<p:graphicImage url="img/martinkorner.jpg"/>  
+		<p:graphicImage url="photocam/fence-jump-back.gif"/>  
 		
 		<br/><br/><br/>
+		<h:form id="form1">
+			<p:commandButton value="Voltar" action="/index.xhtml?faces-redirect=true" immediate="true"/>
+		</h:form>
    		<ui:fragment rendered="#{usuarioAutenticado != null}">
  			<p:commandLink id="ajax"  actionListener="#{loginManagedBean.logout}" style="margin-right:20px; align:center">  
         		<h:outputText value="Voltar para a tela inicial." />  
