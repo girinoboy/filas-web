@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ import br.com.dto.AnexoDTO;
 import br.com.dto.FrequenciaDTO;
 import br.com.dto.PerfilDTO;
 import br.com.dto.UsuarioDTO;
+import br.com.utility.DataUtils;
 
 /**
  * @author Marcleônio
@@ -75,15 +77,11 @@ public class UsuarioMB extends GenericoMB{
 		try{
 			String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("image_id");
 			//String filterValue = (String) FacesContext.getCurrentInstance().getAttributes().get("image_id");
-
-			if (id != null && !id.equals("") && this.listUsuario != null && !this.listUsuario.isEmpty()) {
-				Long imagemId = Long.parseLong(id);
-				for (UsuarioDTO imgTemp : this.listUsuario) {
-					Integer idImage = imgTemp.getAnexoDTO().getId();
-					if (idImage !=null && idImage == imagemId.intValue() && imgTemp.getAnexoDTO().getAnexo() != null) {
-						//return imgTemp.getInputImage();
-						return new DefaultStreamedContent(new ByteArrayInputStream(imgTemp.getAnexoDTO().getAnexo()),"image/png");
-					}
+			if (id != null && !id.equals("")){
+				Integer imagemId = Integer.valueOf(id);
+				anexoDTO = anexoDAO.getById(imagemId);
+				if(anexoDTO != null && this.anexoDTO.getAnexo() != null) {
+					return new DefaultStreamedContent(new ByteArrayInputStream(anexoDTO.getAnexo()),"image/png");
 				}
 			}else
 				return new DefaultStreamedContent(new ByteArrayInputStream(emptyImage), "image/png");
@@ -123,6 +121,8 @@ public class UsuarioMB extends GenericoMB{
 			String idUsuario = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("form1:idUsuario");
 			if(!idUsuario.equals("")){
 				usuarioDTO = usuarioDAO.getById(Integer.valueOf(idUsuario));
+			}else{
+				usuarioDTO = usuarioDAO.save(usuarioDTO);
 			}
 			anexoDTO.setUsuarioDTO(usuarioDTO);
 			anexoDTO.setNome(file.getName());
@@ -131,17 +131,14 @@ public class UsuarioMB extends GenericoMB{
 			anexoDTO.setContentType("png");
 			
 			anexoDTO = anexoDAO.save(anexoDTO);
-			
 			usuarioDTO.setAnexoDTO(anexoDTO);
 			usuarioDTO = usuarioDAO.save(usuarioDTO);
+			usuarioDTO.setNome("");
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			throw new FacesException("Error in writing captured image.");  
 		}
-	}
-	public void saveUsuario(){
-		System.out.println(1);
 	}
 	
 	public void saveUsuario(ActionEvent event){
@@ -227,7 +224,12 @@ public class UsuarioMB extends GenericoMB{
 			RequestContext context = RequestContext.getCurrentInstance();
 			context.addCallbackParam("salvo", false);
 			Map<String, Object> filtrosConsulta = new HashMap<>();
-			filtrosConsulta.put("dataEntrada", toDateOnly(new Date()));
+			
+			Calendar c = new GregorianCalendar();   
+		       
+		     c.add(Calendar.DAY_OF_MONTH, 5);  
+			
+			filtrosConsulta.put("dataEntrada", DataUtils.toDateOnly(c.getTime()));
 			filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
 
 			List<FrequenciaDTO> f = frequenciaDAO.listCriterio(null, filtrosConsulta , 1);
@@ -235,7 +237,7 @@ public class UsuarioMB extends GenericoMB{
 				addMessage("Usuario já marcardo na folha de frequencia.");
 			}else{
 				frequenciaDTO.setUsuarioDTO(usuarioDTO);
-				frequenciaDTO.setDataEntrada(toDateOnly(new Date()));
+				frequenciaDTO.setDataEntrada(DataUtils.toDateOnly(c.getTime()));
 				frequenciaDTO.setDataCompleta(new Date());
 				frequenciaDAO.save(frequenciaDTO);
 				context.addCallbackParam("salvo", true);
@@ -248,19 +250,6 @@ public class UsuarioMB extends GenericoMB{
 		}
 	}
 
-	public Date toDateOnly(Date date){
-		// ignora informação de horas
-		Calendar calendar =  Calendar.getInstance();
-		calendar.setTime(date);
-
-		calendar.clear(Calendar.HOUR_OF_DAY);
-		calendar.clear(Calendar.MINUTE);
-		calendar.clear(Calendar.SECOND);
-		calendar.clear(Calendar.MILLISECOND);
-
-		return calendar.getTime();
-	} 
-	
 	
 	public void handleSelect(SelectEvent event) {  
 		

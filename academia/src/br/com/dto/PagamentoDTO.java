@@ -3,7 +3,6 @@
  */
 package br.com.dto;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -24,7 +23,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "usuario")
+@Table(name = "pagamento")
 public class PagamentoDTO {
 
 	@Id
@@ -36,6 +35,7 @@ public class PagamentoDTO {
 	private Integer dia;
 	private Integer mes;
 	private Integer ano;
+	private Integer vezesSemana;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "usuario_id", insertable = true, updatable = true, nullable = true)
 	private UsuarioDTO usuarioDTO;
@@ -76,6 +76,9 @@ public class PagamentoDTO {
 
 
 	public Date getDataPagamento() {
+		getDia();
+		getMes();
+		getAno();
 		return dataPagamento;
 	}
 
@@ -148,6 +151,16 @@ public class PagamentoDTO {
 
 	public void setAno(Integer ano) {
 		this.ano = ano;
+	}
+
+
+	public Integer getVezesSemana() {
+		return vezesSemana;
+	}
+
+
+	public void setVezesSemana(Integer vezesSemana) {
+		this.vezesSemana = vezesSemana;
 	}
 
 }

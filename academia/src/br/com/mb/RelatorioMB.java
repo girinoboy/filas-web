@@ -160,22 +160,6 @@ public class RelatorioMB implements Serializable {
 	}
 
 
-	public Date toMounthOnly(Date date){
-		// ignora informação de horas
-		Calendar calendar =  Calendar.getInstance();
-		calendar.setTime(date);
-
-		calendar.clear(Calendar.DAY_OF_MONTH);
-		calendar.clear(Calendar.YEAR);
-
-		calendar.clear(Calendar.HOUR_OF_DAY);
-		calendar.clear(Calendar.MINUTE);
-		calendar.clear(Calendar.SECOND);
-		calendar.clear(Calendar.MILLISECOND);
-
-		return calendar.getTime();
-	} 
-
 	private void createCategoryModel() {  
 		categoryModel = new CartesianChartModel();  
 
