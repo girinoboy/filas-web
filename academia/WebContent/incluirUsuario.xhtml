@@ -83,15 +83,12 @@
 		            <p:message for="dataPagamento" />
 		            
 		            <h:outputLabel for="valor" value="Valor: *" />
-		            <pe:inputNumber id="valor" value="#{usuarioMB.usuarioDTO.pagamentoDTO.valor}" symbol="R$ " required="true"/>  
+		            <pe:inputNumber id="valor" value="#{usuarioMB.usuarioDTO.pagamentoDTO.valor}" symbol="R$ " required="true" />  
 		            <p:watermark for="valor" value=" " />
 		            <p:message for="valor" />
 		            
 		            <h:outputLabel for="vps" value="Vezes por semana: *" />
-		            <p:inputText id="vps" size="2"
-		                value="#{usuarioMB.usuarioDTO.pagamentoDTO.vezesSemana}" required="true" label="Vez por semana" maxlength="2" >
-		                <f:validateRegex pattern="(\.[0-9]{2,})$" />
-		            </p:inputText>
+		            <p:inputMask id="vps" value="#{usuarioMB.usuarioDTO.pagamentoDTO.vezesSemana}" mask="9?9"/>
 		            <p:watermark for="vps" value=" " />
 		            <p:message for="vps" />
 		            

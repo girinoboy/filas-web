@@ -227,7 +227,7 @@ public class UsuarioMB extends GenericoMB{
 			
 			Calendar c = new GregorianCalendar();   
 		       
-		     c.add(Calendar.DAY_OF_MONTH, 5);  
+		    //c.add(Calendar.DAY_OF_MONTH, 5);  
 			
 			filtrosConsulta.put("dataEntrada", DataUtils.toDateOnly(c.getTime()));
 			filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
