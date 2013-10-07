@@ -16,6 +16,7 @@ import org.hibernate.criterion.Restrictions;
 
 import br.com.dto.FrequenciaDTO;
 import br.com.factory.HibernateUtility;
+import br.com.utility.DataUtils;
 
 /**
  * @author Marcleônio
@@ -51,7 +52,7 @@ public class FrequenciaDAO extends GenericoDAO<FrequenciaDTO, Serializable>{
 
 
 		List result = HibernateUtility.getSession().createCriteria(FrequenciaDTO.class)  
-				.add(Restrictions.between("dataEntrada", dataMin.getTime(), dataMax.getTime()))
+				.add(Restrictions.between("dataEntrada", DataUtils.toDateOnly(dataMin.getTime()), DataUtils.toDateOnly(dataMax.getTime())))
 				.setProjection(Projections.projectionList()
 						.add(Projections.groupProperty("dataEntrada"))
 						//.add(Projections.groupProperty("usuarioDTO.sexo"))

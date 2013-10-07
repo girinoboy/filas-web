@@ -87,6 +87,14 @@
 		            <p:watermark for="valor" value=" " />
 		            <p:message for="valor" />
 		            
+		            <h:outputLabel for="vps" value="Vezes por semana: *" />
+		            <p:inputText id="vps" size="2"
+		                value="#{usuarioMB.usuarioDTO.pagamentoDTO.vezesSemana}" required="true" label="Vez por semana" maxlength="2" >
+		                <f:validateRegex pattern="(\.[0-9]{2,})$" />
+		            </p:inputText>
+		            <p:watermark for="vps" value=" " />
+		            <p:message for="vps" />
+		            
 		            <h:outputLabel for="perfil" value="Perfil: *" />
 			        <p:selectOneMenu id="perfil" value="#{usuarioMB.usuarioDTO.perfilDTO}" effect="fade" converter="perfil" required="true">  
 			            <f:selectItem itemLabel="Selecione" itemValue="" />  

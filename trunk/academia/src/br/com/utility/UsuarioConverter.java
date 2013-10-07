@@ -31,7 +31,7 @@ public class UsuarioConverter implements Converter {
 //    }  
   
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        if (submittedValue == null || submittedValue.trim().equals("")) {
+        if (submittedValue == null || submittedValue.equals("null") || submittedValue.trim().equals("")) {
             return null;
         } else {
             try {

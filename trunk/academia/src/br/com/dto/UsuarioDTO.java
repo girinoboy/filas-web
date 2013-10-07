@@ -23,6 +23,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 
+import br.com.utility.DataUtils;
+
 /**
  * @author Marcleônio
  *
@@ -30,7 +32,7 @@ import org.hibernate.annotations.Cascade;
 @Entity
 @Table(name = "usuario")
 public class UsuarioDTO {
-	
+
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
@@ -47,19 +49,20 @@ public class UsuarioDTO {
 	@Column(name ="data_nascimento")
 	private Date dataNascimento;
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-	@Cascade({org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+	@Cascade({org.hibernate.annotations.CascadeType.ALL})
 	@JoinColumn(name="pagamento_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = true)
 	private PagamentoDTO pagamentoDTO;
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Cascade({org.hibernate.annotations.CascadeType.ALL})
 	@JoinColumn(name = "anexos_id", insertable = true, updatable = true, nullable = true)
 	private AnexoDTO anexoDTO;
 	@OneToMany(targetEntity=AnexoDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY)
-	private List<FrequenciaDTO> listAnexoDTO;
+	private List<AnexoDTO> listAnexoDTO;
 	@OneToMany(targetEntity=FrequenciaDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<FrequenciaDTO> listFrequenciaDTO;
 	@OneToMany(targetEntity=PagamentoDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<FrequenciaDTO> listPagamentoDTO;
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "perfil_id", insertable = true, updatable = true, nullable = true)
 	private PerfilDTO perfilDTO;
 
@@ -69,7 +72,7 @@ public class UsuarioDTO {
 	public UsuarioDTO() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	/*
 	@Override
     public boolean equals(Object obj) {
@@ -85,7 +88,7 @@ public class UsuarioDTO {
         }
         return true;
     }
- 
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -226,51 +229,52 @@ public class UsuarioDTO {
 			return 1;
 		}
 	}
-	
+
 	public Integer getIdade(){
-        
-        Calendar dateOfBirth = new GregorianCalendar();
-        if(dataNascimento!=null){
-        	dateOfBirth.setTime(dataNascimento);
-        }
-        // Cria um objeto calendar com a data atual
-        Calendar today = Calendar.getInstance();
-        
-       // Obtém a idade baseado no ano
-        int age = today.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
-        
-        dateOfBirth.add(Calendar.YEAR, age);
-        
-        if (today.before(dateOfBirth)) {
-            age--;
-        }
-        return age;
-        
-    }
+
+		Calendar dateOfBirth = new GregorianCalendar();
+		if(dataNascimento!=null){
+			dateOfBirth.setTime(dataNascimento);
+		}
+		// Cria um objeto calendar com a data atual
+		Calendar today = Calendar.getInstance();
+
+		// Obtém a idade baseado no ano
+		int age = today.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
+
+		dateOfBirth.add(Calendar.YEAR, age);
+
+		if (today.before(dateOfBirth)) {
+			age--;
+		}
+		return age;
+
+	}
 
 	public Integer getContadorSemana(){
 		Integer cont = 0;
+		Calendar dateOfWeek = new GregorianCalendar();
 		// Cria um objeto calendar com a data atual
-		 Calendar today = Calendar.getInstance();
-		 Calendar dateOfWeek = new GregorianCalendar();
-		 if(!listFrequenciaDTO.isEmpty()){
-			 if(listFrequenciaDTO.get(0).getDataEntrada()!=null){
-				 dateOfWeek.setTime(listFrequenciaDTO.get(0).getDataEntrada());
-			 }
-		 }
-		 int diaSemana = dateOfWeek.get(Calendar.DAY_OF_WEEK); //vai de 1-7 começando pelo domingo
-		 today.add(Calendar.DAY_OF_MONTH, -diaSemana+1);
+	    GregorianCalendar todayF = new GregorianCalendar();
+	    GregorianCalendar todayL = new GregorianCalendar();
+	    todayF.setFirstDayOfWeek(Calendar.SUNDAY);
+	    todayL.setFirstDayOfWeek(Calendar.SUNDAY);
+	    
+	    /* Agora é só pegar as informações que você quiser sobre o primeiro dia da semana */
+	    todayF.setTime(DataUtils.toDateOnly(todayF.getTime()));
+	    todayF.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+	    
+	    /* Agora é só pegar as informações que você quiser sobre o último dia da semana */
+	    todayL.setTime(DataUtils.toDateOnly(todayL.getTime()));
+	    todayL.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+	    
+	    for (FrequenciaDTO f : listFrequenciaDTO) {
+	    	dateOfWeek.setTime(f.getDataEntrada());
+	    	if(dateOfWeek.getTime().equals(todayF.getTime()) || dateOfWeek.getTime().equals(todayL.getTime())||(dateOfWeek.getTime().after(todayF.getTime()) && dateOfWeek.getTime().before(todayL.getTime()))){
+	    		cont++;
+	    	}
+	    }
 
-		 for (FrequenciaDTO f : listFrequenciaDTO) {
-
-			 if(today.getTime().before(f.getDataEntrada())){
-				 cont++;
-			 }else{
-				 break;
-			 }
-
-		 }
-		
 		return cont;
 	}
 
@@ -295,12 +299,12 @@ public class UsuarioDTO {
 	}
 
 
-	public List<FrequenciaDTO> getListAnexoDTO() {
+	public List<AnexoDTO> getListAnexoDTO() {
 		return listAnexoDTO;
 	}
 
 
-	public void setListAnexoDTO(List<FrequenciaDTO> listAnexoDTO) {
+	public void setListAnexoDTO(List<AnexoDTO> listAnexoDTO) {
 		this.listAnexoDTO = listAnexoDTO;
 	}
 
