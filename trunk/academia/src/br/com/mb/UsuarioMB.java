@@ -30,10 +30,12 @@ import org.primefaces.model.StreamedContent;
 
 import br.com.dao.AnexoDAO;
 import br.com.dao.FrequenciaDAO;
+import br.com.dao.PagamentoDAO;
 import br.com.dao.PerfilDAO;
 import br.com.dao.UsuarioDAO;
 import br.com.dto.AnexoDTO;
 import br.com.dto.FrequenciaDTO;
+import br.com.dto.PagamentoDTO;
 import br.com.dto.PerfilDTO;
 import br.com.dto.UsuarioDTO;
 import br.com.utility.DataUtils;
@@ -143,15 +145,25 @@ public class UsuarioMB extends GenericoMB{
 	
 	public void saveUsuario(ActionEvent event){
 		try {
-
+			PagamentoDAO pagamentoDAO = new PagamentoDAO();
+			Calendar c = new GregorianCalendar();
+			Map<String, Object> filtrosConsulta = new HashMap<>();
+			filtrosConsulta.put("mes", c.get(Calendar.MONTH));
+			filtrosConsulta.put("ano", c.get(Calendar.YEAR));
+			filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
+			//teste para verificar se o usuario ja pagou no mes
+			List<PagamentoDTO> f = pagamentoDAO.listCriterio(null, filtrosConsulta , 1);
 			usuarioDAO = new UsuarioDAO();
 			if(usuarioDTO.getId() !=null){
 				usuarioDTO.setAnexoDTO(usuarioDAO.getById(usuarioDTO.getId()).getAnexoDTO());
+				if(!f.isEmpty()){
+					usuarioDTO.getPagamentoDTO().setId(f.get(0).getId());
+				}
 				usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
-				usuarioDTO.getPagamentoDTO().getDia();
-				usuarioDTO.getPagamentoDTO().getMes();
-				usuarioDTO.getPagamentoDTO().getAno();
 			}
+			usuarioDTO.getPagamentoDTO().getDia();
+			usuarioDTO.getPagamentoDTO().getMes();
+			usuarioDTO.getPagamentoDTO().getAno();
 			usuarioDTO = usuarioDAO.save(usuarioDTO);
 			//			usuarioPerfilDAO = new UsuarioPerfilDAO();
 
