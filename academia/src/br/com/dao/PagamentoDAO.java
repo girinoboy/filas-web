@@ -43,13 +43,13 @@ public class PagamentoDAO extends GenericoDAO<PagamentoDTO, Serializable>{
 
 		Calendar dataMin = new GregorianCalendar(data.get(Calendar.YEAR),Calendar.JANUARY,01);
 		Calendar dataMax = new GregorianCalendar(data.get(Calendar.YEAR), Calendar.DECEMBER,31);
-
+		List a = HibernateUtility.getSession().createCriteria(PagamentoDTO.class).list();
 		List result = HibernateUtility.getSession().createCriteria(PagamentoDTO.class)  
 				.add(Restrictions.between("mes", dataMin.get(Calendar.MONTH), dataMax.get(Calendar.MONTH)))
 				.add(Restrictions.eq("ano", data.get(Calendar.YEAR)))
 				.setProjection(Projections.projectionList()
 						.add(Projections.groupProperty("mes"))
-						.add(Projections.avg("valor"))
+						.add(Projections.sum("valor"))
 					  	)
 				.addOrder(Order.asc("mes"))
 				.list();
