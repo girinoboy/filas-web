@@ -3,6 +3,7 @@
  */
 package br.com.dto;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -48,7 +49,7 @@ public class UsuarioDTO {
 	private String sexo;
 	@Column(name ="data_nascimento")
 	private Date dataNascimento;
-	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)//uma pessoa so tem um pagamento por mes
 	@Cascade({org.hibernate.annotations.CascadeType.ALL})
 	@JoinColumn(name="pagamento_id", referencedColumnName = "id", insertable = true, updatable = true, nullable = true)
 	private PagamentoDTO pagamentoDTO;
@@ -61,7 +62,7 @@ public class UsuarioDTO {
 	@OneToMany(targetEntity=FrequenciaDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<FrequenciaDTO> listFrequenciaDTO;
 	@OneToMany(targetEntity=PagamentoDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
-	private List<FrequenciaDTO> listPagamentoDTO;
+	private List<PagamentoDTO> listPagamentoDTO;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "perfil_id", insertable = true, updatable = true, nullable = true)
 	private PerfilDTO perfilDTO;
@@ -332,6 +333,17 @@ public class UsuarioDTO {
 
 	public void setPagamentoDTO(PagamentoDTO pagamentoDTO) {
 		this.pagamentoDTO = pagamentoDTO;
+	}
+
+	public List<PagamentoDTO> getListPagamentoDTO() {
+		if(listPagamentoDTO==null){
+			listPagamentoDTO = new ArrayList<PagamentoDTO>();
+		}
+		return listPagamentoDTO;
+	}
+
+	public void setListPagamentoDTO(List<PagamentoDTO> listPagamentoDTO) {
+		this.listPagamentoDTO = listPagamentoDTO;
 	}
 
 }

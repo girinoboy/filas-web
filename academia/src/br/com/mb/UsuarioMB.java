@@ -38,6 +38,7 @@ import br.com.dto.FrequenciaDTO;
 import br.com.dto.PagamentoDTO;
 import br.com.dto.PerfilDTO;
 import br.com.dto.UsuarioDTO;
+import br.com.utility.Constantes;
 import br.com.utility.DataUtils;
 
 /**
@@ -59,6 +60,7 @@ public class UsuarioMB extends GenericoMB{
 	private FrequenciaDTO frequenciaDTO = new FrequenciaDTO();
 	private PerfilDAO perfilDAO = new PerfilDAO();
 	private List<PerfilDTO> listPerfil = new ArrayList<PerfilDTO>();
+	PagamentoDAO pagamentoDAO = new PagamentoDAO();
 
 	/**
 	 * 
@@ -147,6 +149,7 @@ public class UsuarioMB extends GenericoMB{
 		try {
 			PagamentoDAO pagamentoDAO = new PagamentoDAO();
 			Calendar c = new GregorianCalendar();
+			c.setTime(usuarioDTO.getPagamentoDTO().getDataPagamento());
 			Map<String, Object> filtrosConsulta = new HashMap<>();
 			filtrosConsulta.put("mes", c.get(Calendar.MONTH));
 			filtrosConsulta.put("ano", c.get(Calendar.YEAR));
@@ -185,7 +188,29 @@ public class UsuarioMB extends GenericoMB{
 	public void addUser(ActionEvent actionEvent) throws Exception {
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("salvo", false);
+		
+		PagamentoDAO pagamentoDAO = new PagamentoDAO();
+		Calendar c = new GregorianCalendar();
+		c.setTime(usuarioDTO.getPagamentoDTO().getDataPagamento());
+		Map<String, Object> filtrosConsulta = new HashMap<>();
+		filtrosConsulta.put("mes", c.get(Calendar.MONTH));
+		filtrosConsulta.put("ano", c.get(Calendar.YEAR));
+		filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
+		//teste para verificar se o usuario ja pagou no mes
+		List<PagamentoDTO> f = pagamentoDAO.listCriterio(null, filtrosConsulta , 1);
+		usuarioDAO = new UsuarioDAO();
+		if(usuarioDTO.getId() !=null){
+			usuarioDTO.setAnexoDTO(usuarioDAO.getById(usuarioDTO.getId()).getAnexoDTO());
+			if(!f.isEmpty()){
+				usuarioDTO.getPagamentoDTO().setId(f.get(0).getId());
+			}
+			usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
+		}
+		usuarioDTO.getPagamentoDTO().getDia();
+		usuarioDTO.getPagamentoDTO().getMes();
+		usuarioDTO.getPagamentoDTO().getAno();
 		usuarioDAO.save(usuarioDTO);
+		
 		context.addCallbackParam("salvo", true);
 		addMessage("Salvo.");
 		listUsuario = usuarioDAO.list();
@@ -267,6 +292,16 @@ public class UsuarioMB extends GenericoMB{
 		
 		try {
 			usuarioDTO = (UsuarioDTO)event.getObject();
+			
+			//recarrega a lista de pagamento
+			
+			Map<String, Object> filtrosConsulta = new HashMap<>();
+			filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
+			List<PagamentoDTO> list = pagamentoDAO.listCriterio(null, filtrosConsulta , 1);
+			
+			list = pagamentoDAO.listWhereIdUsuario(usuarioDTO);
+			
+			usuarioDTO.setListPagamentoDTO(list);
 			addMessage("Selected:" + usuarioDTO.getId().toString());
 		} catch (Exception e) {
 			e.printStackTrace();
