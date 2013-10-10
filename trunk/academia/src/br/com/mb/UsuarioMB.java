@@ -147,27 +147,34 @@ public class UsuarioMB extends GenericoMB{
 	
 	public void saveUsuario(ActionEvent event){
 		try {
-			PagamentoDAO pagamentoDAO = new PagamentoDAO();
-			Calendar c = new GregorianCalendar();
-			c.setTime(usuarioDTO.getPagamentoDTO().getDataPagamento());
-			Map<String, Object> filtrosConsulta = new HashMap<>();
-			filtrosConsulta.put("mes", c.get(Calendar.MONTH));
-			filtrosConsulta.put("ano", c.get(Calendar.YEAR));
-			filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
-			//teste para verificar se o usuario ja pagou no mes
-			List<PagamentoDTO> f = pagamentoDAO.listCriterio(null, filtrosConsulta , 1);
-			usuarioDAO = new UsuarioDAO();
+			
+			
 			if(usuarioDTO.getId() !=null){
+				//verifica se existe um novo anexo, pois o anexo é salvo ao capturar
 				usuarioDTO.setAnexoDTO(usuarioDAO.getById(usuarioDTO.getId()).getAnexoDTO());
+				
+				Calendar c = new GregorianCalendar();
+				c.setTime(usuarioDTO.getPagamentoDTO().getDataPagamento());
+				Map<String, Object> filtrosConsulta = new HashMap<>();
+				filtrosConsulta.put("mes", c.get(Calendar.MONTH));
+				filtrosConsulta.put("ano", c.get(Calendar.YEAR));
+				filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
+				//teste para verificar se o usuario ja pagou no mes
+				List<PagamentoDTO> f = pagamentoDAO.listCriterio(null, filtrosConsulta , 1);
+				
 				if(!f.isEmpty()){
 					usuarioDTO.getPagamentoDTO().setId(f.get(0).getId());
 				}
-				usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
+				
 			}
+			
+			usuarioDTO = usuarioDAO.save(usuarioDTO);
+			usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
 			usuarioDTO.getPagamentoDTO().getDia();
 			usuarioDTO.getPagamentoDTO().getMes();
 			usuarioDTO.getPagamentoDTO().getAno();
 			usuarioDTO = usuarioDAO.save(usuarioDTO);
+			
 			//			usuarioPerfilDAO = new UsuarioPerfilDAO();
 
 			//			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
@@ -189,27 +196,31 @@ public class UsuarioMB extends GenericoMB{
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("salvo", false);
 		
-		PagamentoDAO pagamentoDAO = new PagamentoDAO();
-		Calendar c = new GregorianCalendar();
-		c.setTime(usuarioDTO.getPagamentoDTO().getDataPagamento());
-		Map<String, Object> filtrosConsulta = new HashMap<>();
-		filtrosConsulta.put("mes", c.get(Calendar.MONTH));
-		filtrosConsulta.put("ano", c.get(Calendar.YEAR));
-		filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
-		//teste para verificar se o usuario ja pagou no mes
-		List<PagamentoDTO> f = pagamentoDAO.listCriterio(null, filtrosConsulta , 1);
-		usuarioDAO = new UsuarioDAO();
 		if(usuarioDTO.getId() !=null){
+			//verifica se existe um novo anexo, pois o anexo é salvo ao capturar
 			usuarioDTO.setAnexoDTO(usuarioDAO.getById(usuarioDTO.getId()).getAnexoDTO());
+			
+			Calendar c = new GregorianCalendar();
+			c.setTime(usuarioDTO.getPagamentoDTO().getDataPagamento());
+			Map<String, Object> filtrosConsulta = new HashMap<>();
+			filtrosConsulta.put("mes", c.get(Calendar.MONTH));
+			filtrosConsulta.put("ano", c.get(Calendar.YEAR));
+			filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
+			//teste para verificar se o usuario ja pagou no mes
+			List<PagamentoDTO> f = pagamentoDAO.listCriterio(null, filtrosConsulta , 1);
+			
 			if(!f.isEmpty()){
 				usuarioDTO.getPagamentoDTO().setId(f.get(0).getId());
 			}
-			usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
+			
 		}
+		
+		usuarioDTO = usuarioDAO.save(usuarioDTO);
+		usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
 		usuarioDTO.getPagamentoDTO().getDia();
 		usuarioDTO.getPagamentoDTO().getMes();
 		usuarioDTO.getPagamentoDTO().getAno();
-		usuarioDAO.save(usuarioDTO);
+		usuarioDTO = usuarioDAO.save(usuarioDTO);
 		
 		context.addCallbackParam("salvo", true);
 		addMessage("Salvo.");

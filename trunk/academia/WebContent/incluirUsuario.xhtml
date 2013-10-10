@@ -7,7 +7,11 @@
     
     <h:head> 
     	<title>Editar/Incluir Usuario</title>
-    
+    	 <style>
+	    	select[disabled] {
+			    color: #0f0;
+			}
+     </style>
     </h:head>  
       
     <h:body> 
@@ -32,7 +36,7 @@
 			<p:panel id="pesquisa" header="Pesquisa de usuários">  
 		    	<h:panelGrid columns="2" cellpadding="5">  
 		        	<h:outputLabel value="Nome: " for="basicPojo"/>  
-		            <p:autoComplete value="#{usuarioMB.usuarioDTO}" id="basicPojo" completeMethod="#{autoCompleteMB.completarUsuario}"  
+		            <p:autoComplete value="#{autoCompleteMB.usuarioDTO}" id="basicPojo" completeMethod="#{autoCompleteMB.completarUsuario}"  
 	                    var="u" itemLabel="#{u.nome}" itemValue="#{u}" converter="usuario" forceSelection="true" cache="false" >
 	                    <p:ajax event="itemSelect" listener="#{usuarioMB.handleSelect}" update="messages,photos,panel" />  
 		            </p:autoComplete>  
@@ -86,12 +90,12 @@
 		            <p:message for="perfil" />
 		            
 		            <h:outputLabel for="dataPagamento" value="Data do Pagamento: *" required="true"/>
-		            <p:calendar value="#{usuarioMB.usuarioDTO.pagamentoDTO.dataPagamento}" id="dataPagamento" required="true" />
+		            <p:calendar value="#{usuarioMB.usuarioDTO.pagamentoDTO.dataPagamento}" id="dataPagamento" required="true"/>
 		            <p:watermark for="dataPagamento" value="__/__/____" />
 		            <p:message for="dataPagamento" />
 		            
 		            <h:outputLabel for="vps" value="Vezes por semana: *" />
-		            <p:inputMask id="vps" value="#{usuarioMB.usuarioDTO.pagamentoDTO.vezesSemana}" mask="9?9"/>
+		            <p:inputMask id="vps" value="#{usuarioMB.usuarioDTO.pagamentoDTO.vezesSemana}" mask="9?9" required="true"/>
 		            <p:watermark for="vps" value="__" />
 		            <p:message for="vps" />
 		            
@@ -101,7 +105,7 @@
 		            <p:message for="valor" />
 		            
 		            <h:outputLabel for="basic" value="Historico de pagamentos: " />
-		            <p:selectOneListbox id="basic" value="#{usuarioMB.usuarioDTO.pagamentoDTO}" converter="pagamento" var="p" style="width:150px;height:200px; font-weight: bold;background-color:  #E0EEEE; color: #3D3D3D;" disabled="true" >  
+		            <p:selectOneListbox id="basic" value="#{usuarioMB.usuarioDTO.pagamentoDTO}" converter="pagamento" var="p" style="width:150px;height:200px; font-weight: bold;background-color:  #E0EEEE; color: #3D3D3D;" disabled="true">  
 		           		<f:selectItems value="#{usuarioMB.usuarioDTO.listPagamentoDTO}" var="pag" itemLabel="#{pag.dataPagamento}" itemValue="#{pag}" />
 		           		<p:column>  
 		           			 <h:outputText value="#{p.dataPagamento}">
@@ -113,7 +117,7 @@
 			         <p:watermark for="basic" value=" " />
 		            <p:message for="basic" />
 		            
-		            <h:outputLabel for="obs" value="Observação: *" />
+		            <h:outputLabel for="obs" value="Observação: " />
 		            <p:inputTextarea id="obs" rows="5" cols="30" counter="counter" maxlength="200"       
 				    	value="#{usuarioMB.usuarioDTO.observacao}" 
 				    	counterTemplate="{0} characters remaining." autoResize="false"/>  

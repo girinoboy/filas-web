@@ -59,9 +59,9 @@ public class UsuarioDTO {
 	private AnexoDTO anexoDTO;
 	@OneToMany(targetEntity=AnexoDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY)
 	private List<AnexoDTO> listAnexoDTO;
-	@OneToMany(targetEntity=FrequenciaDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany(targetEntity=FrequenciaDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.ALL,CascadeType.PERSIST, CascadeType.MERGE})
 	private List<FrequenciaDTO> listFrequenciaDTO;
-	@OneToMany(targetEntity=PagamentoDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany(targetEntity=PagamentoDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.ALL,CascadeType.PERSIST, CascadeType.MERGE})
 	private List<PagamentoDTO> listPagamentoDTO;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "perfil_id", insertable = true, updatable = true, nullable = true)
