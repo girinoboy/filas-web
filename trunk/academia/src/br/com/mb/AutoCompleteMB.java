@@ -78,7 +78,7 @@ public class AutoCompleteMB extends GenericoMB{
 		Map<String, Object> filtrosConsulta = new HashMap<String, Object>();
 		filtrosConsulta.put("nome", query);
 		suggestions = usuarioDAO.listCriterio(null, filtrosConsulta, Constantes.TIPO_CONSULTA_ILIKE);
-
+		usuarioDTO = new UsuarioDTO();
 		return suggestions;
 	}
 

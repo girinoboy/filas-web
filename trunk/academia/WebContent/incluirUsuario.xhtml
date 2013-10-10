@@ -32,7 +32,7 @@
 			<p:panel id="pesquisa" header="Pesquisa de usuários">  
 		    	<h:panelGrid columns="2" cellpadding="5">  
 		        	<h:outputLabel value="Nome: " for="basicPojo"/>  
-		            <p:autoComplete value="#{autoCompleteMB.usuarioDTO}" id="basicPojo" completeMethod="#{autoCompleteMB.completarUsuario}"  
+		            <p:autoComplete value="#{usuarioMB.usuarioDTO}" id="basicPojo" completeMethod="#{autoCompleteMB.completarUsuario}"  
 	                    var="u" itemLabel="#{u.nome}" itemValue="#{u}" converter="usuario" forceSelection="true" cache="false" >
 	                    <p:ajax event="itemSelect" listener="#{usuarioMB.handleSelect}" update="messages,photos,panel" />  
 		            </p:autoComplete>  
@@ -47,7 +47,7 @@
 		                value="#{usuarioMB.usuarioDTO.nome}" required="true" label="Nome">
 		                <f:validateLength minimum="2" />
 		            </p:inputText>
-		            <p:watermark for="nome" value=" " />
+		            <p:watermark for="nome" value="Nome completo" />
 		            <p:message for="nome" />
 		            
 		            <h:outputLabel for="sexo" value="Sexo: *" />
@@ -62,12 +62,12 @@
 		            <p:inputMask id="dataNascimento" value="#{usuarioMB.usuarioDTO.dataNascimento}" mask="99/99/9999" > 
 		            	<f:convertDateTime pattern="dd/MM/yyyy" />
 		            </p:inputMask>
-		            <p:watermark for="dataNascimento" value=" " /> 
+		            <p:watermark for="dataNascimento" value="__/__/____" /> 
 		            <p:message for="dataNascimento" />
 		              
 		            <h:outputLabel for="telefone" value="Telefone: *" />  
 		            <p:inputMask id="telefone" value="#{usuarioMB.usuarioDTO.telefone}" mask="(999) 9999-9999" required="true"/>
-		            <p:watermark for="telefone" value=" " />  
+		            <p:watermark for="telefone" value="(___) ____-____" />  
 		            <p:message for="telefone" />
 		            
 		            <h:outputLabel for="endereco" value="Endereco: *" />
@@ -77,21 +77,6 @@
 		            <p:watermark for="endereco" value="Endereço completo" />
 		            <p:message for="endereco" />
 		            
-		            <h:outputLabel for="dataPagamento" value="Data do Pagamento: *" required="true"/>
-		            <p:calendar value="#{usuarioMB.usuarioDTO.pagamentoDTO.dataPagamento}" id="dataPagamento" required="true"/>
-		            <p:watermark for="dataPagamento" value=" " />
-		            <p:message for="dataPagamento" />
-		            
-		            <h:outputLabel for="valor" value="Valor: *" />
-		            <pe:inputNumber id="valor" value="#{usuarioMB.usuarioDTO.pagamentoDTO.valor}" symbol="R$ " required="true" />  
-		            <p:watermark for="valor" value=" " />
-		            <p:message for="valor" />
-		            
-		            <h:outputLabel for="vps" value="Vezes por semana: *" />
-		            <p:inputMask id="vps" value="#{usuarioMB.usuarioDTO.pagamentoDTO.vezesSemana}" mask="9?9"/>
-		            <p:watermark for="vps" value=" " />
-		            <p:message for="vps" />
-		            
 		            <h:outputLabel for="perfil" value="Perfil: *" />
 			        <p:selectOneMenu id="perfil" value="#{usuarioMB.usuarioDTO.perfilDTO}" effect="fade" converter="perfil" required="true">  
 			            <f:selectItem itemLabel="Selecione" itemValue="" />  
@@ -99,6 +84,34 @@
 			        </p:selectOneMenu>  
 		            <p:watermark for="perfil" value=" " />
 		            <p:message for="perfil" />
+		            
+		            <h:outputLabel for="dataPagamento" value="Data do Pagamento: *" required="true"/>
+		            <p:calendar value="#{usuarioMB.usuarioDTO.pagamentoDTO.dataPagamento}" id="dataPagamento" required="true" />
+		            <p:watermark for="dataPagamento" value="__/__/____" />
+		            <p:message for="dataPagamento" />
+		            
+		            <h:outputLabel for="vps" value="Vezes por semana: *" />
+		            <p:inputMask id="vps" value="#{usuarioMB.usuarioDTO.pagamentoDTO.vezesSemana}" mask="9?9"/>
+		            <p:watermark for="vps" value="__" />
+		            <p:message for="vps" />
+		            
+		            <h:outputLabel for="valor" value="Valor: *" />
+		            <pe:inputNumber id="valor" value="#{usuarioMB.usuarioDTO.pagamentoDTO.valor}" symbol="R$ " required="true" />  
+		            <p:watermark for="valor" value="R$ " />
+		            <p:message for="valor" />
+		            
+		            <h:outputLabel for="basic" value="Historico de pagamentos: " />
+		            <p:selectOneListbox id="basic" value="#{usuarioMB.usuarioDTO.pagamentoDTO}" converter="pagamento" var="p" style="width:150px;height:200px; font-weight: bold;background-color:  #E0EEEE; color: #3D3D3D;" disabled="true" >  
+		           		<f:selectItems value="#{usuarioMB.usuarioDTO.listPagamentoDTO}" var="pag" itemLabel="#{pag.dataPagamento}" itemValue="#{pag}" />
+		           		<p:column>  
+		           			 <h:outputText value="#{p.dataPagamento}">
+							    <f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+			                - #{p.valor} 
+			            </p:column>   
+			        </p:selectOneListbox>
+			         <p:watermark for="basic" value=" " />
+		            <p:message for="basic" />
 		            
 		            <h:outputLabel for="obs" value="Observação: *" />
 		            <p:inputTextarea id="obs" rows="5" cols="30" counter="counter" maxlength="200"       

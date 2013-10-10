@@ -56,7 +56,7 @@ tr.inactive {
 	<h:form id="form1">
 		
 			<div >
-				<p:commandButton value="Novo Usuario" onclick="javascript:document.location.href = 'incluirUsuario.xhtml'" />
+				<p:commandButton value="Cadastro" onclick="javascript:document.location.href = 'incluirUsuario.xhtml'" />
 		    	<p:commandButton title="Config" icon="ui-icon-gear" onclick="javascript:document.location.href = 'incluirPerfil.xhtml'" />
 		    	<p:themeSwitcher value="#{themeSwitcherBean.theme}" style="width:155px; top:10px" effect="fade">
 			        <f:selectItem itemLabel="Choose Theme" itemValue="" />
@@ -133,6 +133,11 @@ tr.inactive {
 		            </p:inputText>
 		            <p:watermark for="emailE" value="Endereço de email *" />
 		            <p:message for="emailE" />
+		            
+		            <h:outputLabel for="dataPagamentoE" value="Data do Pagamento: *" required="true"/>
+		            <p:calendar value="#{usuarioMB.usuarioDTO.pagamentoDTO.dataPagamento}" id="dataPagamentoE" required="true"/>
+		            <p:watermark for="dataPagamentoE" value=" " />
+		            <p:message for="dataPagamentoE" />
 		            
 		            <h:outputLabel for="obsE" value="Observação: " />
 		            <p:inputTextarea id="obsE" rows="5" cols="20" counter="counter" maxlength="200"       
