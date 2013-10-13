@@ -104,18 +104,17 @@
 		            <p:watermark for="valor" value="R$ " />
 		            <p:message for="valor" />
 		            
-		            <h:outputLabel for="basic" value="Historico de pagamentos: " />
-		            <p:selectOneListbox id="basic" value="#{usuarioMB.usuarioDTO.pagamentoDTO}" converter="pagamento" var="p" style="width:150px;height:200px; font-weight: bold;background-color:  #E0EEEE; color: #3D3D3D;" disabled="true">  
-		           		<f:selectItems value="#{usuarioMB.usuarioDTO.listPagamentoDTO}" var="pag" itemLabel="#{pag.dataPagamento}" itemValue="#{pag}" />
-		           		<p:column>  
-		           			 <h:outputText value="#{p.dataPagamento}">
-							    <f:convertDateTime pattern="dd/MM/yyyy" />
+		            <h:outputLabel for="historico" value="Historico de pagamentos: " />
+		            <p:scrollPanel id="historico" style="width:150px;height:100px">  
+			            <ui:repeat value="#{usuarioMB.usuarioDTO.listPagamentoDTO}" var="p">
+			            	<h:outputText value="#{p.dataPagamento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
 							</h:outputText>
-			                - #{p.valor} 
-			            </p:column>   
-			        </p:selectOneListbox>
-			         <p:watermark for="basic" value=" " />
-		            <p:message for="basic" />
+				            - #{p.valor} <br/>
+			            </ui:repeat>
+		            </p:scrollPanel>
+		            <p:watermark for="historico" value=" " />
+		            <p:message for="historico" />
 		            
 		            <h:outputLabel for="obs" value="Observação: " />
 		            <p:inputTextarea id="obs" rows="5" cols="30" counter="counter" maxlength="200"       
