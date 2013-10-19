@@ -83,7 +83,7 @@ tr.inactive {
 		           #{user.nome}
 		        </p:column>
 		  
-		        <p:column headerText="Telefone" sortBy="#{user.telefone}" filterBy="telefone" id="telefone" filterMatchMode="contains">
+		        <p:column headerText="Telefone" filterBy="telefone" id="telefone" filterMatchMode="contains">
 		            #{user.telefone}
 		        </p:column>
 		  
@@ -91,7 +91,7 @@ tr.inactive {
 		           <h:outputText value="#{user.idade}"/>
 		        </p:column>
 		  
-		        <p:column headerText="Data Pagamento" sortBy="dataPagamento" filterBy="#{user.pagamentoDTO.dataPagamento}" id="dataPagamento">
+		        <p:column headerText="Data Pagamento" sortBy="dataPagamento" id="dataPagamento">
 		            <h:outputText value="#{user.pagamentoDTO.dataPagamento}">
 					    <f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
