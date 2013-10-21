@@ -13,7 +13,7 @@
 			}
      </style>
     </h:head>  
-      
+    
     <h:body> 
     	
 		<h:form id="form1">  
@@ -73,6 +73,13 @@
 		            <p:inputMask id="telefone" value="#{usuarioMB.usuarioDTO.telefone}" mask="(999) 9999-9999" required="true"/>
 		            <p:watermark for="telefone" value="(___) ____-____" />  
 		            <p:message for="telefone" />
+		            
+		            <h:outputLabel for="emailE" value="Email: " />
+		            <p:inputText id="emailE" value="#{usuarioMB.usuarioDTO.email}" required="false" label="Email">
+		                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+		            </p:inputText>
+		            <p:watermark for="emailE" value="Endereço de email *" />
+		            <p:message for="emailE" />
 		            
 		            <h:outputLabel for="endereco" value="Endereco: *" />
 		            <p:inputText id="endereco" size="150"
