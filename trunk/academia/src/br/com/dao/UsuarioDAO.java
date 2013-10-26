@@ -35,7 +35,7 @@ public class UsuarioDAO extends GenericoDAO<UsuarioDTO, Serializable>{
 	public UsuarioDTO verificaLoginSenha(UsuarioDTO usuario) throws HibernateException, Exception {
 		try{
 			usuario = (UsuarioDTO) HibernateUtility.getSession().createCriteria(UsuarioDTO.class)
-					.add(Restrictions.eq("login", usuario.getUsuario()))
+					.add(Restrictions.eq("usuario", usuario.getUsuario()))
 					.add(Restrictions.eq("senha", usuario.getSenha()))
 					.uniqueResult();
 		}catch(Exception e){
