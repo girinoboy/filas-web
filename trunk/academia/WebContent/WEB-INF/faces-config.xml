@@ -19,5 +19,12 @@
       		br.com.messages.messages
  		</message-bundle>
 	</application>
+	
+	
+	<lifecycle>
+
+    	<phase-listener>br.com.utility.LoginPhaseListener</phase-listener>
+
+	</lifecycle>
 
 </faces-config>
