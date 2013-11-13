@@ -86,7 +86,7 @@ public class HibernateUtility {
 				((AnnotationConfiguration) configuration //configura as propiedades
 
 //				.setProperty("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect")//Mudar dialect do banco		
-//				.setProperty("hibernate.connection.datasource", "java:/GSWebDSOracle")//DS da pasta deploy Jboss
+//				.setProperty("hibernate.connection.datasource", "java:/oracleDS")//DS da pasta deploy Jboss
 //				.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")// tipo de dialeto do banco
 //				.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver")
 				.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect")
