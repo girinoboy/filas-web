@@ -13,7 +13,7 @@ import org.primefaces.context.RequestContext;
 
 import br.com.dao.UsuarioDAO;
 import br.com.dao.UsuarioPerfilDAO;
-import br.com.models.Perfil;
+import br.com.models.PerfilDTO;
 import br.com.models.Usuario;
 import br.com.models.UsuarioPerfil;
 import br.com.utility.Constantes;

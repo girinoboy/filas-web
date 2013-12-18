@@ -21,7 +21,7 @@ public class UsuarioPerfil {
     private Usuario usuario = new Usuario();
     @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="perfis_id", referencedColumnName = "id")
-    private Perfil perfil = new Perfil();
+    private PerfilDTO perfil = new PerfilDTO();
     
 	public Integer getId() {
 		return id;
@@ -35,10 +35,10 @@ public class UsuarioPerfil {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	public Perfil getPerfil() {
+	public PerfilDTO getPerfil() {
 		return perfil;
 	}
-	public void setPerfil(Perfil perfil) {
+	public void setPerfil(PerfilDTO perfil) {
 		this.perfil = perfil;
 	}
 	

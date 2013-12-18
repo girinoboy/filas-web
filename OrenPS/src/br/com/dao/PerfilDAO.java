@@ -5,16 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.factory.HibernateUtility;
-import br.com.models.Perfil;
-import br.com.models.Questao;
+import br.com.models.PerfilDTO;
 import br.com.models.Usuario;
 import br.com.models.UsuarioPerfil;
 
-public class PerfilDAO extends GenericoDAO<Perfil, Serializable>{
+public class PerfilDAO extends GenericoDAO<PerfilDTO, Serializable>{
 
 	/**
 	 * 
@@ -22,7 +20,7 @@ public class PerfilDAO extends GenericoDAO<Perfil, Serializable>{
 	private static final long serialVersionUID = 1L;
 	private UsuarioPerfilDAO usuarioPerfilDAO;
 
-	public List<Perfil> listPerfisRestantes(Usuario usuario) throws Exception {
+	public List<PerfilDTO> listPerfisRestantes(Usuario usuario) throws Exception {
 		usuarioPerfilDAO = new UsuarioPerfilDAO();
 		try {
 			 List<UsuarioPerfil> list2 = usuarioPerfilDAO.listPorUsuario(usuario.getId());
@@ -34,11 +32,11 @@ public class PerfilDAO extends GenericoDAO<Perfil, Serializable>{
 			}
 			 
 			@SuppressWarnings("unchecked")
-			List<Perfil> list = HibernateUtility.getSession().createCriteria(Perfil.class)
+			List<PerfilDTO> list = HibernateUtility.getSession().createCriteria(PerfilDTO.class)
 			.add(Restrictions.not(Restrictions.in("id", ids )))
 			.list();
 			//HibernateUtility.closeSession();
-			return (List<Perfil>) list;
+			return (List<PerfilDTO>) list;
 		} catch (HibernateException hibernateException) {
 			cancel();
 			throw hibernateException;
@@ -52,7 +50,7 @@ public class PerfilDAO extends GenericoDAO<Perfil, Serializable>{
 		
 	}
 
-	public List<Perfil> listPerfisUsuario(Usuario usuario) throws Exception {
+	public List<PerfilDTO> listPerfisUsuario(Usuario usuario) throws Exception {
 		usuarioPerfilDAO = new UsuarioPerfilDAO();
 		try {
 			 List<UsuarioPerfil> list2 = usuarioPerfilDAO.listPorUsuario(usuario.getId());
@@ -63,11 +61,11 @@ public class PerfilDAO extends GenericoDAO<Perfil, Serializable>{
 			}
 			 
 			@SuppressWarnings("unchecked")
-			List<Perfil> list = HibernateUtility.getSession().createCriteria(Perfil.class)
+			List<PerfilDTO> list = HibernateUtility.getSession().createCriteria(PerfilDTO.class)
 			.add(Restrictions.in("id", ids ))
 			.list();
 			//HibernateUtility.closeSession();
-			return (List<Perfil>) list;
+			return (List<PerfilDTO>) list;
 		} catch (HibernateException hibernateException) {
 			cancel();
 			throw hibernateException;

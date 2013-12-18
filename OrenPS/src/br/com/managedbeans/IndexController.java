@@ -10,33 +10,24 @@ import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.FacesListener;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.submenu.Submenu;
 import org.primefaces.model.DefaultMenuModel;
 import org.primefaces.model.MenuModel;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.myfaces.application.ActionListenerImpl;
-
 import br.com.dao.MenuDAO;
-import br.com.dao.PerfilDAO;
 import br.com.dao.PermissaoMenuDAO;
 import br.com.dao.UsuarioPerfilDAO;
 import br.com.models.Menu;
-import br.com.models.Perfil;
 import br.com.models.PermissaoMenu;
 import br.com.models.Usuario;
 import br.com.models.UsuarioPerfil;
-
-
-
 
 /**
  *
@@ -63,10 +54,10 @@ public class IndexController {
 			Usuario usuario = ((Usuario) session.getAttribute("usuarioAutenticado"));
 			//determina paginas que podem ser acessadas
 			for (UsuarioPerfil usuarioPerfil : usuarioPerfilDAO.listPerfisUsuario(usuario)) {
-					List<PermissaoMenu> list = permissaoMenuDAO.listByIdPerfil(usuarioPerfil.getPerfil().getId());
-					for (PermissaoMenu permissaoMenu : list) {
-						menusPermitidos.add(permissaoMenu.getMenu());
-					}
+				List<PermissaoMenu> list = permissaoMenuDAO.listByIdPerfil(usuarioPerfil.getPerfil().getId());
+				for (PermissaoMenu permissaoMenu : list) {
+					menusPermitidos.add(permissaoMenu.getMenu());
+				}
 			}
 
 			if(menu != null && menu.getPagina() == null){
@@ -171,7 +162,7 @@ public class IndexController {
 				}else{
 					sm.setLabel(m.getDescricao());
 				}
-				
+
 				if(StringUtils.isNotBlank(menu.getIconeNativo())){
 					submenu.setIcon(menu.getIconeNativo());
 				}else if(StringUtils.isNotBlank(menu.getIcone())){

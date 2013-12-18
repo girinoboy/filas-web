@@ -13,7 +13,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import br.com.models.Anexo;
 import br.com.models.Menu;
 import br.com.models.Opcao;
-import br.com.models.Perfil;
+import br.com.models.PerfilDTO;
 import br.com.models.PermissaoMenu;
 import br.com.models.Questao;
 import br.com.models.Questionario;
@@ -136,7 +136,7 @@ public class HibernateUtility {
 					//.setProperty("hibernate.connection.pool_size", "1")
 					//CADASTROS abaixo coloque todas classes que deseja ser modelo para criação do banco de dados
 					.addAnnotatedClass(Menu.class)
-					.addAnnotatedClass(Perfil.class)
+					.addAnnotatedClass(PerfilDTO.class)
 					.addAnnotatedClass(PermissaoMenu.class)
 					.addAnnotatedClass(Usuario.class)
 					.addAnnotatedClass(UsuarioPerfil.class)
