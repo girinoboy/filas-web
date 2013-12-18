@@ -17,7 +17,7 @@ import org.primefaces.event.DragDropEvent;
 
 import br.com.dao.PerfilDAO;
 import br.com.dao.UsuarioPerfilDAO;
-import br.com.models.Perfil;
+import br.com.models.PerfilDTO;
 import br.com.models.Usuario;
 import br.com.models.UsuarioPerfil;
 
@@ -31,7 +31,7 @@ public class AssociarPerfilManagedBean {
 
 	private PerfilDAO perfilDAO = new PerfilDAO();
 
-	private List<Perfil> perfisSmall; 
+	private List<PerfilDTO> perfisSmall; 
 
 	private List<UsuarioPerfil> droppedPerfis;
 
@@ -44,7 +44,7 @@ public class AssociarPerfilManagedBean {
 	 */
 	public AssociarPerfilManagedBean() {
 		try {
-			perfisSmall = new ArrayList<Perfil>();  
+			perfisSmall = new ArrayList<PerfilDTO>();  
 			droppedPerfis = new ArrayList<UsuarioPerfil>();  
 			atualizaPerfis();
 		} catch (Exception e) {
@@ -72,7 +72,7 @@ public class AssociarPerfilManagedBean {
 
 
 	public void onPerfilDrop(DragDropEvent ddEvent) {  
-		Perfil perfil = ((Perfil) ddEvent.getData());  
+		PerfilDTO perfil = ((PerfilDTO) ddEvent.getData());  
 
 		try {
 			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -128,14 +128,14 @@ public class AssociarPerfilManagedBean {
 	/**
 	 * @return the perfisSmall
 	 */
-	public List<Perfil> getPerfisSmall() {
+	public List<PerfilDTO> getPerfisSmall() {
 		return perfisSmall;
 	}
 
 	/**
 	 * @param perfisSmall the perfisSmall to set
 	 */
-	public void setPerfisSmall(List<Perfil> perfisSmall) {
+	public void setPerfisSmall(List<PerfilDTO> perfisSmall) {
 		this.perfisSmall = perfisSmall;
 	}
 

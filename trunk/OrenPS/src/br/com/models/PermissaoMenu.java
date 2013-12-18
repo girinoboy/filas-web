@@ -21,7 +21,7 @@ public class PermissaoMenu {
     private Menu menu = new Menu();
     @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="perfis_id", referencedColumnName = "id",nullable=false)
-    private Perfil perfil = new Perfil();
+    private PerfilDTO perfil = new PerfilDTO();
 
    /* Getters e Setters */
 /*
@@ -63,11 +63,11 @@ public class PermissaoMenu {
 		this.menu = menu;
 	}
 
-	public Perfil getPerfil() {
+	public PerfilDTO getPerfil() {
 		return perfil;
 	}
 
-	public void setPerfil(Perfil perfil) {
+	public void setPerfil(PerfilDTO perfil) {
 		this.perfil = perfil;
 	}
 

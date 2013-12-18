@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "perfis")
-public class Perfil {
+public class PerfilDTO {
 
 	@Id 
 	@GeneratedValue(strategy= GenerationType.IDENTITY)

@@ -11,7 +11,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.factory.HibernateUtility;
-import br.com.models.Perfil;
+import br.com.models.PerfilDTO;
 import br.com.models.Questao;
 import br.com.models.Usuario;
 import br.com.models.UsuarioPerfil;

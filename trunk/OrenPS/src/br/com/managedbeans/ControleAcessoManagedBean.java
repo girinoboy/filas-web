@@ -19,7 +19,7 @@ import br.com.dao.MenuDAO;
 import br.com.dao.PerfilDAO;
 import br.com.dao.ControleAcessoDAO;
 import br.com.models.Menu;
-import br.com.models.Perfil;
+import br.com.models.PerfilDTO;
 import br.com.models.PermissaoMenu;
 import br.com.models.Usuario;
 
@@ -37,9 +37,9 @@ public class ControleAcessoManagedBean {
     private List<Menu> menusUsuario = new ArrayList<Menu>();
     private ControleAcessoDAO permissaoDAO = new ControleAcessoDAO();
     private MenuDAO menuDAO = new MenuDAO();
-    private List<Perfil> listaPerfil = new ArrayList<Perfil>();
+    private List<PerfilDTO> listaPerfil = new ArrayList<PerfilDTO>();
     private PerfilDAO perfilDAO = new PerfilDAO();
-    private Perfil perfil = new Perfil();
+    private PerfilDTO perfil = new PerfilDTO();
     
     public ControleAcessoManagedBean() {
         try {
@@ -267,19 +267,19 @@ public class ControleAcessoManagedBean {
 		this.menuDAO = menuDAO;
 	}
 
-	public List<Perfil> getListaPerfil() {
+	public List<PerfilDTO> getListaPerfil() {
 		return listaPerfil;
 	}
 
-	public void setListaPerfil(List<Perfil> listaPerfil) {
+	public void setListaPerfil(List<PerfilDTO> listaPerfil) {
 		this.listaPerfil = listaPerfil;
 	}
 
-	public Perfil getPerfil() {
+	public PerfilDTO getPerfil() {
 		return perfil;
 	}
 
-	public void setPerfil(Perfil perfil) {
+	public void setPerfil(PerfilDTO perfil) {
 		this.perfil = perfil;
 	}
 }
