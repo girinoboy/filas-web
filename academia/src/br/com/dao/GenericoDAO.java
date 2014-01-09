@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
@@ -138,15 +139,15 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
                     } else if (tipoConsulta == 1) {
                         crit.add(Restrictions.eq(object.getKey().toString(), object.getValue()));
                     } else if (tipoConsulta == 2) {
-                        crit.add(Restrictions.gt(object.getKey().toString(), object.getValue()));
+                    	crit.add(Restrictions.ne(object.getKey().toString(), object.getValue()));
                     } else if (tipoConsulta == 3) {
-                        crit.add(Restrictions.ge(object.getKey().toString(), object.getValue()));
+                        crit.add(Restrictions.gt(object.getKey().toString(), object.getValue()));
                     } else if (tipoConsulta == 4) {
-                        crit.add(Restrictions.lt(object.getKey().toString(), object.getValue()));
+                        crit.add(Restrictions.ge(object.getKey().toString(), object.getValue()));
                     } else if (tipoConsulta == 5) {
+                        crit.add(Restrictions.lt(object.getKey().toString(), object.getValue()));
+                    } else if (tipoConsulta == 6) {
                         crit.add(Restrictions.le(object.getKey().toString(), object.getValue()));
-                    } else if (tipoConsulta == 2) {
-                        crit.add(Restrictions.ne(object.getKey().toString(), object.getValue()));
                     }
                 }
             } else {
@@ -159,15 +160,15 @@ public class GenericoDAO<T, ID extends Serializable> implements Serializable {
                     } else if (tipoConsulta == 1) {
                         crit.createCriteria(subClazz).add(Restrictions.eq(object.getKey().toString(), object.getValue()));
                     } else if (tipoConsulta == 2) {
-                        crit.createCriteria(subClazz).add(Restrictions.gt(object.getKey().toString(), object.getValue()));
+                    	crit.createCriteria(subClazz).add(Restrictions.ne(object.getKey().toString(), object.getValue()));
                     } else if (tipoConsulta == 3) {
-                        crit.createCriteria(subClazz).add(Restrictions.ge(object.getKey().toString(), object.getValue()));
+                        crit.createCriteria(subClazz).add(Restrictions.gt(object.getKey().toString(), object.getValue()));
                     } else if (tipoConsulta == 4) {
-                        crit.createCriteria(subClazz).add(Restrictions.lt(object.getKey().toString(), object.getValue()));
+                        crit.createCriteria(subClazz).add(Restrictions.ge(object.getKey().toString(), object.getValue()));
                     } else if (tipoConsulta == 5) {
+                        crit.createCriteria(subClazz).add(Restrictions.lt(object.getKey().toString(), object.getValue()));
+                    } else if (tipoConsulta == 6) {
                         crit.createCriteria(subClazz).add(Restrictions.le(object.getKey().toString(), object.getValue()));
-                    } else if (tipoConsulta == 2) {
-                        crit.createCriteria(subClazz).add(Restrictions.ne(object.getKey().toString(), object.getValue()));
                     }
                 }
             }

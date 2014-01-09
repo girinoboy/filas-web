@@ -31,6 +31,7 @@ public class FrequenciaDTO {
 	private Date dataEntrada;
 	@Column(name ="data_completa")
 	private Date dataCompleta;
+	private Boolean presente;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "usuario_id", insertable = true, updatable = true, nullable = true)
 	private UsuarioDTO usuarioDTO;
@@ -39,7 +40,7 @@ public class FrequenciaDTO {
 	 * 
 	 */
 	public FrequenciaDTO() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public Integer getId() {
@@ -58,13 +59,6 @@ public class FrequenciaDTO {
 		this.dataEntrada = dataEntrada;
 	}
 
-	public UsuarioDTO getUsuarioDTO() {
-		return usuarioDTO;
-	}
-
-	public void setUsuarioDTO(UsuarioDTO usuarioDTO) {
-		this.usuarioDTO = usuarioDTO;
-	}
 
 	public Date getDataCompleta() {
 		return dataCompleta;
@@ -73,6 +67,21 @@ public class FrequenciaDTO {
 	public void setDataCompleta(Date dataCompleta) {
 		this.dataCompleta = dataCompleta;
 	}
+
+	public Boolean getPresente() {
+		return presente;
+	}
+
+	public void setPresente(Boolean presente) {
+		this.presente = presente;
+	}
 	
+	public UsuarioDTO getUsuarioDTO() {
+		return usuarioDTO;
+	}
+	
+	public void setUsuarioDTO(UsuarioDTO usuarioDTO) {
+		this.usuarioDTO = usuarioDTO;
+	}
 
 }
