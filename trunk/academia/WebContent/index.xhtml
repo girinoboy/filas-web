@@ -5,7 +5,8 @@
  xmlns:h="http://java.sun.com/jsf/html"
  xmlns:ui="http://java.sun.com/jsf/facelets"
  xmlns:f="http://java.sun.com/jsf/core"
- xmlns:pe="http://primefaces.org/ui/extensions"> 
+ xmlns:pe="http://primefaces.org/ui/extensions">
+<f:view locale="#{localeController.currentLocale}">
 <h:head>
 	<title>Lista de Usuarios</title>
 	<script type="text/javascript">
@@ -64,25 +65,38 @@
 			    </p:themeSwitcher>
 		    </div>
 		    <p:separator id="separator"/>
+		    
+		   	
+		   	
 			<p:dataTable var="user" value="#{usuarioMB.listUsuario}" rowKey="#{user.id}" paginator="true" rows="10" rowStyleClass="#{user.pagamentoVencendo eq 1 ? 'debito' : null}"
-		                selection="#{usuarioMB.usuarioDTO}" selectionMode="single" filteredValue="#{usuarioMB.filteredUsuarios}" id="usuarioTable" >
+		                selection="#{usuarioMB.usuarioDTO}" selectionMode="single" filteredValue="#{usuarioMB.filteredUsuarios}" id="usuarioTable" widgetVar="userTable">
 		  
-		        <p:ajax event="rowSelect" update=":form1:displayE"  listener="#{usuarioMB.editUser}" oncomplete="userDialogE.show()"/>
+		        <p:ajax event="rowSelect" update=":form1:displayE"  listener="#{usuarioMB.editUser}" oncomplete="userDialogE.show()" >
+		        	<f:setPropertyActionListener target="#{usuarioMB.usuarioDTO}" value="#{user}" /> 
+		        </p:ajax>
 		  
 		        <f:facet name="header">
-		            Lista de usuarios
+		        	<p:outputPanel>
+			            <p:outputLabel value="Busca por nome:" />  
+			            <p:inputText id="globalName" value="#{usuarioMB.search}" style="width:275px" >
+			           		<p:ajax event="keyup" listener="#{usuarioMB.actionSearch}" update="usuarioTable" onstart="if (event.keyCode != 13) { return false; }" />
+					   	</p:inputText>
+					   	<p:watermark value="pressione enter para pesquisar" for="globalName"/>
+					   	<p:defaultCommand target="globalName"/>
+				   	</p:outputPanel>
 		        </f:facet>
+		        
 				<p:column headerText="Foto" id="foto" style="text-align: center;">
 					<p:graphicImage value="#{usuarioMB.dynamicImage}" style="width:60px;height:60px">
 						<f:param name="image_id" value="#{user.anexoDTO.id}"/>
 					</p:graphicImage>
 				</p:column>
 				
-		        <p:column headerText="Nome" sortBy="nome" filterBy="nome" id="nome" filterMatchMode="contains">
+		        <p:column headerText="Nome" sortBy="nome" id="nome">
 		           #{user.nome}
 		        </p:column>
 		  
-		        <p:column headerText="Telefone" filterBy="telefone" id="telefone" filterMatchMode="contains">
+		        <p:column headerText="Telefone" id="telefone">
 		            #{user.telefone}
 		        </p:column>
 		  
@@ -90,7 +104,7 @@
 		           <h:outputText value="#{user.idade}"/>
 		        </p:column>
 		  
-		        <p:column headerText="Data Pagamento" sortBy="dataPagamento" id="dataPagamento">
+		        <p:column headerText="Ultimo Pagamento" sortBy="dataPagamento" id="dataPagamento">
 		            <h:outputText value="#{user.pagamentoDTO.dataPagamento}">
 					    <f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
@@ -136,11 +150,19 @@
 				    	counterTemplate="{0} characters remaining." autoResize="false"/>  
 				  	<p:watermark for="obsE" value=" " />
 				  	<p:message for="obsE" />
+		            <br/>  
 					<h:outputText id="counter" />
+					
+					<h:outputLabel for="presencaE" value="Presente: " />
+		            <p:selectBooleanButton id="presencaE" value="#{usuarioMB.frequenciaDTO.presente}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close">  
+			            <p:ajax update=":msg,usuarioTable" listener="#{usuarioMB.addFrequecia}" oncomplete="userDialogE.hide()"/>  
+			        </p:selectBooleanButton>  
+				  	<p:watermark for="presencaE" value=" " />
+				  	<p:message for="presencaE" />
 		            
-					<p:commandButton value="Marcar presença" actionListener="#{usuarioMB.addFrequecia}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg,usuarioTable" />
+				        
 		            <f:facet name="footer">
-		            	<p:commandButton value="Salvar" actionListener="#{usuarioMB.addUser}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg,usuarioTable" />
+		            	<p:commandButton value="Salvar" actionListener="#{usuarioMB.addUser}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg,usuarioTable" icon="ui-icon-disk"/>
 		            	<p:commandButton value="Excluir" update="usuarioTable,:msg,:form1"  icon="ui-icon-close" actionListener="#{usuarioMB.delUser}" immediate="true"/>                 
 		            	<p:commandButton value="Cancelar" oncomplete="userDialogE.hide()" immediate="true"/>                 
 		            </f:facet>
@@ -149,4 +171,5 @@
 		    </p:dialog>
 		 </h:form>
 	</h:body>
+	</f:view>
 </html>

@@ -4,7 +4,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"> 
-    
+    <f:view locale="#{localeController.currentLocale}">
     <h:head> 
     	<title>Editar/Incluir Usuario</title>
     	 <style>
@@ -15,7 +15,6 @@
     </h:head>  
     
     <h:body> 
-    	
 		<h:form id="form1">  
 			<p:growl id="growl" showDetail="true" life="3000" autoUpdate="true" sticky="true"/> 
 			<p:messages id="messages" autoUpdate="true"/>
@@ -140,6 +139,7 @@
 		        </h:panelGrid>  
 		    </p:panel>  
       
-    	</h:form> 
+    	</h:form>
 	</h:body>  
+   	</f:view>
 </html>  

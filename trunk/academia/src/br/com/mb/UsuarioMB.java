@@ -5,7 +5,6 @@ package br.com.mb;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,6 +16,8 @@ import java.util.Map;
 import javax.faces.FacesException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.imageio.stream.FileImageOutputStream;
@@ -38,7 +39,6 @@ import br.com.dto.FrequenciaDTO;
 import br.com.dto.PagamentoDTO;
 import br.com.dto.PerfilDTO;
 import br.com.dto.UsuarioDTO;
-import br.com.utility.Constantes;
 import br.com.utility.DataUtils;
 
 /**
@@ -46,7 +46,7 @@ import br.com.utility.DataUtils;
  *
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class UsuarioMB extends GenericoMB{
 
 	private UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -61,17 +61,36 @@ public class UsuarioMB extends GenericoMB{
 	private PerfilDAO perfilDAO = new PerfilDAO();
 	private List<PerfilDTO> listPerfil = new ArrayList<PerfilDTO>();
 	PagamentoDAO pagamentoDAO = new PagamentoDAO();
+	private String search;
 
 	/**
 	 * 
 	 */
 	public UsuarioMB() {
 		try{
-			listUsuario = usuarioDAO.list();
+			//atualizaUserList(usuarioDTO);
 			listPerfil = //PerfilConverter.perfilDB;
 					perfilDAO.list();
 		} catch (Exception e) {
 			addMessage(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	private void atualizaUserList(UsuarioDTO usuarioDTO) throws Exception{
+//		Map<String, Object> filtrosConsulta = new HashMap<>();
+//		filtrosConsulta.put("nome", usuarioDTO.getNome() ==null ? "":usuarioDTO.getNome());
+//		listUsuario = usuarioDAO.listCriterio(null, filtrosConsulta , Constantes.TIPO_CONSULTA_ILIKE);
+		listUsuario = usuarioDAO.filtrar(usuarioDTO);
+	}
+	
+	public void actionSearch(){
+		try {
+			listUsuario = null;
+			UsuarioDTO usuarioDTO = new UsuarioDTO();
+			usuarioDTO.setNome(search);
+			atualizaUserList(usuarioDTO);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -133,7 +152,7 @@ public class UsuarioMB extends GenericoMB{
 			anexoDTO.setAnexo(data);
 			anexoDTO.setTamanho(file.length());
 			anexoDTO.setContentType("png");
-			
+
 			anexoDTO = anexoDAO.save(anexoDTO);
 			usuarioDTO.setAnexoDTO(anexoDTO);
 			usuarioDTO = usuarioDAO.save(usuarioDTO);
@@ -144,15 +163,15 @@ public class UsuarioMB extends GenericoMB{
 			throw new FacesException("Error in writing captured image.");  
 		}
 	}
-	
+
 	public void saveUsuario(ActionEvent event){
 		try {
-			
-			
+
+
 			if(usuarioDTO.getId() !=null){
 				//verifica se existe um novo anexo, pois o anexo é salvo ao capturar
 				usuarioDTO.setAnexoDTO(usuarioDAO.getById(usuarioDTO.getId()).getAnexoDTO());
-				
+
 				Calendar c = new GregorianCalendar();
 				c.setTime(usuarioDTO.getPagamentoDTO().getDataPagamento());
 				Map<String, Object> filtrosConsulta = new HashMap<>();
@@ -161,20 +180,20 @@ public class UsuarioMB extends GenericoMB{
 				filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
 				//teste para verificar se o usuario ja pagou no mes
 				List<PagamentoDTO> f = pagamentoDAO.listCriterio(null, filtrosConsulta , 1);
-				
+
 				if(!f.isEmpty()){
 					usuarioDTO.getPagamentoDTO().setId(f.get(0).getId());
 				}
-				
+
 			}
-			
+
 			usuarioDTO = usuarioDAO.save(usuarioDTO);
 			usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
 			usuarioDTO.getPagamentoDTO().getDia();
 			usuarioDTO.getPagamentoDTO().getMes();
 			usuarioDTO.getPagamentoDTO().getAno();
 			usuarioDTO = usuarioDAO.save(usuarioDTO);
-			
+
 			//			usuarioPerfilDAO = new UsuarioPerfilDAO();
 
 			//			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
@@ -195,11 +214,11 @@ public class UsuarioMB extends GenericoMB{
 	public void addUser(ActionEvent actionEvent) throws Exception {
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("salvo", false);
-		
+
 		if(usuarioDTO.getId() !=null){
 			//verifica se existe um novo anexo, pois o anexo é salvo ao capturar
 			usuarioDTO.setAnexoDTO(usuarioDAO.getById(usuarioDTO.getId()).getAnexoDTO());
-			
+
 			Calendar c = new GregorianCalendar();
 			c.setTime(usuarioDTO.getPagamentoDTO().getDataPagamento());
 			Map<String, Object> filtrosConsulta = new HashMap<>();
@@ -208,39 +227,44 @@ public class UsuarioMB extends GenericoMB{
 			filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
 			//teste para verificar se o usuario ja pagou no mes
 			List<PagamentoDTO> f = pagamentoDAO.listCriterio(null, filtrosConsulta , 1);
-			
+
 			if(!f.isEmpty()){
 				usuarioDTO.getPagamentoDTO().setId(f.get(0).getId());
 			}
-			
+
 		}
-		
+
 		usuarioDTO = usuarioDAO.save(usuarioDTO);
 		usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
 		usuarioDTO.getPagamentoDTO().getDia();
 		usuarioDTO.getPagamentoDTO().getMes();
 		usuarioDTO.getPagamentoDTO().getAno();
 		usuarioDTO = usuarioDAO.save(usuarioDTO);
-		
+
 		context.addCallbackParam("salvo", true);
 		addMessage("Salvo.");
-		listUsuario = usuarioDAO.list();
+		atualizaUserList(usuarioDTO);
 		usuarioDTO = new UsuarioDTO();
-	}
-
-	public String editUser(ActionEvent actionEvent) throws Exception {
-		RequestContext context = RequestContext.getCurrentInstance();
-		context.addCallbackParam("salvo", false);
-		usuarioDTO = (UsuarioDTO) usuarioDAO.listById(usuarioDTO.getId());
-		context.addCallbackParam("salvo", true);
-
-		return "editar";
 	}
 
 	public String editUser(SelectEvent event) throws Exception {  
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.addCallbackParam("salvo", false);
 		usuarioDTO = usuarioDAO.getById(usuarioDTO.getId());
+		
+		Map<String, Object> filtrosConsulta = new HashMap<>();
+
+		Calendar c = new GregorianCalendar();   
+
+		//c.add(Calendar.DAY_OF_MONTH, 5);
+
+		filtrosConsulta.put("dataEntrada", DataUtils.toDateOnly(c.getTime()));
+		filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
+
+		List<FrequenciaDTO> f = frequenciaDAO.listCriterio(null, filtrosConsulta , 1);
+		if(!f.isEmpty() && f.get(0) !=null){
+			frequenciaDTO = f.get(0);
+		}
 		context.addCallbackParam("salvo", true);
 
 		return "editar";
@@ -250,17 +274,17 @@ public class UsuarioMB extends GenericoMB{
 		try {
 			if(usuarioDTO !=null && usuarioDTO.getId() !=null){
 				usuarioDAO.delete(usuarioDTO);
-				listUsuario = usuarioDAO.list();
+				atualizaUserList(usuarioDTO);
 				addMessage("Apagado.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void detalharUser(){
-	    try {
-	    	usuarioDTO = usuarioDAO.getById(usuarioDTO.getId());
+		try {
+			usuarioDTO = usuarioDAO.getById(usuarioDTO.getId());
 			FacesContext.getCurrentInstance().getExternalContext().redirect("incluirUsuario.xhtml");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -272,11 +296,11 @@ public class UsuarioMB extends GenericoMB{
 			RequestContext context = RequestContext.getCurrentInstance();
 			context.addCallbackParam("salvo", false);
 			Map<String, Object> filtrosConsulta = new HashMap<>();
-			
+
 			Calendar c = new GregorianCalendar();   
-		       
-		    //c.add(Calendar.DAY_OF_MONTH, 5);  
-			
+
+			//c.add(Calendar.DAY_OF_MONTH, 5);
+
 			filtrosConsulta.put("dataEntrada", DataUtils.toDateOnly(c.getTime()));
 			filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
 
@@ -291,27 +315,62 @@ public class UsuarioMB extends GenericoMB{
 				context.addCallbackParam("salvo", true);
 				addMessage("Presença marcada.");
 			}
-			listUsuario = usuarioDAO.list();
+			atualizaUserList(usuarioDTO);
+			//usuarioDTO = new UsuarioDTO();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void addFrequecia(){
+		try{
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.addCallbackParam("salvo", false);
+			Map<String, Object> filtrosConsulta = new HashMap<>();
+
+			Calendar c = new GregorianCalendar();   
+
+			//c.add(Calendar.DAY_OF_MONTH, 5);
+
+			filtrosConsulta.put("dataEntrada", DataUtils.toDateOnly(c.getTime()));
+			filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
+
+			List<FrequenciaDTO> f = frequenciaDAO.listCriterio(null, filtrosConsulta , 1);
+			if(!f.isEmpty() && f.get(0) !=null){
+				FrequenciaDTO a = new FrequenciaDTO();
+				a.setId(f.get(0).getId());
+				frequenciaDAO.delete(a);
+				//addMessage("Usuario já marcardo na folha de frequencia.");
+			}else{
+				frequenciaDTO.setUsuarioDTO(usuarioDTO);
+				frequenciaDTO.setDataEntrada(DataUtils.toDateOnly(c.getTime()));
+				frequenciaDTO.setDataCompleta(new Date());
+				frequenciaDAO.save(frequenciaDTO);
+				context.addCallbackParam("salvo", true);
+				addMessage("Presença marcada.");
+			}
+			atualizaUserList(usuarioDTO);
 			//usuarioDTO = new UsuarioDTO();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	
+
 	public void handleSelect(SelectEvent event) {  
-		
+
 		try {
 			usuarioDTO = (UsuarioDTO)event.getObject();
-			
+
 			//recarrega a lista de pagamento
-			
+
 			Map<String, Object> filtrosConsulta = new HashMap<>();
 			filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
 			List<PagamentoDTO> list = pagamentoDAO.listCriterio(null, filtrosConsulta , 1);
-			
+
 			list = pagamentoDAO.listWhereIdUsuario(usuarioDTO);
-			
+
 			usuarioDTO.setListPagamentoDTO(list);
 			addMessage("Selected:" + usuarioDTO.getId().toString());
 		} catch (Exception e) {
@@ -349,6 +408,22 @@ public class UsuarioMB extends GenericoMB{
 
 	public void setListPerfil(List<PerfilDTO> listPerfil) {
 		this.listPerfil = listPerfil;
+	}
+
+	public FrequenciaDTO getFrequenciaDTO() {
+		return frequenciaDTO;
+	}
+
+	public void setFrequenciaDTO(FrequenciaDTO frequenciaDTO) {
+		this.frequenciaDTO = frequenciaDTO;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
 	}
 
 }
