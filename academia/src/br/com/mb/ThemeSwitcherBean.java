@@ -5,7 +5,6 @@ import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
 import org.hibernate.HibernateException;
@@ -22,9 +21,9 @@ public class ThemeSwitcherBean extends GenericoMB{
     private UsuarioDAO usuarioDAO =  new UsuarioDAO();
       
     private String theme;
-    
+    /*// Já existe na classe GenericoMB 
     @ManagedProperty(value = "#{guestPreferences}")
-    private GuestPreferences gp;
+    private GuestPreferences gp;*/
   
     @PostConstruct
     public void init() {
@@ -74,10 +73,10 @@ public class ThemeSwitcherBean extends GenericoMB{
     	}
     	usuarioDAO.saveTheme(theme,usuario);
     }
-    
+    /*
     public void setGp(GuestPreferences gp) {
         this.gp = gp;
-    }
+    }*/
       
     public Map<String, String> getThemes() {
         return themes;

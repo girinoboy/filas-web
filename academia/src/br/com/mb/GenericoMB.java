@@ -15,7 +15,7 @@ public class GenericoMB {
 	protected ResourceBundle rb;
 	private HttpSession session;
 	@ManagedProperty(value = "#{guestPreferences}")
-	private GuestPreferences gp;
+	protected GuestPreferences gp;
 
 	public GenericoMB() {
 		FacesContext fc = FacesContext.getCurrentInstance();

@@ -12,10 +12,32 @@
 	
 	<p:growl id="msg" showDetail="true" sticky="true" />
 	<center>
+	<h:form>
 		<h1 class="title ui-widget-header ui-corner-all">Relatorio</h1>
-	
+		<p:selectOneMenu  value="#{relatorioMB.mes}"	style="width:155px; top:10px" effect="fade" >
+			<f:selectItem itemLabel="Mês" itemValue="" />
+			<f:selectItem itemLabel="Janeiro" itemValue="0" />
+			<f:selectItem itemLabel="Fevereiro" itemValue="1" />
+			<f:selectItem itemLabel="Março" itemValue="2" />
+			<f:selectItem itemLabel="Abril" itemValue="3" />
+			<f:selectItem itemLabel="Maio" itemValue="4" />
+			<f:selectItem itemLabel="Junho" itemValue="5" />
+			<f:selectItem itemLabel="Julho" itemValue="6" />
+			<f:selectItem itemLabel="Agosto" itemValue="7" />
+			<f:selectItem itemLabel="Setembro" itemValue="8" />
+			<f:selectItem itemLabel="Outubro" itemValue="9" />
+			<f:selectItem itemLabel="Novembro" itemValue="10" />
+			<f:selectItem itemLabel="Dezembro" itemValue="11" />
+<!-- 			<f:selectItems value="#{relatorioMB.listMes}" /> -->
+			<p:ajax event="change" listener="#{relatorioMB.frequenciaMes}" update="linear"/>
+		</p:selectOneMenu>
+		<p:selectOneMenu  value="#{relatorioMB.ano}"	style="width:155px; top:10px" effect="fade">
+			<f:selectItem itemLabel="Ano" itemValue="" />
+			<f:selectItems value="#{relatorioMB.listAno}" />
+			<p:ajax event="change" listener="#{relatorioMB.frequenciaMes}" update="linear"/>
+		</p:selectOneMenu>
 		<p:separator id="separator"/>  
-		<h:form>
+		
 <!-- 			<p:poll interval="15" update="votes" />   -->
 			<h:panelGrid columns="1">
    				<p:barChart id="linear" value="#{relatorioMB.frequenciaMes}" legendPosition="e"  animate="true"

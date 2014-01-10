@@ -7,10 +7,10 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.faces.bean.ManagedBean;
 
@@ -21,8 +21,6 @@ import org.primefaces.model.chart.LineChartSeries;
 
 import br.com.dao.FrequenciaDAO;
 import br.com.dao.PagamentoDAO;
-import br.com.dao.UsuarioDAO;
-import br.com.dto.UsuarioDTO;
 
 /**
  * @author Marcleônio
@@ -45,12 +43,40 @@ public class RelatorioMB implements Serializable {
 
 	private FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
 	private PagamentoDAO pagamentoDAO = new PagamentoDAO();
+	
+	private Map<String, Integer> listAno,listMes;
+	private Integer mes,ano;
 
-	public RelatorioMB() {  
+	public RelatorioMB() throws HibernateException, Exception {  
 		createCategoryModel();  
 		createLinearModel();  
 		frequenciaMes();
 		lucroAno();
+		
+		listMes = new TreeMap<String, Integer>();
+		listMes.put("Janeiro", 0);
+		listMes.put("Fevereiro", 1);
+		listMes.put("Março", 2);
+		listMes.put("Abril", 3);
+		listMes.put("Maio", 4);
+		listMes.put("Junho", 5);
+		listMes.put("Julho", 6);
+		listMes.put("Agosto", 7);
+		listMes.put("Setembro", 8);
+		listMes.put("Outubro", 9);
+		listMes.put("Novembro", 10);
+		listMes.put("Dezembro", 11);
+		
+		 @SuppressWarnings("rawtypes")
+		List pagamentoDTO = pagamentoDAO.consultaHQL("select ano from PagamentoDTO group by ano");
+		 
+		 for (Object p : pagamentoDTO) {
+			 listAno = new TreeMap<String, Integer>();
+			 System.out.println(p);
+			 listAno.put(p.toString(), Integer.valueOf(p.toString()));
+		}
+		 
+		
 	}  
 	//select * from usuario where frequencia.data = today
 	public CartesianChartModel getCategoryModel() {  
@@ -61,7 +87,7 @@ public class RelatorioMB implements Serializable {
 		return linearModel;  
 	}  
 	@SuppressWarnings("rawtypes")
-	private void lucroAno(){
+	public void lucroAno(){
 		lucroAno = new CartesianChartModel(); 
 		
 		ChartSeries chartSeries = new ChartSeries();  
@@ -72,7 +98,11 @@ public class RelatorioMB implements Serializable {
 			chartSeries.set(i,0);
 		}
 		try {
-			List l = pagamentoDAO.mediaLucroAno(null);
+			if(ano==null){
+				ano = new GregorianCalendar().get(Calendar.YEAR);
+			}
+			
+			List l = pagamentoDAO.mediaLucroAno(ano);
 			
 			
 			Iterator it = l.iterator();
@@ -95,7 +125,7 @@ public class RelatorioMB implements Serializable {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	private void frequenciaMes(){
+	public void frequenciaMes(){
 		frequenciaMes = new CartesianChartModel(); 
 
 		ChartSeries boys = new ChartSeries();  
@@ -105,9 +135,15 @@ public class RelatorioMB implements Serializable {
 		girls.setLabel("Feminino");
 
 		try {
+			if(ano==null){
+				ano = new GregorianCalendar().get(Calendar.YEAR);
+			}
+			if(mes==null){
+				mes = new GregorianCalendar().get(Calendar.MONTH);
+			}
 
 			//frequenciaDAO.consultaHQL("select count(*), date from FrequenciaDTO");
-			Calendar data = new GregorianCalendar();
+			Calendar data = new GregorianCalendar(ano, mes, Calendar.DAY_OF_MONTH);
 			//popula o mes todos
 			for (int i = 1; i <= data.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
 				boys.set(i,0);
@@ -115,9 +151,9 @@ public class RelatorioMB implements Serializable {
 			}
 			
 			Iterator it = null;
-			List m = frequenciaDAO.frequenciaMesPorSexo("1");
+			List m = frequenciaDAO.frequenciaMesPorSexo("1",mes,ano);
 			it = m.iterator();
-			while(it.hasNext())  
+			while(it.hasNext())
 			{  
 				Object[] c = (Object[]) it.next();  
 				System.out.println(c[0]);
@@ -133,7 +169,7 @@ public class RelatorioMB implements Serializable {
 
 			}
 
-			List f = frequenciaDAO.frequenciaMesPorSexo("0");
+			List f = frequenciaDAO.frequenciaMesPorSexo("0",mes,ano);
 			it = f.iterator();
 			while(it.hasNext())
 			{  
@@ -233,5 +269,29 @@ public class RelatorioMB implements Serializable {
 	}
 	public void setLucroAno(CartesianChartModel lucroAno) {
 		this.lucroAno = lucroAno;
+	}
+	public Map<String, Integer> getListAno() {
+		return listAno;
+	}
+	public void setListAno(Map<String, Integer> listAno) {
+		this.listAno = listAno;
+	}
+	public Map<String, Integer> getListMes() {
+		return listMes;
+	}
+	public void setListMes(Map<String, Integer> listMes) {
+		this.listMes = listMes;
+	}
+	public Integer getMes() {
+		return mes;
+	}
+	public void setMes(Integer mes) {
+		this.mes = mes;
+	}
+	public Integer getAno() {
+		return ano;
+	}
+	public void setAno(Integer ano) {
+		this.ano = ano;
 	}  
 }  

@@ -4,7 +4,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"> 
-    
+<f:view locale="#{localeController.currentLocale}">    
     <h:head> 
     	<title>Perfil</title>
     
@@ -43,14 +43,46 @@
 		            <p:message for="observacao" />
 		            
 		            <f:facet name="footer">
-			          	<p:commandButton value="Salvar" actionListener="#{perfilMB.addPerfil}" id="withIcon"   
-			            update="panel,messages,growl" icon="ui-icon-disk" />
+			          	<p:commandButton value="Salvar" actionListener="#{perfilMB.add}" id="withIcon"   
+			            update="vinculo,panel,messages,growl" icon="ui-icon-disk" />
 			            <p:commandButton value="Reset" type="reset" /> 
 			            <p:commandButton value="Voltar" onclick="javascript:document.location.href = 'index.xhtml'" /> 
 		  			</f:facet>
 				</h:panelGrid>
 			</p:panel>
-		
-		</h:form> 
-	</h:body>  
+		<br/>
+		<p:dataTable id="vinculo" var="perfil" value="#{perfilMB.listPerfil}" rowKey="#{perfil.id}" >
+
+				<p:column headerText="Id" style="width:50px">
+					<h:outputText value="#{perfil.id}" />
+				</p:column>
+
+				<p:column headerText="#{msgs.name}" style="width:400px">
+					<h:outputText value="#{perfil.nome}" />
+				</p:column>
+				
+				<p:column headerText="#{msgs.action}" style="width:10px">
+
+			       <!-- Deletar -->
+	               <p:commandButton id="excluir" icon="ui-icon-trash" title="#{msgs.delete}" onclick="PF('dlg').show();" actionListener="#{perfilMB.edit}" immediate="true">
+	           	   		<f:setPropertyActionListener value="#{perfil}" target="#{perfilMB.perfilDTO}"/>
+	               </p:commandButton>
+		           
+		        </p:column>
+		        
+			</p:dataTable>
+			
+ 		</h:form>
+ 		
+ 		<p:dialog header="#{msgs.delete}?" widgetVar="dlg" modal="true" appendToBody="true" resizable="false" draggable="true">
+		  <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+		    <h:outputText value="#{msgs.askDelete}" />
+		    <f:facet name="footer">
+			 	<p:commandButton value="#{msgs.delete}" update="form1:growl,form1:panel,form1:vinculo"  icon="ui-icon-close" actionListener="#{perfilMB.del}" immediate="true" oncomplete="PF('dlg').hide()" />
+			 	<p:commandButton value="#{msgs.cancel}" oncomplete="PF('dlg').hide()" immediate="true" />                 
+			</f:facet>
+			</h:panelGrid>
+		</p:dialog>
+	</h:body> 
+</f:view> 
 </html>  
