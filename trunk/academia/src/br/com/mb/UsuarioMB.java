@@ -15,8 +15,6 @@ import java.util.Map;
 
 import javax.faces.FacesException;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -107,13 +105,13 @@ public class UsuarioMB extends GenericoMB{
 					return new DefaultStreamedContent(new ByteArrayInputStream(anexoDTO.getAnexo()),"image/png");
 				}
 			}else
-				return new DefaultStreamedContent(new ByteArrayInputStream(emptyImage), "image/png");
+				return new DefaultStreamedContent(new ByteArrayInputStream(emptyImage), "image/png","img_vazia");
 		} catch (Exception e) {
 			e.printStackTrace();
 			addMessage(e.getMessage());
 		}
 
-		return new DefaultStreamedContent(new ByteArrayInputStream(emptyImage), "image/png");
+		return new DefaultStreamedContent(new ByteArrayInputStream(emptyImage), "image/png","img_vazia");
 	}
 
 	private String getRandomImageName() {  

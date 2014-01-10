@@ -37,11 +37,11 @@ public class FrequenciaDAO extends GenericoDAO<FrequenciaDTO, Serializable>{
 	}
 
 	@SuppressWarnings({ "rawtypes" })
-	public List frequenciaMesPorSexo(String sexo) throws HibernateException, Exception{
+	public List frequenciaMesPorSexo(String sexo, Integer month, Integer year) throws HibernateException, Exception{
 
-		Calendar dataMax = new GregorianCalendar();
+		Calendar dataMax = new GregorianCalendar(year, month, Calendar.DAY_OF_MONTH);
 
-		Calendar dataMin = new GregorianCalendar();
+		Calendar dataMin = new GregorianCalendar(year, month, Calendar.DAY_OF_MONTH);
 
 		int primeiro_dia_mes = dataMax.getActualMinimum(Calendar.DAY_OF_MONTH);  
 		dataMin.set(Calendar.DAY_OF_MONTH, primeiro_dia_mes);

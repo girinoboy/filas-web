@@ -5,7 +5,6 @@ package br.com.dao;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -39,9 +38,9 @@ public class PagamentoDAO extends GenericoDAO<PagamentoDTO, Serializable>{
 	
 	
 	
-	public List mediaLucroAno(String mes) throws HibernateException, Exception{
+	public List mediaLucroAno(Integer year) throws HibernateException, Exception{
 
-		Calendar data = new GregorianCalendar();
+		Calendar data = new GregorianCalendar(year, Calendar.MONTH, Calendar.DAY_OF_MONTH);
 
 		Calendar dataMin = new GregorianCalendar(data.get(Calendar.YEAR),Calendar.JANUARY,01);
 		Calendar dataMax = new GregorianCalendar(data.get(Calendar.YEAR), Calendar.DECEMBER,31);

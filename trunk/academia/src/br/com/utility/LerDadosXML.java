@@ -17,10 +17,12 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  *
  */
 public class LerDadosXML {
+	@SuppressWarnings("unused")
 	private List<UsuarioDTO> listUsuario;  
 	public List<UsuarioDTO> lerXml(Reader fonte){
 		XStream stream = new XStream(new DomDriver());
 		stream.alias("Usuario", UsuarioDTO.class);
+		@SuppressWarnings("unchecked")
 		List<UsuarioDTO> fromXML = (List<UsuarioDTO>) stream.fromXML(fonte);  
 		popularData(fromXML);
 		return fromXML;

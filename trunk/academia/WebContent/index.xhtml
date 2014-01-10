@@ -69,7 +69,7 @@
 		   	
 		   	
 			<p:dataTable var="user" value="#{usuarioMB.listUsuario}" rowKey="#{user.id}" paginator="true" rows="10" rowStyleClass="#{user.pagamentoVencendo eq 1 ? 'debito' : null}"
-		                selection="#{usuarioMB.usuarioDTO}" selectionMode="single" filteredValue="#{usuarioMB.filteredUsuarios}" id="usuarioTable" widgetVar="userTable">
+		                selection="#{usuarioMB.usuarioDTO}" selectionMode="single" filteredValue="#{usuarioMB.filteredUsuarios}" id="usuarioTable" widgetVar="userTable" emptyMessage="Faça uma busca por nome">
 		  
 		        <p:ajax event="rowSelect" update=":form1:displayE"  listener="#{usuarioMB.editUser}" oncomplete="userDialogE.show()" >
 		        	<f:setPropertyActionListener target="#{usuarioMB.usuarioDTO}" value="#{user}" /> 
@@ -79,6 +79,7 @@
 		        	<p:outputPanel>
 			            <p:outputLabel value="Busca por nome:" />  
 			            <p:inputText id="globalName" value="#{usuarioMB.search}" style="width:275px" >
+			            	<f:validateLength minimum="2" />
 			           		<p:ajax event="keyup" listener="#{usuarioMB.actionSearch}" update="usuarioTable" onstart="if (event.keyCode != 13) { return false; }" />
 					   	</p:inputText>
 					   	<p:watermark value="pressione enter para pesquisar" for="globalName"/>
@@ -139,7 +140,7 @@
 		            <p:watermark for="telefoneE" value="Telefone" />
 		            <p:message for="telefoneE" />
 		  
-		            <h:outputLabel for="dataPagamentoE" value="Data do Pagamento: *" required="true"/>
+		            <h:outputLabel for="dataPagamentoE" value="Pagamento: *" required="true"/>
 		            <p:calendar value="#{usuarioMB.usuarioDTO.pagamentoDTO.dataPagamento}" id="dataPagamentoE" required="true"/>
 		            <p:watermark for="dataPagamentoE" value=" " />
 		            <p:message for="dataPagamentoE" />

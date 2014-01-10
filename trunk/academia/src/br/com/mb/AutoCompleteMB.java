@@ -9,16 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.AjaxBehaviorEvent;
-
-import org.primefaces.event.SelectEvent;
 
 import br.com.dao.UsuarioDAO;
 import br.com.dto.UsuarioDTO;
 import br.com.utility.Constantes;
-import br.com.utility.UsuarioConverter;
 
 /**
  * @author marcleonio.medeiros
