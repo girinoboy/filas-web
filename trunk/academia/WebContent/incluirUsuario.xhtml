@@ -101,9 +101,14 @@
 		            <p:message for="dataPagamento" />
 		            
 		            <h:outputLabel for="vps" value="Vezes por semana: *" />
-		            <p:inputMask id="vps" value="#{usuarioMB.usuarioDTO.pagamentoDTO.vezesSemana}" mask="9?9" required="true"/>
-		            <p:watermark for="vps" value="__" />
-		            <p:message for="vps" />
+    				<h:panelGrid columns="1" style="margin-bottom:10px">
+				        <p:inputText id="vps" value="#{usuarioMB.usuarioDTO.pagamentoDTO.vezesSemana}" required="true"/>
+				        <p:slider for="vps" maxValue="7">
+				            <p:ajax event="slideEnd" listener="#{usuarioMB.onSlideEnd}" update="growl" />
+				        </p:slider>
+			        </h:panelGrid>
+			        <br/>
+				    <p:message for="vps" />
 		            
 		            <h:outputLabel for="valor" value="Valor: *" />
 		            <pe:inputNumber id="valor" value="#{usuarioMB.usuarioDTO.pagamentoDTO.valor}" symbol="R$ " required="true" />  
@@ -128,12 +133,13 @@
 				    	counterTemplate="{0} characters remaining." autoResize="false"/>  
 				  	<p:watermark for="obs" value=" " />
 				  	<p:message for="obs" />
+				  	<br/>
 					<h:outputText id="counter" /> 
 				  	
 		          	<f:facet name="footer">
 			          	<p:commandButton value="Salvar" actionListener="#{usuarioMB.saveUsuario}" id="withIcon"   
 			            update="panel,pesquisa,basicPojo,messages,growl" icon="ui-icon-disk" />
-			            <p:commandButton value="Reset" type="reset" /> 
+			            <p:commandButton value="Reset" actionListener="#{usuarioMB.reset}" update="panel"/> 
 			            <p:commandButton value="Voltar" action="/index.xhtml?faces-redirect=true" immediate="true"/> 
 		  			</f:facet>
 		        </h:panelGrid>  

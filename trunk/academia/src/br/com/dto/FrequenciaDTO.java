@@ -69,6 +69,9 @@ public class FrequenciaDTO {
 	}
 
 	public Boolean getPresente() {
+		if(presente == null){
+			presente = new Boolean(false);
+		}
 		return presente;
 	}
 

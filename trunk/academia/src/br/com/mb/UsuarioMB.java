@@ -14,7 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.FacesException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -24,6 +27,7 @@ import javax.servlet.ServletContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CaptureEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.SlideEndEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -44,7 +48,7 @@ import br.com.utility.DataUtils;
  *
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class UsuarioMB extends GenericoMB{
 
 	private UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -66,13 +70,17 @@ public class UsuarioMB extends GenericoMB{
 	 */
 	public UsuarioMB() {
 		try{
-			//atualizaUserList(usuarioDTO);
+			atualizaUserList(usuarioDTO);
 			listPerfil = //PerfilConverter.perfilDB;
 					perfilDAO.list();
 		} catch (Exception e) {
 			addMessage(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	public void reset(ActionEvent event){
+		usuarioDTO = new UsuarioDTO();
 	}
 	
 	private void atualizaUserList(UsuarioDTO usuarioDTO) throws Exception{
@@ -164,44 +172,7 @@ public class UsuarioMB extends GenericoMB{
 
 	public void saveUsuario(ActionEvent event){
 		try {
-
-
-			if(usuarioDTO.getId() !=null){
-				//verifica se existe um novo anexo, pois o anexo é salvo ao capturar
-				usuarioDTO.setAnexoDTO(usuarioDAO.getById(usuarioDTO.getId()).getAnexoDTO());
-
-				Calendar c = new GregorianCalendar();
-				c.setTime(usuarioDTO.getPagamentoDTO().getDataPagamento());
-				Map<String, Object> filtrosConsulta = new HashMap<>();
-				filtrosConsulta.put("mes", c.get(Calendar.MONTH));
-				filtrosConsulta.put("ano", c.get(Calendar.YEAR));
-				filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
-				//teste para verificar se o usuario ja pagou no mes
-				List<PagamentoDTO> f = pagamentoDAO.listCriterio(null, filtrosConsulta , 1);
-
-				if(!f.isEmpty()){
-					usuarioDTO.getPagamentoDTO().setId(f.get(0).getId());
-				}
-
-			}
-
-			usuarioDTO = usuarioDAO.save(usuarioDTO);
-			usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
-			usuarioDTO.getPagamentoDTO().getDia();
-			usuarioDTO.getPagamentoDTO().getMes();
-			usuarioDTO.getPagamentoDTO().getAno();
-			usuarioDTO = usuarioDAO.save(usuarioDTO);
-
-			//			usuarioPerfilDAO = new UsuarioPerfilDAO();
-
-			//			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
-			//			usuarioPerfil.setUsuario(usuarioDTO);
-			//			
-			//			usuarioPerfil.getPerfil().setId(Constantes.ID_PERIL_PADRAO);
-			//			//atribui perfil padrão para o novo usuario.
-			//			usuarioPerfilDAO.save(usuarioPerfil);
-			addMessage("Salvo.");
-			usuarioDTO = new UsuarioDTO();
+			addUser(event);
 		} catch (Exception e) {
 			addMessage(e.getMessage());
 			e.printStackTrace();
@@ -228,16 +199,37 @@ public class UsuarioMB extends GenericoMB{
 
 			if(!f.isEmpty()){
 				usuarioDTO.getPagamentoDTO().setId(f.get(0).getId());
+				pagamentoDAO.save(usuarioDTO.getPagamentoDTO());
+			}else{
+				usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
+				usuarioDTO.getPagamentoDTO().setId(null);
+				pagamentoDAO.save(usuarioDTO.getPagamentoDTO());
 			}
 
+		}else{
+			usuarioDTO.getPagamentoDTO().getDia();
+			usuarioDTO.getPagamentoDTO().getMes();
+			usuarioDTO.getPagamentoDTO().getAno();
+			usuarioDTO = usuarioDAO.save(usuarioDTO);
+			usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
+			pagamentoDAO.save(usuarioDTO.getPagamentoDTO());
+			//usuarioDTO = usuarioDAO.save(usuarioDTO);
 		}
+//		usuarioDTO = usuarioDAO.save(usuarioDTO);
+//		usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
+//		usuarioDTO.getPagamentoDTO().getDia();
+//		usuarioDTO.getPagamentoDTO().getMes();
+//		usuarioDTO.getPagamentoDTO().getAno();
+//		usuarioDTO = usuarioDAO.save(usuarioDTO);
+		
+		//		usuarioPerfilDAO = new UsuarioPerfilDAO();
 
-		usuarioDTO = usuarioDAO.save(usuarioDTO);
-		usuarioDTO.getPagamentoDTO().setUsuarioDTO(usuarioDTO);
-		usuarioDTO.getPagamentoDTO().getDia();
-		usuarioDTO.getPagamentoDTO().getMes();
-		usuarioDTO.getPagamentoDTO().getAno();
-		usuarioDTO = usuarioDAO.save(usuarioDTO);
+		//			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
+		//			usuarioPerfil.setUsuario(usuarioDTO);
+		//			
+		//			usuarioPerfil.getPerfil().setId(Constantes.ID_PERIL_PADRAO);
+		//			//atribui perfil padrão para o novo usuario.
+		//			usuarioPerfilDAO.save(usuarioPerfil);
 
 		context.addCallbackParam("salvo", true);
 		addMessage("Salvo.");
@@ -262,6 +254,8 @@ public class UsuarioMB extends GenericoMB{
 		List<FrequenciaDTO> f = frequenciaDAO.listCriterio(null, filtrosConsulta , 1);
 		if(!f.isEmpty() && f.get(0) !=null){
 			frequenciaDTO = f.get(0);
+		}else{
+			frequenciaDTO = new FrequenciaDTO();
 		}
 		context.addCallbackParam("salvo", true);
 
@@ -291,30 +285,7 @@ public class UsuarioMB extends GenericoMB{
 
 	public void addFrequecia(ActionEvent actionEvent){
 		try{
-			RequestContext context = RequestContext.getCurrentInstance();
-			context.addCallbackParam("salvo", false);
-			Map<String, Object> filtrosConsulta = new HashMap<>();
-
-			Calendar c = new GregorianCalendar();   
-
-			//c.add(Calendar.DAY_OF_MONTH, 5);
-
-			filtrosConsulta.put("dataEntrada", DataUtils.toDateOnly(c.getTime()));
-			filtrosConsulta.put("usuarioDTO.id", usuarioDTO.getId());
-
-			List<FrequenciaDTO> f = frequenciaDAO.listCriterio(null, filtrosConsulta , 1);
-			if(!f.isEmpty() && f.get(0) !=null){
-				addMessage("Usuario já marcardo na folha de frequencia.");
-			}else{
-				frequenciaDTO.setUsuarioDTO(usuarioDTO);
-				frequenciaDTO.setDataEntrada(DataUtils.toDateOnly(c.getTime()));
-				frequenciaDTO.setDataCompleta(new Date());
-				frequenciaDAO.save(frequenciaDTO);
-				context.addCallbackParam("salvo", true);
-				addMessage("Presença marcada.");
-			}
-			atualizaUserList(usuarioDTO);
-			//usuarioDTO = new UsuarioDTO();
+			addFrequecia();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -341,14 +312,16 @@ public class UsuarioMB extends GenericoMB{
 				frequenciaDAO.delete(a);
 				//addMessage("Usuario já marcardo na folha de frequencia.");
 			}else{
+				frequenciaDTO.setPresente(true);
 				frequenciaDTO.setUsuarioDTO(usuarioDTO);
 				frequenciaDTO.setDataEntrada(DataUtils.toDateOnly(c.getTime()));
 				frequenciaDTO.setDataCompleta(new Date());
 				frequenciaDAO.save(frequenciaDTO);
+				frequenciaDTO = new FrequenciaDTO();
 				context.addCallbackParam("salvo", true);
 				addMessage("Presença marcada.");
 			}
-			atualizaUserList(usuarioDTO);
+			atualizaUserList(new UsuarioDTO(search));
 			//usuarioDTO = new UsuarioDTO();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -375,6 +348,12 @@ public class UsuarioMB extends GenericoMB{
 			e.printStackTrace();
 		}
 	}
+	
+	public void onSlideEnd(SlideEndEvent event) {
+		usuarioDTO.getPagamentoDTO().setVezesSemana(event.getValue());
+//        FacesMessage msg = new FacesMessage("Slide Ended", "Value: " + event.getValue());
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
 	public UsuarioDTO getUsuarioDTO() {
 		return usuarioDTO;

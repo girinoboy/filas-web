@@ -21,7 +21,7 @@ public class GenericoMB {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		session = (HttpSession) fc.getExternalContext().getSession(false);//true cria sessão caso ñ exista - false retorna nulo caso ñ exista
 		try {
-			if(getUserSession() == null || (getUserSession() !=null && getUserSession().getTema() != gp.getTheme())){
+			if(getUserSession() == null || (getUserSession() !=null && gp != null && getUserSession().getTema() != gp.getTheme())){
 				UsuarioDAO usuarioDAO = new UsuarioDAO();
 				UsuarioDTO usuarioDTO = new UsuarioDTO();
 				usuarioDTO.setUsuario("admin");
