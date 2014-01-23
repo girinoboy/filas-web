@@ -55,6 +55,10 @@ public class PagamentoDTO {
 			mes = data.get(Calendar.MONTH);
 
 			ano = data.get(Calendar.YEAR);
+			
+			setDia(dia);
+			setMes(mes);
+			setAno(ano);
 
 		}
 		getDia();
@@ -109,7 +113,7 @@ public class PagamentoDTO {
 
 
 	public Integer getDia() {
-		if(dia==null && dataPagamento!=null){
+		if(dataPagamento!=null){
 			Calendar data = new GregorianCalendar();
 			data.setTime(dataPagamento);
 			dia = data.get(Calendar.DAY_OF_MONTH);
@@ -125,7 +129,7 @@ public class PagamentoDTO {
 
 
 	public Integer getMes() {
-		if(mes==null && dataPagamento!=null){
+		if(dataPagamento!=null){
 			Calendar data = new GregorianCalendar();
 			data.setTime(dataPagamento);
 			mes = data.get(Calendar.MONTH);
@@ -140,7 +144,7 @@ public class PagamentoDTO {
 
 
 	public Integer getAno() {
-		if(ano==null && dataPagamento!=null){
+		if(dataPagamento!=null){
 			Calendar data = new GregorianCalendar();
 			data.setTime(dataPagamento);
 			ano = data.get(Calendar.YEAR);

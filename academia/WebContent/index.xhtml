@@ -56,7 +56,7 @@
 		<h:form id="form1">
 		
 			<div>
-				<p:commandButton value="Cadastro" onclick="javascript:document.location.href = 'incluirUsuario.xhtml'" />
+				<p:commandButton value="Cadastro" actionListener="#{usuarioMB.reset}" onclick="javascript:document.location.href = 'incluirUsuario.xhtml'" />
 		    	<p:commandButton title="Config" icon="ui-icon-gear" onclick="javascript:document.location.href = 'incluirPerfil.xhtml'" />
 		    	<p:themeSwitcher value="#{themeSwitcherBean.theme}" style="width:155px; top:10px" effect="fade">
 			        <f:selectItem itemLabel="Choose Theme" itemValue="" />
@@ -71,8 +71,8 @@
 			<p:dataTable var="user" value="#{usuarioMB.listUsuario}" rowKey="#{user.id}" paginator="true" rows="10" rowStyleClass="#{user.pagamentoVencendo eq 1 ? 'debito' : null}"
 		                selection="#{usuarioMB.usuarioDTO}" selectionMode="single" filteredValue="#{usuarioMB.filteredUsuarios}" id="usuarioTable" widgetVar="userTable" emptyMessage="Faça uma busca por nome">
 		  
-		        <p:ajax event="rowSelect" update=":form1:displayE"  listener="#{usuarioMB.editUser}" oncomplete="userDialogE.show()" >
-		        	<f:setPropertyActionListener target="#{usuarioMB.usuarioDTO}" value="#{user}" /> 
+		        <p:ajax event="rowSelect" update=":dialogE,:presencaE"  listener="#{usuarioMB.editUser}" oncomplete="PF('userDialogE').show()" >
+		        	<f:setPropertyActionListener value="#{user}" target="#{usuarioMB.usuarioDTO}"/> 
 		        </p:ajax>
 		  
 		        <f:facet name="header">
@@ -120,16 +120,16 @@
 		    	<p:commandButton value="Relatorio de Frequencia" onclick="javascript:document.location.href = 'relatorioFrequencia.xhtml'" />
 		    	<p:commandButton value="Relatorio de Lucro Anual" onclick="javascript:document.location.href = 'relatorioLucro.xhtml'" />
 		    </div>
-		    
+		    </h:form>
 		    <p:dialog id="dialogE" header="Editar Usuario"  widgetVar="userDialogE" resizable="false"
 	              width="400" showEffect="explode" hideEffect="explode">
 	        	<h:panelGrid id="displayE" columns="2" cellpadding="4">
-			   		<f:facet name="header">  
+			   		<f:facet name="header">
 			            <p:graphicImage value="#{usuarioMB.dynamicImage}" style="width:60px;height:60px">
 					        <f:attribute name="image_id" value="#{usuarioMB.usuarioDTO.anexoDTO.id}"/>
 							<f:param name="image_id" value="#{usuarioMB.usuarioDTO.anexoDTO.id}"/>
-						</p:graphicImage>  
-		            </f:facet>  
+						</p:graphicImage>
+		            </f:facet>
 		            <h:outputText for="nomeE" value="Nome: *" />
 		            <p:inputText id="nomeE" value="#{usuarioMB.usuarioDTO.nome}" required="true" />
 		  			<p:watermark for="nomeE" value="Nome Completo" />
@@ -154,23 +154,23 @@
 		            <br/>  
 					<h:outputText id="counter" />
 					
-					<h:outputLabel for="presencaE" value="Presente: " />
+					<h:outputLabel for="presencaE" value="Presente: #{usuarioMB.frequenciaDTO.presente}" />
 		            <p:selectBooleanButton id="presencaE" value="#{usuarioMB.frequenciaDTO.presente}" onLabel="Sim" offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close">  
-			            <p:ajax update=":msg,usuarioTable" listener="#{usuarioMB.addFrequecia}" oncomplete="userDialogE.hide()"/>  
+			            <p:ajax update="msg,form1:usuarioTable" listener="#{usuarioMB.addFrequecia}" oncomplete="PF('userDialogE').hide()"/>  
 			        </p:selectBooleanButton>  
 				  	<p:watermark for="presencaE" value=" " />
 				  	<p:message for="presencaE" />
 		            
 				        
 		            <f:facet name="footer">
-		            	<p:commandButton value="Salvar" actionListener="#{usuarioMB.addUser}" oncomplete="handleLoginRequest(xhr, status, args)" update=":msg,usuarioTable" icon="ui-icon-disk"/>
-		            	<p:commandButton value="Excluir" update="usuarioTable,:msg,:form1"  icon="ui-icon-close" actionListener="#{usuarioMB.delUser}" immediate="true"/>                 
-		            	<p:commandButton value="Cancelar" oncomplete="userDialogE.hide()" immediate="true"/>                 
+		            	<p:commandButton value="Salvar" actionListener="#{usuarioMB.addUser}" oncomplete="handleLoginRequest(xhr, status, args)" update="msg" icon="ui-icon-disk"/>
+		            	<p:commandButton value="Excluir" update="msg"  icon="ui-icon-close" actionListener="#{usuarioMB.delUser}" immediate="true"/>                 
+		            	<p:commandButton value="Cancelar" oncomplete="PF('userDialogE').hide()" immediate="true"/>                 
 		            </f:facet>
 		          
 		        </h:panelGrid>
 		    </p:dialog>
-		 </h:form>
+		 
 	</h:body>
 	</f:view>
 </html>

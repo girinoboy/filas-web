@@ -32,11 +32,12 @@ import br.com.utility.DataUtils;
  */
 @Entity
 @Table(name = "usuario")
-public class UsuarioDTO {
+public class UsuarioDTO extends AbstractDTO{
 
-	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Integer id;
+	private static final long serialVersionUID = -2487738117694829027L;
+	//	@Id
+//	@GeneratedValue(strategy= GenerationType.IDENTITY)
+//	private Integer id;
 	private String usuario;
 	private String senha;
 	private String nome;
@@ -98,12 +99,16 @@ public class UsuarioDTO {
     }*/
 
 
-	public Integer getId() {
-		return id;
-	}
+//	public Integer getId() {
+//		return id;
+//	}
+//
+//	public void setId(Integer id) {
+//		this.id = id;
+//	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public UsuarioDTO(String search) {
+		this.nome = search;
 	}
 
 	public String getUsuario() {
