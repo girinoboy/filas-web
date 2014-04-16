@@ -1,7 +1,6 @@
 package br.com.utility;
 
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -17,7 +16,7 @@ import br.com.dto.AbstractDTO;
  * Dummy implementation of LazyDataModel that uses a list to mimic a real datasource like a database.
  * @param <T>
  */
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"serial"})
 public class LazyAbstractDataModel<T> extends LazyDataModel<T> implements Serializable{
 
 	private List<T> datasource;
@@ -74,7 +73,7 @@ public class LazyAbstractDataModel<T> extends LazyDataModel<T> implements Serial
 
 		//sort  
 		if(sortField != null) {
-			Collections.sort(data, new LazySorter(sortField, sortOrder));
+			Collections.sort(data, new LazySorter<T>(sortField, sortOrder));
 		}
 
 		//rowCount  
