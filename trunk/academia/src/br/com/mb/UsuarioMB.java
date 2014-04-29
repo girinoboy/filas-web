@@ -78,13 +78,20 @@ public class UsuarioMB extends GenericoMB{
 	
 	public void reset(ActionEvent event){
 		usuarioDTO = new UsuarioDTO();
+		atualizaUserList(usuarioDTO);
 	}
 	
-	private void atualizaUserList(UsuarioDTO usuarioDTO) throws Exception{
+	private void atualizaUserList(UsuarioDTO usuarioDTO) {
 //		Map<String, Object> filtrosConsulta = new HashMap<>();
 //		filtrosConsulta.put("nome", usuarioDTO.getNome() ==null ? "":usuarioDTO.getNome());
 //		listUsuario = usuarioDAO.listCriterio(null, filtrosConsulta , Constantes.TIPO_CONSULTA_ILIKE);
-		listUsuario = usuarioDAO.filtrar(usuarioDTO);
+		try{
+			listUsuario = usuarioDAO.filtrar(usuarioDTO);
+			listPerfil = perfilDAO.list();
+		} catch (Exception e) {
+			addMessage(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
 	public void actionSearch(){
