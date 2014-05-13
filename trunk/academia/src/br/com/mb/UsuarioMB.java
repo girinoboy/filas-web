@@ -190,7 +190,9 @@ public class UsuarioMB extends GenericoMB{
 
 		if(usuarioDTO.getId() !=null){
 			//verifica se existe um novo anexo, pois o anexo é salvo ao capturar
-			usuarioDTO.setAnexoDTO(usuarioDAO.getById(usuarioDTO.getId()).getAnexoDTO());
+			UsuarioDTO usuarioBD = usuarioDAO.getById(usuarioDTO.getId());
+			if(usuarioBD != null)
+			usuarioDTO.setAnexoDTO(usuarioBD.getAnexoDTO());
 
 			Calendar c = new GregorianCalendar();
 			c.setTime(usuarioDTO.getPagamentoDTO().getDataPagamento());

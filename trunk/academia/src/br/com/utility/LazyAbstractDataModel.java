@@ -39,7 +39,7 @@ public class LazyAbstractDataModel<T> extends LazyDataModel<T> implements Serial
 	public Object getRowKey(T t) {
 		return ((AbstractDTO) t).getId();
 	}
-
+/*
 	@Override  
 	public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
 		List<T> data = new ArrayList<T>();
@@ -92,5 +92,5 @@ public class LazyAbstractDataModel<T> extends LazyDataModel<T> implements Serial
 		else {
 			return data;
 		}
-	}
+	}*/
 }
