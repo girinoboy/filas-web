@@ -92,7 +92,13 @@ public class HibernateUtility {
 				.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect")
 				.setProperty("hibernate.connection.driver_class","org.hsqldb.jdbcDriver")
 				
-				.setProperty("hibernate.connection.datasource", "java:DefaultDS")
+//				.setProperty("hibernate.connection.url","jdbc:mysql://localhost/salao")
+				.setProperty("hibernate.connection.url","jdbc:hsqldb:file:localBD/academia")
+				.setProperty("hibernate.connection.username","sa")
+				.setProperty("hibernate.connection.password","")
+				
+//				.setProperty("hibernate.connection.datasource", "java:DefaultDS")
+//				.setProperty("hibernate.connection.datasource", "java:comp/env/jdbc/DefaultDS")
 				.setProperty("hibernate.hbm2ddl.auto", "update")
 				.setProperty("hibernate.c3p0.max_size", "10")
 				.setProperty("hibernate.c3p0.min_size", "2")

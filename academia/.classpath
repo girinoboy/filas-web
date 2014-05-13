@@ -8,6 +8,5 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget/JBoss 4.2 Runtime"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
