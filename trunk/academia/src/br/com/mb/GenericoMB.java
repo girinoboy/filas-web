@@ -1,5 +1,6 @@
 package br.com.mb;
 
+import java.io.Serializable;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
@@ -10,8 +11,9 @@ import javax.servlet.http.HttpSession;
 import br.com.dao.UsuarioDAO;
 import br.com.dto.UsuarioDTO;
 
-public class GenericoMB {
+public class GenericoMB implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	protected ResourceBundle rb;
 	private HttpSession session;
 	@ManagedProperty(value = "#{guestPreferences}")
