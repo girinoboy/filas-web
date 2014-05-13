@@ -23,6 +23,8 @@ import br.com.utility.Constantes;
 @ViewScoped
 public class AutoCompleteMB extends GenericoMB{
 
+	private static final long serialVersionUID = 1L;
+
 	private UsuarioDTO usuarioSelecionado1 = new UsuarioDTO();
 
 	private UsuarioDTO usuarioSelecionado2 = new UsuarioDTO();
