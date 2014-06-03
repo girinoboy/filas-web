@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.event.ActionEvent;
 
 import br.com.dao.PerfilDAO;
@@ -18,8 +18,12 @@ import br.com.dto.PerfilDTO;
  *
  */
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class PerfilMB extends GenericoMB implements ModeloMB{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private PerfilDTO perfilDTO = new PerfilDTO();
 	private PerfilDAO perfilDAO = new PerfilDAO();
 	private List<PerfilDTO> listPerfil = new ArrayList<PerfilDTO>();

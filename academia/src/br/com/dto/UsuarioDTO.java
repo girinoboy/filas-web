@@ -20,6 +20,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import br.com.utility.DataUtils;
 
@@ -57,6 +59,7 @@ public class UsuarioDTO extends AbstractDTO{
 	private AnexoDTO anexoDTO;
 	@OneToMany(targetEntity=AnexoDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY)
 	private List<AnexoDTO> listAnexoDTO;
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(targetEntity=FrequenciaDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.ALL,CascadeType.PERSIST, CascadeType.MERGE})
 	private List<FrequenciaDTO> listFrequenciaDTO;
 	@OneToMany(targetEntity=PagamentoDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.ALL,CascadeType.PERSIST, CascadeType.MERGE})

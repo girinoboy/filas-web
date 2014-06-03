@@ -19,7 +19,7 @@
 			<p:growl id="growl" showDetail="true" life="3000" autoUpdate="true" sticky="true"/> 
 			<p:messages id="messages" autoUpdate="true"/>
 			
-		    <h:panelGrid columns="4">  
+		    <h:panelGrid columns="4" rendered="false">  
 		        <p:photoCam widgetVar="pc" listener="#{usuarioMB.oncapture}" update="photos,idUsuario" value="teste"/>
 		  
 		        <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()"  />

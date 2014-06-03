@@ -24,11 +24,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "pagamento")
-public class PagamentoDTO {
+public class PagamentoDTO extends AbstractDTO{
 
-	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Integer id;
+//	@Id
+//	@GeneratedValue(strategy= GenerationType.IDENTITY)
+//	private Integer id;
 	private Double valor;
 	@Column(name ="data_pagamento")
 	private Date dataPagamento;
@@ -69,14 +69,14 @@ public class PagamentoDTO {
 	}
 
 
-	public Integer getId() {
-		return id;
-	}
-
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+//	public Integer getId() {
+//		return id;
+//	}
+//
+//
+//	public void setId(Integer id) {
+//		this.id = id;
+//	}
 
 
 	public Date getDataPagamento() {

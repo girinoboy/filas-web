@@ -58,11 +58,12 @@
 			<div>
 				<p:commandButton value="Cadastro" actionListener="#{usuarioMB.reset}" onclick="javascript:document.location.href = 'incluirUsuario.xhtml'" />
 		    	<p:commandButton title="Config" icon="ui-icon-gear" onclick="javascript:document.location.href = 'incluirPerfil.xhtml'" />
-		    	<p:themeSwitcher value="#{themeSwitcherBean.theme}" style="width:155px; top:10px" effect="fade">
+		    	<p:themeSwitcher value="#{themeSwitcherBean.theme}" style="width:155px; top:10px" effect="fade" rendered="false">
 			        <f:selectItem itemLabel="Choose Theme" itemValue="" />
 			        <f:selectItems value="#{themeSwitcherBean.themes}" />
 			        <p:ajax event="change" listener="#{themeSwitcherBean.saveTheme}" update="form1"/>
 			    </p:themeSwitcher>
+			    <p:commandButton value="Sair" actionListener="#{loginMB.logout}"/>
 		    </div>
 		    <p:separator id="separator"/>
 		    
