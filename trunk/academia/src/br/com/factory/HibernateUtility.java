@@ -87,15 +87,15 @@ public class HibernateUtility {
 
 //				.setProperty("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect")//Mudar dialect do banco		
 //				.setProperty("hibernate.connection.datasource", "java:/oracleDS")//DS da pasta deploy Jboss
-//				.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")// tipo de dialeto do banco
-//				.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver")
-				.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect")
-				.setProperty("hibernate.connection.driver_class","org.hsqldb.jdbcDriver")
+				.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")// tipo de dialeto do banco
+				.setProperty("hibernate.connection.driver_class","com.mysql.jdbc.Driver")
+//				.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect")
+//				.setProperty("hibernate.connection.driver_class","org.hsqldb.jdbcDriver")
 				
-//				.setProperty("hibernate.connection.url","jdbc:mysql://localhost/salao")
-				.setProperty("hibernate.connection.url","jdbc:hsqldb:file:localBD/academia")
-				.setProperty("hibernate.connection.username","sa")
-				.setProperty("hibernate.connection.password","")
+				.setProperty("hibernate.connection.url","jdbc:mysql://localhost/academia")
+//				.setProperty("hibernate.connection.url","jdbc:hsqldb:file:localBD/academia")
+				.setProperty("hibernate.connection.username","root")
+				.setProperty("hibernate.connection.password","root")
 				
 //				.setProperty("hibernate.connection.datasource", "java:DefaultDS")
 //				.setProperty("hibernate.connection.datasource", "java:comp/env/jdbc/DefaultDS")
