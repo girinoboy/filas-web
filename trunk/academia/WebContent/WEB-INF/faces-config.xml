@@ -23,7 +23,7 @@
 	
 	<lifecycle>
 
-    	<phase-listener>br.com.utility.LoginPhaseListener</phase-listener>
+    	<phase-listener>br.com.utility.FilterPhaseListener</phase-listener>
 
 	</lifecycle>
 

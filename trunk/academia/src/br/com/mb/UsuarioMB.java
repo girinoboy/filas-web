@@ -68,8 +68,8 @@ public class UsuarioMB extends GenericoMB{
 	public UsuarioMB() {
 		try{
 			atualizaUserList(usuarioDTO);
-			listPerfil = //PerfilConverter.perfilDB;
-					perfilDAO.list();
+//			listPerfil = //PerfilConverter.perfilDB;
+//					perfilDAO.list();
 		} catch (Exception e) {
 			addMessage(e.getMessage());
 			e.printStackTrace();
@@ -86,7 +86,11 @@ public class UsuarioMB extends GenericoMB{
 //		filtrosConsulta.put("nome", usuarioDTO.getNome() ==null ? "":usuarioDTO.getNome());
 //		listUsuario = usuarioDAO.listCriterio(null, filtrosConsulta , Constantes.TIPO_CONSULTA_ILIKE);
 		try{
-			listUsuario = usuarioDAO.filtrar(usuarioDTO);
+			if(usuarioDTO.getNome() !=null)
+				listUsuario = usuarioDAO.filtrar(usuarioDTO);
+			else{
+				listUsuario = usuarioDAO.list();
+			}
 			listPerfil = perfilDAO.list();
 		} catch (Exception e) {
 			addMessage(e.getMessage());

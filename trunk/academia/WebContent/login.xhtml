@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:p="http://primefaces.org/ui"
+ xmlns:h="http://java.sun.com/jsf/html"
+ xmlns:f="http://java.sun.com/jsf/core">
+ <f:view locale="#{localeController.currentLocale}">
+	<h:head>
+		<title>Login</title>
+		
+		 <script type="text/javascript">  
+	        function handleLoginRequest(xhr, status, args) {
+	            if(args.validationFailed || !args.loggedIn) {
+	                jQuery('#dialog').effect("shake", { times:3 }, 100);
+	            } else {
+	            	jQuery('#dialog').fadeOut();
+	                //jQuery('#loginLink').fadeOut();
+	                if(args.perfil =='1')
+	                	jQuery(window.document.location).attr('href','layoutElement.xhtml');
+	                else
+	                	jQuery(window.document.location).attr('href','layoutComplex.xhtml');    
+	            }
+	        }
+	    </script>  
+	</h:head>
+	<h:body>
+		<p:growl id="growl" autoUpdate="true" sticky="true" showDetail="true" life="3000"/>
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<div align="center">
+			<h:outputLink id="loginLink2" value="javascript:void(0)"
+				onclick="PF('dlg').show()" title="login">
+				<p:graphicImage value="/img/af1.png" />
+			</h:outputLink>
+			<br/>r127v0.0.1
+		</div>
+
+	    <br/>
+	    <p:dialog id="dialog" header="Login" widgetVar="dlg" showEffect="explode" hideEffect="fade" style="horizontal-align:center">
+	        <h:form>
+	      
+	            <h:panelGrid columns="2" cellpadding="5">
+	                <h:outputLabel for="username" value="#{msgs.userName}:" />
+	                <h:inputText value="#{loginMB.usuarioDTO.usuario}"
+	                        id="username" required="true" label="#{msgs.userName}" />
+	                
+	                <h:outputLabel for="password" value="#{msgs.password}:" />
+	                <h:inputSecret value="#{loginMB.usuarioDTO.senha}"
+	                        id="password" required="true" label="#{msgs.password}" />
+	                  			<p:tab/><a href="#">#{msgs.askPassword}</a>
+	                <f:facet name="footer">
+	                    <div align="center">
+		                    <p:commandButton id="loginButton" value="#{msgs.login}" update=":growl"
+		                        actionListener="#{loginMB.login}"
+		                        oncomplete="handleLoginRequest(xhr, status, args)"/>
+	              		</div> 
+	              </f:facet>
+	            </h:panelGrid>
+	              
+	        </h:form>
+	    </p:dialog>   
+	    
+ 	</h:body>
+ </f:view>
+</html>                     

@@ -73,6 +73,7 @@ public class RelatorioMB implements Serializable {
 		 for (Object p : pagamentoDTO) {
 			 listAno = new TreeMap<String, Integer>();
 			 System.out.println(p);
+			 if(p !=null)
 			 listAno.put(p.toString(), Integer.valueOf(p.toString()));
 		}
 		 
