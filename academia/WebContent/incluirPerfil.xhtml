@@ -13,7 +13,7 @@
     <h:body> 
     	
 		<h:form id="form1">
-			<p:growl id="growl" showDetail="true" life="3000" /> 
+			<p:growl id="growl" showDetail="false" life="3000" /> 
 			<p:messages id="messages" autoUpdate="true"/>
 			<p:panel id="panel" header="Perfis do sistema">
 		
@@ -64,7 +64,7 @@
 				<p:column headerText="#{msgs.action}" style="width:10px">
 
 			       <!-- Deletar -->
-	               <p:commandButton id="excluir" icon="ui-icon-trash" title="#{msgs.delete}" oncomplete="PF('dlg').show();" update=":dlg1,:form2:display" actionListener="#{perfilMB.edit}" immediate="true">
+	               <p:commandButton id="excluir" icon="ui-icon-trash" title="#{msgs.delete}" oncomplete="PF('dlg').show();" update=":dlg1" actionListener="#{perfilMB.edit}" immediate="true">
 	           	   		<f:setPropertyActionListener value="#{perfil}" target="#{perfilMB.perfilDTO}"/>
 	               </p:commandButton>
 		           
