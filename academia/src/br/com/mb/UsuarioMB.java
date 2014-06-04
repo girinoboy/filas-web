@@ -243,8 +243,8 @@ public class UsuarioMB extends GenericoMB{
 
 		context.addCallbackParam("salvo", true);
 		addMessage("Salvo.");
-		atualizaUserList(usuarioDTO);
-		usuarioDTO = new UsuarioDTO();
+//		usuarioDTO = new UsuarioDTO();
+		atualizaUserList(new UsuarioDTO());
 	}
 
 	public String editUser(SelectEvent event) throws Exception {  
@@ -276,8 +276,11 @@ public class UsuarioMB extends GenericoMB{
 		try {
 			if(usuarioDTO !=null && usuarioDTO.getId() !=null){
 				usuarioDAO.delete(usuarioDTO);
+				usuarioDTO = new UsuarioDTO();
 				atualizaUserList(usuarioDTO);
 				addMessage("Apagado.");
+				RequestContext context = RequestContext.getCurrentInstance();
+				context.addCallbackParam("salvo", true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -62,6 +62,7 @@ public class UsuarioDTO extends AbstractDTO{
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(targetEntity=FrequenciaDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.ALL,CascadeType.PERSIST, CascadeType.MERGE})
 	private List<FrequenciaDTO> listFrequenciaDTO;
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(targetEntity=PagamentoDTO.class, mappedBy = "usuarioDTO", fetch = FetchType.LAZY, cascade= {CascadeType.ALL,CascadeType.PERSIST, CascadeType.MERGE})
 	private List<PagamentoDTO> listPagamentoDTO;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
@@ -188,9 +189,6 @@ public class UsuarioDTO extends AbstractDTO{
 
 
 	public AnexoDTO getAnexoDTO() {
-		if(anexoDTO==null){
-			anexoDTO = new AnexoDTO();
-		}
 		return anexoDTO;
 	}
 
