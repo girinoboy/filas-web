@@ -60,7 +60,9 @@ public class PerfilMB extends GenericoMB implements ModeloMB{
 	@Override
 	public void del(ActionEvent actionEvent) {
 		try{
-			perfilDAO.delete(perfilDTO);
+//			Object findAAgain=session.merge(B);
+//			session.delete(findAAgain);
+			perfilDAO.delete(perfilDAO.getById(perfilDTO.getId()));
 			perfilDTO = new PerfilDTO();
 			listPerfil = perfilDAO.list();
 			addMessage("Apagado com sucesso.");
