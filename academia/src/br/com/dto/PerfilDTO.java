@@ -11,7 +11,11 @@ import javax.persistence.Table;
 @Table(name = "perfil")
 public class PerfilDTO extends AbstractDTO{
 
-//	@Id 
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7350891533229752026L;
+	//	@Id 
 //	@GeneratedValue(strategy= GenerationType.IDENTITY)
 //	private Integer id;
 	private String nome;

@@ -64,7 +64,7 @@
 				<p:column headerText="#{msgs.action}" style="width:10px">
 
 			       <!-- Deletar -->
-	               <p:commandButton id="excluir" icon="ui-icon-trash" title="#{msgs.delete}" onclick="PF('dlg').show();" actionListener="#{perfilMB.edit}" immediate="true">
+	               <p:commandButton id="excluir" icon="ui-icon-trash" title="#{msgs.delete}" oncomplete="PF('dlg').show();" update=":dlg1,:form2:display" actionListener="#{perfilMB.edit}" immediate="true">
 	           	   		<f:setPropertyActionListener value="#{perfil}" target="#{perfilMB.perfilDTO}"/>
 	               </p:commandButton>
 		           
@@ -74,14 +74,17 @@
 			
  		</h:form>
  		
- 		<p:dialog header="#{msgs.delete}?" widgetVar="dlg" modal="true" appendToBody="true" resizable="false" draggable="true">
+ 		<p:dialog id="dlg1" header="#{msgs.delete}?" widgetVar="dlg" modal="true" appendToBody="true" resizable="false" draggable="true">
+ 			<h:form id="form2">
 		  <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+		  	<h:inputHidden value="#{perfilMB.perfilDTO.id}" />
 		    <h:outputText value="#{msgs.askDelete}" />
 		    <f:facet name="footer">
-			 	<p:commandButton value="#{msgs.delete}" update="form1:growl,form1:panel,form1:vinculo"  icon="ui-icon-close" actionListener="#{perfilMB.del}" immediate="true" oncomplete="PF('dlg').hide()" />
+			 	<p:commandButton value="#{msgs.delete}" actionListener="#{perfilMB.del}" update=":form1:growl,:form1:panel,:form1:vinculo"  icon="ui-icon-close"  oncomplete="PF('dlg').hide()" />
 			 	<p:commandButton value="#{msgs.cancel}" oncomplete="PF('dlg').hide()" immediate="true" />                 
 			</f:facet>
 			</h:panelGrid>
+			</h:form>
 		</p:dialog>
 	</h:body> 
 </f:view> 
