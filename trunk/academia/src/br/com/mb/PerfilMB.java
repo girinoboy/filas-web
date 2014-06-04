@@ -61,9 +61,9 @@ public class PerfilMB extends GenericoMB implements ModeloMB{
 	public void del(ActionEvent actionEvent) {
 		try{
 			perfilDAO.delete(perfilDTO);
-			addMessage("Apagado com sucesso.");
 			perfilDTO = new PerfilDTO();
 			listPerfil = perfilDAO.list();
+			addMessage("Apagado com sucesso.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

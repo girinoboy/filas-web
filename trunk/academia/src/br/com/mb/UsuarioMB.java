@@ -245,6 +245,7 @@ public class UsuarioMB extends GenericoMB{
 		addMessage("Salvo.");
 //		usuarioDTO = new UsuarioDTO();
 		atualizaUserList(new UsuarioDTO());
+//		System.out.println(usuarioDTO.getTelefone());
 	}
 
 	public String editUser(SelectEvent event) throws Exception {  

@@ -10,9 +10,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -27,12 +24,16 @@ import org.primefaces.model.StreamedContent;
  */
 @Entity
 @Table(name = "anexos")
-public class AnexoDTO {
+public class AnexoDTO extends AbstractDTO{
 
 
-	@Id 
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Integer id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6499372311878017687L;
+//	@Id 
+//	@GeneratedValue(strategy= GenerationType.IDENTITY)
+//	private Integer id;
 	@Lob @Basic(fetch=FetchType.LAZY)
 	@Column(columnDefinition="BLOB")
 	private byte[] anexo;
@@ -55,13 +56,13 @@ public class AnexoDTO {
 		this.anexo = anexo;
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+//	public Integer getId() {
+//		return id;
+//	}
+//
+//	public void setId(Integer id) {
+//		this.id = id;
+//	}
 
 	public byte[] getAnexo() {
 		return anexo;
