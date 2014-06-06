@@ -158,7 +158,7 @@ public class UsuarioMB extends GenericoMB{
 			String idUsuario = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("form1:idUsuario");
 			if(!idUsuario.equals("")){
 				usuarioDTO = usuarioDAO.getById(Integer.valueOf(idUsuario));
-			}else{
+			}else if(usuarioDTO.getId() != 1){
 				usuarioDTO = usuarioDAO.save(usuarioDTO);
 			}
 			anexoDTO.setUsuarioDTO(usuarioDTO);
@@ -169,6 +169,7 @@ public class UsuarioMB extends GenericoMB{
 
 			anexoDTO = anexoDAO.save(anexoDTO);
 			usuarioDTO.setAnexoDTO(anexoDTO);
+			if(usuarioDTO.getId() != 1)
 			usuarioDTO = usuarioDAO.save(usuarioDTO);
 			usuarioDTO.setNome("");
 		}
@@ -275,7 +276,7 @@ public class UsuarioMB extends GenericoMB{
 
 	public void delUser(ActionEvent actionEvent){
 		try {
-			if(usuarioDTO !=null && usuarioDTO.getId() !=null){
+			if(usuarioDTO !=null && usuarioDTO.getId() !=null && usuarioDTO.getId() != 1){
 				usuarioDAO.delete(usuarioDTO);
 				usuarioDTO = new UsuarioDTO();
 				atualizaUserList(usuarioDTO);
