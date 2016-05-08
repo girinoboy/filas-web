@@ -1,0 +1,1 @@
+Aplicativo web que serve para Pesquisa de satisfação para qualquer tipo de negócio.
